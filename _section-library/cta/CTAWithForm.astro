@@ -1,0 +1,160 @@
+---
+/*
+ * Split layout: benefits and copy on the left, a compact lead form on the right. The form
+ * submits as JSON to your configured endpoint. Use on service pages and contact-adjacent
+ * sections where you want quotes without a separate contact page.
+ */
+import { siteConfig } from "../../src/config/siteConfig";
+
+export interface Props {
+  headline?: string;
+  subtitle?: string;
+  bullets?: string[];
+  formId?: string;
+  submitLabel?: string;
+}
+
+const {
+  headline = "Get your free estimate in minutes",
+  subtitle = `Tell us what you need—we’ll get back to you quickly. Serving ${siteConfig.serviceArea}.`,
+  bullets = [
+    "Free, no-obligation estimates",
+    "Same-day service when available",
+    "Licensed, insured professionals",
+    "Upfront pricing—no surprises",
+  ],
+  formId = "cta-inline-lead-form",
+  submitLabel = "Request a callback",
+} = Astro.props;
+
+const endpoint = siteConfig.formEndpoint;
+const businessName = siteConfig.businessName;
+const siteDomain = siteConfig.domain;
+---
+
+<section class="bg-surface px-4 py-14 sm:px-6 lg:px-8 lg:py-20" aria-labelledby="cta-form-heading">
+  <div class="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2 lg:items-start lg:gap-16">
+    <div>
+      <h2
+        id="cta-form-heading"
+        class="font-heading text-3xl font-bold tracking-tight text-text sm:text-4xl"
+      >
+        {headline}
+      </h2>
+      <p class="mt-4 text-lg leading-relaxed text-text-muted">{subtitle}</p>
+      <ul class="mt-8 space-y-3">
+        {
+          bullets.map((item) => (
+            <li class="flex gap-3 text-text">
+              <span
+                class="mt-1.5 inline-flex h-2 w-2 shrink-0 rounded-full bg-accent"
+                aria-hidden="true"
+              />
+              <span>{item}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div
+      class="rounded-2xl border border-border bg-surface-alt p-6 shadow-sm sm:p-8"
+    >
+      <form id={formId} class="space-y-4" novalidate>
+        <div>
+          <label for={`${formId}-name`} class="block text-sm font-medium text-text">Name</label>
+          <input
+            id={`${formId}-name`}
+            name="name"
+            type="text"
+            required
+            autocomplete="name"
+            class="mt-1.5 w-full rounded-lg border border-border bg-surface px-4 py-3 text-text shadow-sm outline-none ring-primary/0 transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+            placeholder="Your name"
+          />
+        </div>
+        <div>
+          <label for={`${formId}-phone`} class="block text-sm font-medium text-text">Phone</label>
+          <input
+            id={`${formId}-phone`}
+            name="phone"
+            type="tel"
+            required
+            autocomplete="tel"
+            class="mt-1.5 w-full rounded-lg border border-border bg-surface px-4 py-3 text-text shadow-sm outline-none ring-primary/0 transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+            placeholder={siteConfig.phone}
+          />
+        </div>
+        <div>
+          <label for={`${formId}-message`} class="block text-sm font-medium text-text">Message</label>
+          <textarea
+            id={`${formId}-message`}
+            name="message"
+            rows="3"
+            class="mt-1.5 w-full resize-y rounded-lg border border-border bg-surface px-4 py-3 text-text shadow-sm outline-none ring-primary/0 transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+            placeholder="What can we help with?"
+          ></textarea>
+        </div>
+        <p id={`${formId}-status`} class="hidden text-sm" role="status"></p>
+        <button
+          type="submit"
+          class="w-full rounded-lg bg-primary px-4 py-3.5 text-base font-semibold text-surface shadow-md shadow-primary/25 transition hover:bg-primary-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {submitLabel}
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script is:inline define:vars={{ formId, endpoint, businessName, siteDomain }}>
+  (function () {
+    const form = document.getElementById(formId);
+    if (!form || !(form instanceof HTMLFormElement)) return;
+    const statusEl = document.getElementById(formId + "-status");
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const btn = form.querySelector('button[type="submit"]');
+      if (btn instanceof HTMLButtonElement) btn.disabled = true;
+      if (statusEl) {
+        statusEl.classList.remove("hidden", "text-accent", "text-red-600");
+        statusEl.textContent = "Sending…";
+        statusEl.classList.add("text-text-muted");
+      }
+
+      const fd = new FormData(form);
+      const payload = {
+        source: "cta-inline-form",
+        businessName: businessName,
+        site: siteDomain,
+        name: String(fd.get("name") || "").trim(),
+        phone: String(fd.get("phone") || "").trim(),
+        message: String(fd.get("message") || "").trim(),
+      };
+
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error("Request failed");
+        if (statusEl) {
+          statusEl.textContent = "Thanks—we’ll be in touch shortly.";
+          statusEl.classList.remove("text-text-muted", "text-red-600");
+          statusEl.classList.add("text-accent");
+        }
+        form.reset();
+      } catch {
+        if (statusEl) {
+          statusEl.textContent = "Something went wrong. Please call us or try again.";
+          statusEl.classList.remove("text-text-muted", "text-accent");
+          statusEl.classList.add("text-red-600");
+        }
+      } finally {
+        if (btn instanceof HTMLButtonElement) btn.disabled = false;
+      }
+    });
+  })();
+</script>

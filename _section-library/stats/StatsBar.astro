@@ -1,0 +1,43 @@
+---
+/*
+ * Full-width primary bar with four headline metrics in a row (stacks on narrow screens).
+ * Ideal for social proof bands under heroes or above testimonials—years, volume, ratings, availability.
+ */
+import { siteConfig } from "../../src/config/siteConfig";
+
+export interface Stat {
+  value: string;
+  label: string;
+}
+
+export interface Props {
+  stats?: Stat[];
+}
+
+const defaultStats: Stat[] = [
+  { value: "15+", label: "Years Experience" },
+  { value: "500+", label: "Projects Completed" },
+  { value: "5★", label: "Google Rating" },
+  { value: "24/7", label: "Emergency Service" },
+];
+
+const { stats = defaultStats } = Astro.props;
+---
+
+<section
+  class="w-full bg-primary px-4 py-10 sm:px-6 lg:py-12"
+  aria-label={`${siteConfig.businessName} at a glance`}
+>
+  <div class="mx-auto grid max-w-6xl grid-cols-2 gap-8 lg:grid-cols-4 lg:gap-6">
+    {
+      stats.map((s) => (
+        <div class="text-center">
+          <p class="font-heading text-3xl font-bold tabular-nums text-surface sm:text-4xl lg:text-5xl">
+            {s.value}
+          </p>
+          <p class="mt-1 text-sm font-medium text-white/80 sm:text-base">{s.label}</p>
+        </div>
+      ))
+    }
+  </div>
+</section>

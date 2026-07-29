@@ -1,0 +1,104 @@
+---
+/*
+  FEATURES — LINKED CARDS BAR
+  Dark-background section with cards that link out to related pages.
+  Each card has an icon (name for `Icon.astro`), title, short description, and a CTA button.
+  
+  Great on service pages to cross-link to sub-services or related topics
+  (e.g., "Types of Roof Damage", "Our HVAC Services", etc.).
+  
+  Not a service grid — this is for curated link-outs on a specific page.
+  
+  Props:
+  - heading: section title
+  - cards: array of { icon, title, description, href, label }
+  - bgClass: background color (defaults to primary-dark)
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+import Icon from "../../src/components/Icon.astro";
+
+interface CardItem {
+  /** Icon name from `Icon.astro` (e.g. "droplet", "wind", "leaf"). */
+  icon?: string;
+  title: string;
+  description: string;
+  href: string;
+  label?: string;
+}
+
+interface Props {
+  heading?: string;
+  cards?: CardItem[];
+  bgClass?: string;
+}
+
+const defaultCards: CardItem[] = [
+  {
+    icon: "droplet",
+    title: "Hail Damage",
+    description: "Dents, cracked shingles, or granule loss after a severe storm.",
+    href: "/services",
+    label: "Learn More",
+  },
+  {
+    icon: "wind",
+    title: "Wind Damage",
+    description: "Lifted or missing shingles after high winds.",
+    href: "/services",
+    label: "Learn More",
+  },
+  {
+    icon: "leaf",
+    title: "Fallen Debris",
+    description: "Damage caused by tree limbs or flying debris.",
+    href: "/services",
+    label: "Learn More",
+  },
+  {
+    icon: "droplet",
+    title: "Storm & Rain Leaks",
+    description: "Water intrusion, ceiling stains, or punctures from storm damage.",
+    href: "/services",
+    label: "Learn More",
+  },
+];
+
+const {
+  heading = "Types of Damage We Handle",
+  cards = defaultCards,
+  bgClass = "bg-primary-dark",
+} = Astro.props;
+---
+
+<section class:list={["relative py-16 sm:py-20 overflow-hidden", bgClass]}>
+  <!-- Decorative wave pattern -->
+  <div class="absolute inset-0 opacity-[0.07] pointer-events-none" aria-hidden="true">
+    <svg class="h-full w-full" preserveAspectRatio="none" viewBox="0 0 1440 560">
+      <path d="M0 280c240-80 480 80 720 0s480-80 720 0v280H0z" fill="none" stroke="currentColor" stroke-width="1.5" class="text-white" />
+      <path d="M0 320c240-60 480 60 720 0s480-60 720 0v240H0z" fill="none" stroke="currentColor" stroke-width="1.5" class="text-white" />
+      <path d="M0 360c240-40 480 40 720 0s480-40 720 0v200H0z" fill="none" stroke="currentColor" stroke-width="1.5" class="text-white" />
+    </svg>
+  </div>
+
+  <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <h2 class="text-2xl sm:text-3xl font-bold text-white text-center mb-10">{heading}</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      {cards.map((card) => (
+        <div class="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-6 flex flex-col">
+          {card.icon && (
+            <Icon name={card.icon} class="h-7 w-7 text-secondary" />
+          )}
+          <h3 class="text-lg font-bold text-white mb-2">{card.title}</h3>
+          <p class="text-sm text-white/70 mb-5 flex-1">{card.description}</p>
+          <a
+            href={card.href}
+            class="inline-block w-full text-center rounded-lg bg-secondary px-4 py-2.5 text-sm font-bold text-white hover:bg-secondary-light transition-colors"
+          >
+            {card.label || "Learn More"}
+          </a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

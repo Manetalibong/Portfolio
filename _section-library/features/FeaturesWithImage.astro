@@ -1,0 +1,80 @@
+---
+/*
+ * Split layout: checklist of promises with accent checkmarks beside a single large photo.
+ * On small screens the image leads so the section feels visual-first; the list follows for
+ * readers who want specifics. Ideal next to a hero or after services—great for “why us”
+ * with one strong brand or team image.
+ */
+import { siteConfig } from "../../src/config/siteConfig";
+
+export interface Props {
+  title?: string;
+  subtitle?: string;
+  /** Short bullet strings; defaults to common contractor value props. */
+  features?: string[];
+  image?: string;
+  imageAlt?: string;
+}
+
+const {
+  title = `${siteConfig.businessName}: The Right Choice`,
+  subtitle = `Serving ${siteConfig.serviceArea} with dependable service, fair pricing, and respect for your home.`,
+  features = [
+    "Licensed, bonded, and insured for your peace of mind",
+    "Upfront quotes—approve the scope before we start",
+    "Background-checked, professional technicians",
+    "We arrive on time and protect floors and furnishings",
+    "Satisfaction-focused cleanup when the job is done",
+    "Local team invested in our community’s reputation",
+  ],
+  image = "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1200&q=80",
+  imageAlt = "Professional contractor consulting with a homeowner",
+} = Astro.props;
+---
+
+<section class="bg-surface-alt py-16 sm:py-20" aria-labelledby="features-image-heading">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
+      <div class="order-2 flex-1 lg:order-1">
+        <h2
+          id="features-image-heading"
+          class="font-heading text-3xl font-bold tracking-tight text-text sm:text-4xl"
+        >
+          {title}
+        </h2>
+        <p class="mt-4 text-lg text-text-muted">{subtitle}</p>
+        <ul class="mt-8 space-y-4" role="list">
+          {
+            features.map((item) => (
+              <li class="flex gap-3">
+                <span
+                  class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent"
+                  aria-hidden="true"
+                >
+                  <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <span class="text-base leading-relaxed text-text">{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="order-1 flex-1 lg:order-2">
+        <div class="overflow-hidden rounded-xl shadow-xl shadow-text/10 ring-1 ring-border">
+          <img
+            src={image}
+            alt={imageAlt}
+            class="h-full w-full object-cover"
+            width="1200"
+            height="900"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

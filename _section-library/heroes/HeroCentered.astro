@@ -1,0 +1,83 @@
+---
+/*
+ * Full-width hero with a background photo, dark overlay, and centered headline + subtitle.
+ * Two primary actions sit below: estimate CTA and click-to-call. Best for strong first
+ * impressions on home pages where you want a single focal point and maximum readability
+ * over photography (roofing, HVAC, plumbing).
+ */
+import { siteConfig } from "../../src/config/siteConfig";
+
+export interface Props {
+  headline?: string;
+  subtitle?: string;
+  backgroundImage?: string;
+  backgroundImageAlt?: string;
+  estimateLabel?: string;
+  estimateHref?: string;
+  callLabel?: string;
+  overlayClass?: string;
+  minHeightClass?: string;
+}
+
+const {
+  headline = siteConfig.businessName,
+  subtitle = siteConfig.tagline,
+  backgroundImage = "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=2000&q=80",
+  backgroundImageAlt = "Professional technician at work",
+  estimateLabel = "Get a Free Estimate",
+  estimateHref = "/contact",
+  callLabel = `Call ${siteConfig.phone}`,
+  overlayClass = "bg-black/60",
+  minHeightClass = "min-h-[85vh] min-h-[32rem]",
+} = Astro.props;
+
+const telHref = `tel:${siteConfig.phone.replace(/\D/g, "")}`;
+---
+
+<section
+  class:list={["relative isolate flex w-full flex-col overflow-hidden", minHeightClass]}
+  aria-labelledby="hero-centered-heading"
+>
+  <div class="pointer-events-none absolute inset-0 -z-20">
+    <img
+      src={backgroundImage}
+      alt={backgroundImageAlt}
+      class="h-full w-full object-cover"
+      width="2000"
+      height="1333"
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    />
+  </div>
+  <div class:list={["pointer-events-none absolute inset-0 -z-10", overlayClass]} aria-hidden="true"></div>
+
+  <div class="relative z-10 flex flex-1 flex-col items-center justify-center px-4 py-16 text-center sm:px-6 lg:px-8 lg:py-24">
+    <p class="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-white/90">
+      {siteConfig.serviceArea}
+    </p>
+    <h1
+      id="hero-centered-heading"
+      class="font-heading max-w-4xl text-4xl font-bold tracking-tight text-surface sm:text-5xl lg:text-6xl"
+    >
+      {headline}
+    </h1>
+    <p class="mt-6 max-w-2xl text-lg text-white/90 sm:text-xl">
+      {subtitle}
+    </p>
+    <div class="mt-10 flex w-full max-w-xl flex-col items-stretch justify-center gap-4 sm:flex-row sm:items-center">
+      <a
+        href={estimateHref}
+        class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-surface shadow-lg shadow-primary/30 transition hover:bg-primary-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+      >
+        {estimateLabel}
+      </a>
+      <a
+        href={telHref}
+        class="inline-flex items-center justify-center rounded-lg border-2 border-white/40 bg-white/10 px-8 py-3.5 text-base font-semibold text-surface backdrop-blur-sm transition hover:border-secondary hover:bg-secondary/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+      >
+        {callLabel}
+      </a>
+    </div>
+  </div>
+</section>

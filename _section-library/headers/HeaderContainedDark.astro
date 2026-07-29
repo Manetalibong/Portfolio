@@ -1,0 +1,132 @@
+---
+/*
+  HEADER — CONTAINED DARK
+  Floating pill-shaped navbar with dark background, positioned over
+  the hero/page content. Logo left, nav links center, CTA button right.
+  Rounded corners, subtle backdrop blur, slight transparency.
+
+  Designed to sit ON TOP of a hero image — not a full-width bar.
+  The page content starts behind/under it.
+
+  Best for: modern, premium-feeling sites. Wellness, design-forward
+  contractors, businesses with strong hero imagery.
+
+  To use: copy this file's contents into src/components/Header.astro
+  Make sure the hero section has enough top padding (pt-24 or so)
+  to account for the floating header.
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+import { mainNav } from "../../src/config/navigation";
+
+interface Props {
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+const {
+  ctaLabel = "Get Started",
+  ctaHref = "/contact",
+} = Astro.props;
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8 pt-4">
+  <div class="mx-auto max-w-6xl">
+    <div class="flex items-center justify-between h-14 sm:h-16 px-5 sm:px-6 rounded-full bg-gray-950/90 backdrop-blur-md shadow-lg ring-1 ring-white/10">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-2.5 shrink-0">
+        <img
+          src={siteConfig.logo}
+          alt={siteConfig.businessName}
+          class="h-8 sm:h-9 w-auto brightness-0 invert"
+          width="160"
+          height="36"
+        />
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden lg:flex items-center gap-0.5">
+        {mainNav.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              "px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors",
+              currentPath === item.href || (item.href !== "/" && currentPath.startsWith(item.href))
+                ? "text-secondary"
+                : "text-white/70 hover:text-white",
+            ]}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+
+      <!-- CTA + Mobile Toggle -->
+      <div class="flex items-center gap-3">
+        <a
+          href={ctaHref}
+          class="hidden sm:inline-flex items-center rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white hover:bg-white hover:text-gray-900 transition-all"
+        >
+          {ctaLabel}
+        </a>
+
+        <!-- Mobile menu button -->
+        <button
+          id="mobile-menu-btn"
+          class="lg:hidden inline-flex items-center justify-center rounded-full p-2 text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+        >
+          <svg id="menu-icon-open" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="menu-icon-close" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Nav -->
+    <div id="mobile-menu" class="hidden lg:hidden mt-2 rounded-2xl bg-gray-950/95 backdrop-blur-md shadow-lg ring-1 ring-white/10 overflow-hidden">
+      <nav class="px-4 py-4 space-y-1">
+        {mainNav.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              "block px-4 py-2.5 rounded-xl text-base font-medium transition-colors",
+              currentPath === item.href || (item.href !== "/" && currentPath.startsWith(item.href))
+                ? "text-secondary bg-white/5"
+                : "text-white/70 hover:text-white hover:bg-white/5",
+            ]}
+          >
+            {item.label}
+          </a>
+        ))}
+        <div class="pt-2">
+          <a
+            href={ctaHref}
+            class="block text-center rounded-xl bg-white px-4 py-3 text-base font-semibold text-gray-900 hover:bg-gray-100 transition-colors"
+          >
+            {ctaLabel}
+          </a>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById("mobile-menu-btn");
+  const menu = document.getElementById("mobile-menu");
+  const iconOpen = document.getElementById("menu-icon-open");
+  const iconClose = document.getElementById("menu-icon-close");
+
+  btn?.addEventListener("click", () => {
+    const isOpen = menu?.classList.toggle("hidden") === false;
+    btn.setAttribute("aria-expanded", String(isOpen));
+    iconOpen?.classList.toggle("hidden", isOpen);
+    iconClose?.classList.toggle("hidden", !isOpen);
+  });
+</script>

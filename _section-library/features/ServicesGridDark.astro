@@ -1,0 +1,138 @@
+---
+/*
+  SERVICES GRID — DARK
+  Dark background with eyebrow + heading, then a 3-column grid of
+  service cards. Each card has a rounded image with a small icon badge
+  overlapping the bottom-left corner, plus title, description, and
+  a "Learn More" link.
+  
+  Cards have a subtle accent-colored left border for extra polish.
+  Very premium look on dark backgrounds.
+  
+  Props:
+  - eyebrow, heading: header text
+  - services: array of { title, description, image, href, icon, linkLabel }
+    icon: optional name passed to `Icon.astro` (e.g. "wrench", "shield-check")
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+import Icon from "../../src/components/Icon.astro";
+
+interface ServiceItem {
+  title: string;
+  description: string;
+  image: string;
+  href: string;
+  icon?: string;
+  linkLabel?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  services?: ServiceItem[];
+}
+
+const defaultServices: ServiceItem[] = [
+  {
+    title: "Emergency Repairs",
+    description: `Fast, reliable emergency service from ${siteConfig.businessName}, ensuring your home stays safe and comfortable around the clock.`,
+    image: "/images/service-1.jpg",
+    href: "/services",
+    icon: "wrench",
+  },
+  {
+    title: "New Installations",
+    description: `Professional installation of top-rated equipment by ${siteConfig.businessName}, ensuring durability and quality craftsmanship.`,
+    image: "/images/service-2.jpg",
+    href: "/services",
+    icon: "settings",
+  },
+  {
+    title: "Maintenance Plans",
+    description: `Keep your systems running at peak performance with regular tune-ups and inspections from ${siteConfig.businessName}.`,
+    image: "/images/service-3.jpg",
+    href: "/services",
+    icon: "shield-check",
+  },
+  {
+    title: "System Upgrades",
+    description: `Upgrade to modern, energy-efficient systems with expert installation from ${siteConfig.businessName}.`,
+    image: "/images/service-4.jpg",
+    href: "/services",
+    icon: "zap",
+  },
+  {
+    title: "Inspections",
+    description: `Thorough property inspections using the latest diagnostic tools, ensuring everything is up to code.`,
+    image: "/images/service-5.jpg",
+    href: "/services",
+    icon: "search",
+  },
+  {
+    title: "Custom Solutions",
+    description: `Tailored solutions designed for your property's unique needs, crafted for durability and aesthetic appeal.`,
+    image: "/images/service-6.jpg",
+    href: "/services",
+    icon: "star",
+  },
+];
+
+const {
+  eyebrow = "Our Services",
+  heading = `Expert Service Across ${siteConfig.serviceArea}`,
+  services = defaultServices,
+} = Astro.props;
+---
+
+<section class="py-16 sm:py-20 bg-gray-950">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="mb-10 sm:mb-14">
+      {eyebrow && (
+        <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">{eyebrow}</p>
+      )}
+      <h2 class="text-2xl sm:text-3xl font-bold text-white leading-tight max-w-lg">{heading}</h2>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {services.map((service) => (
+        <div class="group rounded-xl border-l-2 border-secondary/60 bg-white/5 overflow-hidden transition-colors hover:bg-white/[0.08]">
+          <!-- Image + icon badge -->
+          <div class="relative">
+            <a href={service.href} class="block overflow-hidden">
+              <img
+                src={service.image}
+                alt={service.title}
+                class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                loading="lazy"
+              />
+            </a>
+            {service.icon && (
+              <div class="absolute -bottom-5 left-4 flex h-10 w-10 items-center justify-center rounded-lg bg-secondary shadow-lg">
+                <Icon name={service.icon} class="h-6 w-6 text-white" />
+              </div>
+            )}
+          </div>
+
+          <!-- Content -->
+          <div class="px-5 pt-8 pb-5">
+            <h3 class="text-lg font-bold text-white mb-2">
+              <a href={service.href} class="hover:text-secondary transition-colors">{service.title}</a>
+            </h3>
+            <p class="text-sm text-white/60 leading-relaxed mb-4">{service.description}</p>
+            <a
+              href={service.href}
+              class="inline-flex items-center gap-1 text-sm font-semibold text-secondary hover:text-secondary-light transition-colors"
+            >
+              {service.linkLabel || "Learn More"}
+              <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

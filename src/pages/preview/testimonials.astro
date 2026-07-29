@@ -1,0 +1,51 @@
+---
+import PreviewLayout from "../../layouts/PreviewLayout.astro";
+import TestimonialsGrid from "../../../_section-library/testimonials/TestimonialsGrid.astro";
+import TestimonialsSimple from "../../../_section-library/testimonials/TestimonialsSimple.astro";
+import TestimonialsFeatured from "../../../_section-library/testimonials/TestimonialsFeatured.astro";
+import TestimonialsColorCards from "../../../_section-library/testimonials/TestimonialsColorCards.astro";
+---
+
+<PreviewLayout title="Testimonials">
+  <div class="space-y-16 py-10">
+    <!-- TestimonialsGrid -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/testimonials/TestimonialsGrid.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">TestimonialsGrid</h2>
+        <p class="text-gray-500 text-sm">3-column card grid with star ratings.</p>
+      </div>
+      <TestimonialsGrid />
+    </div>
+
+    <!-- TestimonialsSimple -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/testimonials/TestimonialsSimple.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">TestimonialsSimple</h2>
+        <p class="text-gray-500 text-sm">Minimal quote cards stacked vertically. Clean and understated.</p>
+      </div>
+      <TestimonialsSimple />
+    </div>
+
+    <!-- TestimonialsFeatured -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/testimonials/TestimonialsFeatured.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">TestimonialsFeatured</h2>
+        <p class="text-gray-500 text-sm">Large featured testimonial with accent styling. High visual impact.</p>
+      </div>
+      <TestimonialsFeatured />
+    </div>
+
+    <!-- TestimonialsColorCards -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/testimonials/TestimonialsColorCards.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">TestimonialsColorCards</h2>
+        <p class="text-gray-500 text-sm">Bold colored cards with decorative quote marks, avatars, star ratings, and service labels. Optional "See More Reviews" link.</p>
+      </div>
+      <TestimonialsColorCards reviewsHref="/reviews" />
+    </div>
+  </div>
+</PreviewLayout>

@@ -1,0 +1,145 @@
+---
+/*
+  HERO — BOLD LEFT
+  Full-width background image hero with left-aligned content:
+  - Location badge pill (top-left)
+  - Two-tone headline (line 1 white, line 2 secondary color)
+  - Description paragraph
+  - Dual CTAs: solid button + phone link
+  - Trust bar along the bottom (dark bg, 4 icon+text items)
+  
+  Very impactful for contractor homepages. The trust bar builds
+  credibility immediately below the fold.
+  
+  Props:
+  - badge: location badge text
+  - headingLine1, headingLine2: two-line headline
+  - description: paragraph text
+  - ctaLabel, ctaHref: primary CTA button
+  - backgroundImage: hero bg image
+  - trustItems: array of { icon, title, subtitle } for the bottom bar
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+import Icon from "../../src/components/Icon.astro";
+
+interface TrustItem {
+  icon?: string;
+  title: string;
+  subtitle: string;
+}
+
+interface Props {
+  badge?: string;
+  headingLine1?: string;
+  headingLine2?: string;
+  description?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  backgroundImage?: string;
+  backgroundImageAlt?: string;
+  overlayClass?: string;
+  trustItems?: TrustItem[];
+}
+
+const defaultTrustItems: TrustItem[] = [
+  { icon: "check", title: "Licensed & Insured", subtitle: "Fully covered, zero risk" },
+  { icon: "check", title: "Fast Turnaround", subtitle: "On-time, every project" },
+  { icon: "check", title: "Wide Service Area", subtitle: `${siteConfig.serviceArea} & beyond` },
+  { icon: "check", title: "Free Estimates", subtitle: "No obligation quotes" },
+];
+
+const {
+  badge = `${siteConfig.address.city}, ${siteConfig.address.state} — ${siteConfig.businessName}`,
+  headingLine1 = "Quality Service.",
+  headingLine2 = "Guaranteed Results.",
+  description = `Professional service for homeowners and businesses throughout ${siteConfig.serviceArea}. We deliver expert results with clear communication — leaving you with peace of mind every time.`,
+  ctaLabel = "Get A Free Quote",
+  ctaHref = "/contact",
+  backgroundImage = "/images/hero.jpg",
+  backgroundImageAlt = "Professional work by " + siteConfig.businessName,
+  overlayClass = "bg-black/55",
+  trustItems = defaultTrustItems,
+} = Astro.props;
+---
+
+<section class="relative">
+  <!-- Background image -->
+  <div class="relative min-h-[85vh] min-h-[32rem] flex items-center">
+    <img
+      src={backgroundImage}
+      alt={backgroundImageAlt}
+      class="absolute inset-0 h-full w-full object-cover"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class:list={["absolute inset-0", overlayClass]} />
+
+    <!-- Content -->
+    <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28 w-full">
+      <!-- Location badge -->
+      {badge && (
+        <div class="mb-6">
+          <span class="inline-flex items-center gap-2 rounded-full bg-black/40 backdrop-blur-sm border border-white/10 px-4 py-2 text-xs sm:text-sm font-semibold text-white uppercase tracking-wider">
+            <span class="h-2 w-2 rounded-full bg-accent animate-pulse" aria-hidden="true"></span>
+            {badge}
+          </span>
+        </div>
+      )}
+
+      <!-- Two-tone headline -->
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold uppercase italic leading-[1.1] max-w-3xl">
+        <span class="text-white block">{headingLine1}</span>
+        <span class="text-secondary block">{headingLine2}</span>
+      </h1>
+
+      <!-- Description -->
+      {description && (
+        <p class="mt-6 text-lg text-white/80 max-w-xl leading-relaxed">
+          {description}
+        </p>
+      )}
+
+      <!-- Dual CTAs -->
+      <div class="mt-8 flex flex-wrap items-center gap-4">
+        <a
+          href={ctaHref}
+          class="inline-block rounded-sm bg-secondary px-8 py-4 text-sm font-bold text-white uppercase tracking-wider shadow-lg hover:bg-secondary-light transition-colors"
+        >
+          {ctaLabel}
+        </a>
+        <a
+          href={`tel:${siteConfig.phone.replace(/\D/g, "")}`}
+          class="inline-flex items-center gap-2 text-white font-bold text-lg hover:text-secondary transition-colors"
+        >
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+          </svg>
+          {siteConfig.phone}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trust bar -->
+  {trustItems.length > 0 && (
+    <div class="bg-primary-dark">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 lg:grid-cols-4 divide-x divide-white/10">
+          {trustItems.map((item) => (
+            <div class="flex items-center gap-3 px-4 sm:px-6 py-4 sm:py-5">
+              {item.icon && (
+                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-secondary/50">
+                  <Icon name={item.icon} class="h-4 w-4 text-secondary" />
+                </div>
+              )}
+              <div>
+                <p class="text-xs sm:text-sm font-bold text-white uppercase tracking-wide">{item.title}</p>
+                <p class="text-xs text-white/50 uppercase tracking-wide">{item.subtitle}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )}
+</section>

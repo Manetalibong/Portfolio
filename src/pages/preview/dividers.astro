@@ -1,0 +1,277 @@
+---
+import PreviewLayout from "../../layouts/PreviewLayout.astro";
+import SectionDivider from "../../components/SectionDivider.astro";
+---
+
+<PreviewLayout title="Dividers & Patterns">
+  <div class="py-10">
+    <div class="mx-auto max-w-7xl px-4 mb-12">
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">Section Dividers</h1>
+      <p class="text-gray-500">SVG edge transitions placed between sections. The <code class="text-xs bg-gray-200 px-1 rounded">color</code> prop matches the background of the section below.</p>
+    </div>
+
+    <!-- WAVE -->
+    <div class="mx-auto max-w-7xl px-4 mb-2">
+      <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">type="wave"</span>
+      <span class="text-xs text-gray-400 ml-2">Smooth, organic. Good default choice.</span>
+    </div>
+    <div class="bg-primary-dark text-white px-8 py-12 text-center">
+      <p class="font-semibold text-lg">Dark section above</p>
+    </div>
+    <SectionDivider type="wave" color="text-white" />
+    <div class="bg-white px-8 py-12 text-center">
+      <p class="font-semibold text-lg text-gray-900">White section below</p>
+    </div>
+
+    <div class="h-12"></div>
+
+    <!-- TORN -->
+    <div class="mx-auto max-w-7xl px-4 mb-2">
+      <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">type="torn"</span>
+      <span class="text-xs text-gray-400 ml-2">Ripped paper edge. Like Jobber.</span>
+    </div>
+    <div class="bg-gray-900 text-white px-8 py-12 text-center">
+      <p class="font-semibold text-lg">Dark section above</p>
+    </div>
+    <SectionDivider type="torn" color="text-amber-50" />
+    <div class="bg-amber-50 px-8 py-12 text-center">
+      <p class="font-semibold text-lg text-gray-900">Cream section below</p>
+    </div>
+
+    <div class="h-12"></div>
+
+    <!-- ROUGH -->
+    <div class="mx-auto max-w-7xl px-4 mb-2">
+      <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">type="rough"</span>
+      <span class="text-xs text-gray-400 ml-2">Organic rough edge. Softer than torn.</span>
+    </div>
+    <div class="bg-primary text-white px-8 py-12 text-center">
+      <p class="font-semibold text-lg">Primary section above</p>
+    </div>
+    <SectionDivider type="rough" color="text-white" />
+    <div class="bg-white px-8 py-12 text-center">
+      <p class="font-semibold text-lg text-gray-900">White section below</p>
+    </div>
+
+    <div class="h-12"></div>
+
+    <!-- ANGLE -->
+    <div class="mx-auto max-w-7xl px-4 mb-2">
+      <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">type="angle"</span>
+      <span class="text-xs text-gray-400 ml-2">Clean diagonal cut. Modern feel.</span>
+    </div>
+    <div class="bg-primary-dark text-white px-8 py-12 text-center">
+      <p class="font-semibold text-lg">Dark section above</p>
+    </div>
+    <SectionDivider type="angle" color="text-gray-50" />
+    <div class="bg-gray-50 px-8 py-12 text-center">
+      <p class="font-semibold text-lg text-gray-900">Light gray section below</p>
+    </div>
+
+    <div class="h-12"></div>
+
+    <!-- CURVE -->
+    <div class="mx-auto max-w-7xl px-4 mb-2">
+      <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">type="curve"</span>
+      <span class="text-xs text-gray-400 ml-2">Big smooth arc. Dramatic.</span>
+    </div>
+    <div class="bg-gray-900 text-white px-8 py-12 text-center">
+      <p class="font-semibold text-lg">Dark section above</p>
+    </div>
+    <SectionDivider type="curve" color="text-white" />
+    <div class="bg-white px-8 py-12 text-center">
+      <p class="font-semibold text-lg text-gray-900">White section below</p>
+    </div>
+
+    <div class="h-12"></div>
+
+    <!-- ZIGZAG -->
+    <div class="mx-auto max-w-7xl px-4 mb-2">
+      <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">type="zigzag"</span>
+      <span class="text-xs text-gray-400 ml-2">Triangular points. Bold and geometric.</span>
+    </div>
+    <div class="bg-primary text-white px-8 py-12 text-center">
+      <p class="font-semibold text-lg">Primary section above</p>
+    </div>
+    <SectionDivider type="zigzag" color="text-white" />
+    <div class="bg-white px-8 py-12 text-center">
+      <p class="font-semibold text-lg text-gray-900">White section below</p>
+    </div>
+
+    <div class="h-12"></div>
+
+    <!-- FLIPPED EXAMPLE -->
+    <div class="mx-auto max-w-7xl px-4 mb-2">
+      <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">type="torn" flip={true}</span>
+      <span class="text-xs text-gray-400 ml-2">Flipped — place at the TOP of a dark section.</span>
+    </div>
+    <div class="bg-white px-8 py-12 text-center">
+      <p class="font-semibold text-lg text-gray-900">White section above</p>
+    </div>
+    <SectionDivider type="torn" color="text-gray-900" flip />
+    <div class="bg-gray-900 text-white px-8 py-12 text-center">
+      <p class="font-semibold text-lg">Dark section below — divider at the top</p>
+    </div>
+
+    <!-- PATTERNS SECTION -->
+    <div class="mx-auto max-w-7xl px-4 mt-20 mb-12">
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">Background Patterns</h1>
+      <p class="text-gray-500">CSS utility classes for subtle texture. Add to any section's class list. Works on light and dark backgrounds.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mx-auto max-w-7xl px-4">
+      <!-- Dots - Light -->
+      <div class="pattern-dots bg-white border border-gray-200 rounded-xl px-8 py-14 text-center relative overflow-hidden">
+        <p class="relative z-10 font-mono text-sm text-gray-500 mb-1">.pattern-dots</p>
+        <p class="relative z-10 font-bold text-gray-900">Light Background</p>
+      </div>
+
+      <!-- Dots - Dark -->
+      <div class="pattern-dots bg-primary-dark rounded-xl px-8 py-14 text-center text-white relative overflow-hidden">
+        <p class="relative z-10 font-mono text-sm text-white/60 mb-1">.pattern-dots</p>
+        <p class="relative z-10 font-bold">Dark Background</p>
+      </div>
+
+      <!-- Grid - Light -->
+      <div class="pattern-grid bg-gray-50 border border-gray-200 rounded-xl px-8 py-14 text-center relative overflow-hidden">
+        <p class="relative z-10 font-mono text-sm text-gray-500 mb-1">.pattern-grid</p>
+        <p class="relative z-10 font-bold text-gray-900">Light Background</p>
+      </div>
+
+      <!-- Grid - Dark -->
+      <div class="pattern-grid bg-gray-900 rounded-xl px-8 py-14 text-center text-white relative overflow-hidden">
+        <p class="relative z-10 font-mono text-sm text-white/60 mb-1">.pattern-grid</p>
+        <p class="relative z-10 font-bold">Dark Background</p>
+      </div>
+
+      <!-- Diagonal - Light -->
+      <div class="pattern-diagonal bg-white border border-gray-200 rounded-xl px-8 py-14 text-center relative overflow-hidden">
+        <p class="relative z-10 font-mono text-sm text-gray-500 mb-1">.pattern-diagonal</p>
+        <p class="relative z-10 font-bold text-gray-900">Light Background</p>
+      </div>
+
+      <!-- Diagonal - Dark -->
+      <div class="pattern-diagonal bg-primary rounded-xl px-8 py-14 text-center text-white relative overflow-hidden">
+        <p class="relative z-10 font-mono text-sm text-white/60 mb-1">.pattern-diagonal</p>
+        <p class="relative z-10 font-bold">Dark Background</p>
+      </div>
+
+      <!-- Topography - Light -->
+      <div class="pattern-topography bg-amber-50 border border-gray-200 rounded-xl px-8 py-14 text-center relative overflow-hidden">
+        <p class="relative z-10 font-mono text-sm text-gray-500 mb-1">.pattern-topography</p>
+        <p class="relative z-10 font-bold text-gray-900">Light Background</p>
+      </div>
+
+      <!-- Topography - Dark -->
+      <div class="pattern-topography bg-gray-900 rounded-xl px-8 py-14 text-center text-white relative overflow-hidden">
+        <p class="relative z-10 font-mono text-sm text-white/60 mb-1">.pattern-topography</p>
+        <p class="relative z-10 font-bold">Dark Background</p>
+      </div>
+
+      <!-- Waves - Light -->
+      <div class="pattern-waves bg-blue-50 border border-gray-200 rounded-xl px-8 py-14 text-center relative overflow-hidden">
+        <p class="relative z-10 font-mono text-sm text-gray-500 mb-1">.pattern-waves</p>
+        <p class="relative z-10 font-bold text-gray-900">Light Background</p>
+      </div>
+
+      <!-- Waves - Dark -->
+      <div class="pattern-waves bg-primary rounded-xl px-8 py-14 text-center text-white relative overflow-hidden">
+        <p class="relative z-10 font-mono text-sm text-white/60 mb-1">.pattern-waves</p>
+        <p class="relative z-10 font-bold">Dark Background</p>
+      </div>
+
+      <!-- Zigzag - Light -->
+      <div class="pattern-zigzag bg-white border border-gray-200 rounded-xl px-8 py-14 text-center relative overflow-hidden">
+        <p class="relative z-10 font-mono text-sm text-gray-500 mb-1">.pattern-zigzag</p>
+        <p class="relative z-10 font-bold text-gray-900">Light Background</p>
+      </div>
+
+      <!-- Zigzag - Dark -->
+      <div class="pattern-zigzag bg-secondary rounded-xl px-8 py-14 text-center text-white relative overflow-hidden">
+        <p class="relative z-10 font-mono text-sm text-white/60 mb-1">.pattern-zigzag</p>
+        <p class="relative z-10 font-bold">Dark Background</p>
+      </div>
+
+      <!-- Diamonds - Light -->
+      <div class="pattern-diamonds bg-gray-50 border border-gray-200 rounded-xl px-8 py-14 text-center relative overflow-hidden">
+        <p class="relative z-10 font-mono text-sm text-gray-500 mb-1">.pattern-diamonds</p>
+        <p class="relative z-10 font-bold text-gray-900">Light Background</p>
+      </div>
+
+      <!-- Diamonds - Dark -->
+      <div class="pattern-diamonds bg-primary-dark rounded-xl px-8 py-14 text-center text-white relative overflow-hidden">
+        <p class="relative z-10 font-mono text-sm text-white/60 mb-1">.pattern-diamonds</p>
+        <p class="relative z-10 font-bold">Dark Background</p>
+      </div>
+
+      <!-- Crosses - Light -->
+      <div class="pattern-crosses bg-white border border-gray-200 rounded-xl px-8 py-14 text-center relative overflow-hidden">
+        <p class="relative z-10 font-mono text-sm text-gray-500 mb-1">.pattern-crosses</p>
+        <p class="relative z-10 font-bold text-gray-900">Light Background</p>
+      </div>
+
+      <!-- Crosses - Dark -->
+      <div class="pattern-crosses bg-gray-900 rounded-xl px-8 py-14 text-center text-white relative overflow-hidden">
+        <p class="relative z-10 font-mono text-sm text-white/60 mb-1">.pattern-crosses</p>
+        <p class="relative z-10 font-bold">Dark Background</p>
+      </div>
+
+      <!-- Circuit - Light -->
+      <div class="pattern-circuit bg-gray-50 border border-gray-200 rounded-xl px-8 py-14 text-center relative overflow-hidden">
+        <p class="relative z-10 font-mono text-sm text-gray-500 mb-1">.pattern-circuit</p>
+        <p class="relative z-10 font-bold text-gray-900">Light Background</p>
+      </div>
+
+      <!-- Circuit - Dark -->
+      <div class="pattern-circuit bg-primary-dark rounded-xl px-8 py-14 text-center text-white relative overflow-hidden">
+        <p class="relative z-10 font-mono text-sm text-white/60 mb-1">.pattern-circuit</p>
+        <p class="relative z-10 font-bold">Dark Background</p>
+      </div>
+
+      <!-- Hexagons - Light -->
+      <div class="pattern-hexagons bg-white border border-gray-200 rounded-xl px-8 py-14 text-center relative overflow-hidden">
+        <p class="relative z-10 font-mono text-sm text-gray-500 mb-1">.pattern-hexagons</p>
+        <p class="relative z-10 font-bold text-gray-900">Light Background</p>
+      </div>
+
+      <!-- Hexagons - Dark -->
+      <div class="pattern-hexagons bg-gray-900 rounded-xl px-8 py-14 text-center text-white relative overflow-hidden">
+        <p class="relative z-10 font-mono text-sm text-white/60 mb-1">.pattern-hexagons</p>
+        <p class="relative z-10 font-bold">Dark Background</p>
+      </div>
+
+      <!-- Noise - Light -->
+      <div class="pattern-noise bg-stone-100 border border-gray-200 rounded-xl px-8 py-14 text-center relative overflow-hidden">
+        <p class="relative z-10 font-mono text-sm text-gray-500 mb-1">.pattern-noise</p>
+        <p class="relative z-10 font-bold text-gray-900">Grainy / Paper texture</p>
+      </div>
+
+      <!-- Noise - Dark -->
+      <div class="pattern-noise bg-primary-dark rounded-xl px-8 py-14 text-center text-white relative overflow-hidden">
+        <p class="relative z-10 font-mono text-sm text-white/60 mb-1">.pattern-noise</p>
+        <p class="relative z-10 font-bold">Dark + Noise</p>
+      </div>
+    </div>
+
+    <!-- COMBINED EXAMPLE -->
+    <div class="mx-auto max-w-7xl px-4 mt-20 mb-6">
+      <h2 class="text-2xl font-bold text-gray-900 mb-2">Combined Example</h2>
+      <p class="text-gray-500">Dividers + patterns used together between sections.</p>
+    </div>
+
+    <div class="pattern-dots bg-white relative overflow-hidden px-8 py-16 text-center">
+      <p class="relative z-10 text-2xl font-bold text-gray-900">White section with dots pattern</p>
+      <p class="relative z-10 text-gray-500 mt-2">Some content here</p>
+    </div>
+    <SectionDivider type="torn" color="text-gray-900" />
+    <div class="pattern-topography bg-gray-900 relative overflow-hidden text-white px-8 py-16 text-center">
+      <p class="relative z-10 text-2xl font-bold">Dark section with topo pattern</p>
+      <p class="relative z-10 text-white/60 mt-2">Torn paper transition into this</p>
+    </div>
+    <SectionDivider type="wave" color="text-amber-50" />
+    <div class="pattern-noise bg-amber-50 relative overflow-hidden px-8 py-16 text-center">
+      <p class="relative z-10 text-2xl font-bold text-gray-900">Cream section with noise texture</p>
+      <p class="relative z-10 text-gray-500 mt-2">Wave transition into this</p>
+    </div>
+  </div>
+</PreviewLayout>

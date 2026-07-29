@@ -1,0 +1,126 @@
+---
+/*
+  SERVICE AREA MAP
+  Two-column section: service area list on the left, Google Maps embed on the right.
+  The area list links back to individual service area pages.
+  
+  Decorative hex/geometric pattern in the background (subtle).
+  
+  Props:
+  - heading, description: text above the area list
+  - areas: array of { name, href } for the linked cities
+  - mapHeight: height of the Google Maps iframe
+  - mapSrc: optional override for the Google Maps embed URL
+  
+  Best for: homepage, about page, or any page where you want to
+  highlight the service area with a visual map + linked city list.
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+import GoogleMap from "../../src/components/GoogleMap.astro";
+
+interface AreaLink {
+  name: string;
+  href: string;
+}
+
+interface Props {
+  heading?: string;
+  description?: string;
+  areas?: AreaLink[];
+  mapHeight?: string;
+  mapSrc?: string;
+}
+
+const defaultAreas: AreaLink[] = [
+  { name: "Houston", href: "/service-areas/houston-tx" },
+  { name: "Katy", href: "/service-areas/katy-tx" },
+  { name: "Sugar Land", href: "/service-areas/sugar-land-tx" },
+  { name: "Pearland", href: "/service-areas/pearland-tx" },
+  { name: "The Woodlands", href: "/service-areas/the-woodlands-tx" },
+  { name: "Spring", href: "/service-areas/spring-tx" },
+  { name: "Cypress", href: "/service-areas/cypress-tx" },
+  { name: "Tomball", href: "/service-areas/tomball-tx" },
+];
+
+const {
+  heading = "Service Areas",
+  description = `We operate throughout ${siteConfig.serviceArea} and the surrounding areas. We provide services to the following areas:`,
+  areas = defaultAreas,
+  mapHeight = "400",
+  mapSrc,
+} = Astro.props;
+
+const midpoint = Math.ceil(areas.length / 2);
+const leftCol = areas.slice(0, midpoint);
+const rightCol = areas.slice(midpoint);
+---
+
+<section class="relative py-16 sm:py-20 overflow-hidden bg-surface">
+  <!-- Decorative geometric pattern -->
+  <div class="absolute left-0 bottom-0 opacity-[0.04] pointer-events-none" aria-hidden="true">
+    <svg width="400" height="400" viewBox="0 0 400 400" fill="none">
+      <path d="M200 20l155.88 90v180L200 380 44.12 290V110z" stroke="currentColor" stroke-width="1" class="text-primary" />
+      <path d="M200 60l124.71 72v144L200 348 75.29 276V132z" stroke="currentColor" stroke-width="1" class="text-primary" />
+      <path d="M200 100l93.53 54v108L200 316l-93.53-54V154z" stroke="currentColor" stroke-width="1" class="text-primary" />
+      <path d="M200 140l62.35 36v72L200 284l-62.35-36V176z" stroke="currentColor" stroke-width="1" class="text-primary" />
+    </svg>
+  </div>
+
+  <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+      <!-- Left: Area list -->
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-text">{heading}</h2>
+        {description && (
+          <p class="mt-3 text-text-muted max-w-lg">{description}</p>
+        )}
+
+        <div class="mt-8 grid grid-cols-2 gap-x-8 gap-y-3">
+          <div class="space-y-3">
+            {leftCol.map((area) => (
+              <a
+                href={area.href}
+                class="flex items-center gap-2 text-text hover:text-primary transition-colors group"
+              >
+                <svg class="h-4 w-4 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span class="font-medium group-hover:underline">{area.name}</span>
+              </a>
+            ))}
+          </div>
+          <div class="space-y-3">
+            {rightCol.map((area) => (
+              <a
+                href={area.href}
+                class="flex items-center gap-2 text-text hover:text-primary transition-colors group"
+              >
+                <svg class="h-4 w-4 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span class="font-medium group-hover:underline">{area.name}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <a
+          href="/service-areas"
+          class="inline-flex items-center gap-1.5 mt-8 text-sm font-semibold text-primary hover:text-primary-dark transition-colors"
+        >
+          View all service areas
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Right: Google Maps embed -->
+      <div class="lg:pt-2">
+        <GoogleMap height={mapHeight} src={mapSrc} class="shadow-lg" />
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,134 @@
+---
+/*
+ * “Frequently Asked Questions” with an accordion: click a row to reveal the answer; chevron
+ * rotates when open. Use when you want to save vertical space while still surfacing policy,
+ * pricing, and service-area details on any page.
+ */
+import { siteConfig } from "../../src/config/siteConfig";
+
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+export interface Props {
+  heading?: string;
+  items?: FaqItem[];
+  sectionId?: string;
+}
+
+const defaultItems: FaqItem[] = [
+  {
+    question: `What areas do you serve?`,
+    answer: `We proudly serve ${siteConfig.serviceArea} and nearby communities. Contact us to confirm availability for your address.`,
+  },
+  {
+    question: "How does pricing work?",
+    answer:
+      "We provide upfront estimates and explain pricing before work begins. You'll know the scope and cost—no surprise fees for agreed-upon work.",
+  },
+  {
+    question: "Do you offer emergency service?",
+    answer:
+      "Yes. We offer 24/7 emergency response for urgent issues when available. Call us and we'll prioritize your situation.",
+  },
+  {
+    question: "Are you licensed and insured?",
+    answer:
+      "Our team is fully licensed and insured for your protection and peace of mind. We're happy to provide credentials on request.",
+  },
+  {
+    question: "What kind of guarantee do you offer?",
+    answer:
+      "We stand behind our workmanship with a satisfaction-focused approach. Ask about warranty details for your specific project when you book.",
+  },
+];
+
+const {
+  heading = "Frequently Asked Questions",
+  items = defaultItems,
+  sectionId = "faq-accordion",
+} = Astro.props;
+---
+
+<section id={sectionId} class="bg-surface px-4 py-14 sm:px-6 lg:px-8 lg:py-20" aria-labelledby={`${sectionId}-heading`}>
+  <div class="mx-auto max-w-3xl">
+    <h2
+      id={`${sectionId}-heading`}
+      class="font-heading text-center text-3xl font-bold tracking-tight text-text sm:text-4xl"
+    >
+      {heading}
+    </h2>
+    <div class="mt-10 divide-y divide-border rounded-2xl border border-border bg-surface-alt shadow-sm">
+      {
+        items.map((item, i) => (
+          <div class="faq-acc-item" data-faq-item>
+            <button
+              type="button"
+              class="faq-acc-trigger flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-base font-semibold text-text transition hover:bg-surface sm:px-6 sm:py-5"
+              aria-expanded="false"
+              aria-controls={`${sectionId}-panel-${i}`}
+              id={`${sectionId}-trigger-${i}`}
+              data-faq-trigger
+            >
+              <span>{item.question}</span>
+              <span
+                class="faq-acc-icon inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary transition-transform duration-200"
+                aria-hidden="true"
+              >
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M6 9l6 6 6-6"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+            </button>
+            <div
+              id={`${sectionId}-panel-${i}`}
+              role="region"
+              aria-labelledby={`${sectionId}-trigger-${i}`}
+              class="faq-acc-panel hidden px-5 pb-5 sm:px-6"
+              data-faq-panel
+            >
+              <p class="text-base leading-relaxed text-text-muted">{item.answer}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script is:inline define:vars={{ sectionId }}>
+  (function () {
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+
+    section.querySelectorAll("[data-faq-trigger]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        const item = btn.closest("[data-faq-item]");
+        const panel = item && item.querySelector("[data-faq-panel]");
+        const icon = btn.querySelector(".faq-acc-icon");
+        const expanded = btn.getAttribute("aria-expanded") === "true";
+
+        section.querySelectorAll("[data-faq-trigger]").forEach(function (other) {
+          if (other === btn) return;
+          other.setAttribute("aria-expanded", "false");
+          const oItem = other.closest("[data-faq-item]");
+          const oPanel = oItem && oItem.querySelector("[data-faq-panel]");
+          const oIcon = other.querySelector(".faq-acc-icon");
+          if (oPanel) oPanel.classList.add("hidden");
+          if (oIcon) oIcon.classList.remove("rotate-180");
+        });
+
+        btn.setAttribute("aria-expanded", expanded ? "false" : "true");
+        if (panel) panel.classList.toggle("hidden", expanded);
+        if (icon) icon.classList.toggle("rotate-180", !expanded);
+      });
+    });
+  })();
+</script>

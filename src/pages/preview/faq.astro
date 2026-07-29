@@ -1,0 +1,88 @@
+---
+import PreviewLayout from "../../layouts/PreviewLayout.astro";
+import FAQAccordion from "../../../_section-library/faq/FAQAccordion.astro";
+import FAQTwoColumn from "../../../_section-library/faq/FAQTwoColumn.astro";
+import FAQWithImage from "../../../_section-library/faq/FAQWithImage.astro";
+import FAQSplitImage from "../../../_section-library/faq/FAQSplitImage.astro";
+import FAQDecorated from "../../../_section-library/faq/FAQDecorated.astro";
+import FAQImageRight from "../../../_section-library/faq/FAQImageRight.astro";
+import FAQGallery from "../../../_section-library/faq/FAQGallery.astro";
+
+const img = (n: string) => `/images/Preview/${n}`;
+---
+
+<PreviewLayout title="FAQ">
+  <div class="space-y-16 py-10">
+    <!-- FAQAccordion -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/faq/FAQAccordion.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">FAQAccordion</h2>
+        <p class="text-gray-500 text-sm">Expandable accordion. Click to reveal answers. Clean and compact.</p>
+      </div>
+      <FAQAccordion />
+    </div>
+
+    <!-- FAQTwoColumn -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/faq/FAQTwoColumn.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">FAQTwoColumn</h2>
+        <p class="text-gray-500 text-sm">All Q&As visible in a two-column grid. Better for shorter lists.</p>
+      </div>
+      <FAQTwoColumn />
+    </div>
+    <!-- FAQWithImage -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/faq/FAQWithImage.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">FAQWithImage</h2>
+        <p class="text-gray-500 text-sm">Tall image + heading on the left, accordion FAQ on the right. First item starts expanded. Cream background.</p>
+      </div>
+      <FAQWithImage imageSrc={img("hvac sample (9).jpg")} />
+    </div>
+    <!-- FAQSplitImage -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/faq/FAQSplitImage.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">FAQSplitImage</h2>
+        <p class="text-gray-500 text-sm">Heading top-left, card-style accordion on tinted bg left, tall image overlapping on the right. Active row highlights white.</p>
+      </div>
+      <FAQSplitImage imageSrc={img("hvac sample (12).jpg")} />
+    </div>
+    <!-- FAQDecorated -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/faq/FAQDecorated.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">FAQDecorated</h2>
+        <p class="text-gray-500 text-sm">Rough SVG edges top/bottom, patterned tinted bg, heading + stats left, card accordion right. Active card gets accent color.</p>
+      </div>
+      <FAQDecorated />
+    </div>
+    <!-- FAQImageRight -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/faq/FAQImageRight.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">FAQImageRight</h2>
+        <p class="text-gray-500 text-sm">Clean line-separated accordion left, eyebrow + heading + image stacked on the right. Active question highlighted.</p>
+      </div>
+      <FAQImageRight imageSrc={img("hvac sample (14).jpg")} />
+    </div>
+    <!-- FAQGallery -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/faq/FAQGallery.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">FAQGallery</h2>
+        <p class="text-gray-500 text-sm">Numbered accordion with accent underline left, 4-image mosaic grid right. Plus/minus toggle, first item expanded.</p>
+      </div>
+      <FAQGallery
+        images={[
+          { src: img("hvac sample (8).jpg"), alt: "Project 1" },
+          { src: img("hvac sample (9).jpg"), alt: "Project 2" },
+          { src: img("hvac sample (10).jpg"), alt: "Project 3" },
+          { src: img("hvac sample (11).jpg"), alt: "Project 4" },
+        ]}
+      />
+    </div>
+  </div>
+</PreviewLayout>

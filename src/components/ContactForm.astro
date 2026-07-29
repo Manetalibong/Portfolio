@@ -1,0 +1,11 @@
+---
+/*
+  CONTACT FORM — wrapper around LeadForm for the contact page.
+  Kept for backward compatibility. Uses the shared LeadForm component.
+*/
+import LeadForm from "./LeadForm.astro";
+---
+
+<LeadForm formId="contact-form" variant="full" submitLabel="Send Message" messagePlaceholder="Tell us about your project...">
+  <slot name="service-options" slot="service-options" />
+</LeadForm>

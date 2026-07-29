@@ -1,0 +1,173 @@
+---
+/*
+  CONTENT — SHOWCASE
+  Two-column layout with a stacked image cluster on the left and
+  rich content on the right. The left side has two overlapping photos
+  with a stat badge wedged between them, plus a faded watermark
+  background image behind everything for texture.
+
+  Great for homepage "About Us" teasers, service page intros, or
+  anywhere you want to show off work while telling a story.
+
+  Props:
+  - eyebrow, heading, description: text content
+  - bullets: array of feature strings
+  - ctaLabel, ctaHref: CTA button
+  - topImage, bottomImage: { src, alt } for the two photos
+  - stat: { value, label } for the badge between images
+  - watermarkSrc: faded background image behind the image cluster
+  - imagePosition: "left" | "right" (default "left")
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+import Icon from "../../src/components/Icon.astro";
+
+interface ImageData {
+  src: string;
+  alt: string;
+}
+
+interface StatData {
+  value: string;
+  label: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  description?: string;
+  bullets?: string[];
+  ctaLabel?: string;
+  ctaHref?: string;
+  topImage?: ImageData;
+  bottomImage?: ImageData;
+  stat?: StatData;
+  watermarkSrc?: string;
+  imagePosition?: "left" | "right";
+}
+
+const {
+  eyebrow = "About Us",
+  heading = "Quality With The Best Standards",
+  description = `Our professionals at ${siteConfig.businessName} deliver exceptional results using proven techniques and premium materials. We hold ourselves to the highest standards on every single project — no shortcuts, no compromises.`,
+  bullets = [
+    "We handle all makes and models",
+    "Endorsed by local industry associations",
+    "All technicians equipped with the latest tools",
+    "Proven results and exceptional standards",
+    "Same day service for most jobs",
+  ],
+  ctaLabel = "Read More",
+  ctaHref = "/about",
+  topImage = {
+    src: "/images/work-1.jpg",
+    alt: `${siteConfig.businessName} professional at work`,
+  },
+  bottomImage = {
+    src: "/images/work-2.jpg",
+    alt: `${siteConfig.businessName} completed project`,
+  },
+  stat = {
+    value: "2500+",
+    label: "Jobs completed this year",
+  },
+  watermarkSrc = "",
+  imagePosition = "left",
+} = Astro.props;
+
+const imagesLeft = imagePosition === "left";
+---
+
+<section class="relative bg-surface py-16 sm:py-24 overflow-hidden">
+  {/* Faded watermark background */}
+  {watermarkSrc && (
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <img
+        src={watermarkSrc}
+        alt=""
+        class="absolute inset-0 w-full h-full object-cover opacity-[0.04]"
+      />
+    </div>
+  )}
+
+  <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+      {/* Image cluster */}
+      <div class:list={["relative", !imagesLeft && "lg:order-2"]}>
+        <div class="relative mx-auto max-w-lg lg:max-w-none">
+          {/* Top image */}
+          <div class="relative z-10 w-[70%] rounded-2xl overflow-hidden shadow-xl">
+            <img
+              src={topImage.src}
+              alt={topImage.alt}
+              class="w-full aspect-[4/3] object-cover"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          {/* Bottom image — offset right and overlapping */}
+          <div class="relative z-20 w-[65%] ml-auto -mt-16 sm:-mt-20 rounded-2xl overflow-hidden shadow-2xl">
+            <img
+              src={bottomImage.src}
+              alt={bottomImage.alt}
+              class="w-full aspect-[4/3] object-cover"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          {/* Stat badge — between images on the left */}
+          {stat && (
+            <div class="absolute z-30 left-0 bottom-12 sm:bottom-16">
+              <div class="bg-secondary text-white rounded-xl px-5 py-4 shadow-lg">
+                <p class="text-2xl sm:text-3xl font-extrabold leading-none">{stat.value}</p>
+                <p class="text-xs sm:text-sm font-medium text-white/80 mt-1 leading-tight max-w-[120px]">{stat.label}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Decorative corner accent */}
+          <div class="absolute -z-10 -top-4 -left-4 w-28 h-28 rounded-xl border-2 border-primary/15" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div class:list={[!imagesLeft && "lg:order-1"]}>
+        {eyebrow && (
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">{eyebrow}</p>
+        )}
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-text leading-tight">
+          {heading}
+        </h2>
+        {description && (
+          <p class="mt-4 text-text-muted leading-relaxed">{description}</p>
+        )}
+
+        {bullets.length > 0 && (
+          <ul class="mt-6 space-y-3">
+            {bullets.map((bullet) => (
+              <li class="flex items-start gap-3">
+                <span class="mt-1.5 h-2 w-2 rounded-full bg-secondary shrink-0" aria-hidden="true"></span>
+                <span class="text-text text-sm leading-relaxed">{bullet}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {ctaLabel && (
+          <div class="mt-8">
+            <a
+              href={ctaHref}
+              class="inline-flex items-center gap-2 rounded-lg bg-secondary px-6 py-3 text-sm font-bold text-white shadow-lg hover:bg-secondary-light transition-colors"
+            >
+              {ctaLabel}
+              <Icon name="arrow-right" class="h-4 w-4" />
+            </a>
+          </div>
+        )}
+      </div>
+
+    </div>
+  </div>
+</section>

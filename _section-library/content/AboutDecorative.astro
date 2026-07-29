@@ -1,0 +1,149 @@
+---
+/*
+  ABOUT — DECORATIVE
+  Two-column layout on a cream background: decorative image cluster on
+  the left (large circular image with a smaller overlapping circle image,
+  plus accent blob shapes), content on the right (eyebrow, heading,
+  description, 2 value points with icons, CTA button).
+
+  The circular images + accent shapes give it a playful, modern feel
+  that stands out from standard rectangular layouts.
+
+  Props:
+  - mainImage, smallImage: two photos (rendered as circles)
+  - eyebrow, heading, description: content block
+  - values: array of { icon, title, description }
+  - ctaLabel, ctaHref: optional CTA
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+import Icon from "../../src/components/Icon.astro";
+
+interface ValueItem {
+  icon?: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  description?: string;
+  mainImage?: string;
+  mainImageAlt?: string;
+  smallImage?: string;
+  smallImageAlt?: string;
+  values?: ValueItem[];
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+const {
+  eyebrow = `About ${siteConfig.businessName}`,
+  heading = "We're Passionate About Quality Service",
+  description = `${siteConfig.businessName} is built on the promise of exceptional craftsmanship and genuine care. We take pride in every project, treating your property like our own and ensuring results that stand the test of time.`,
+  mainImage = "/images/Preview/service1.jpg",
+  mainImageAlt = `${siteConfig.businessName} at work`,
+  smallImage = "/images/Preview/service2.jpg",
+  smallImageAlt = `${siteConfig.businessName} team`,
+  values = [
+    {
+      icon: "target",
+      title: "Our Mission",
+      description: "To deliver reliable, high-quality service that exceeds expectations and builds lasting relationships with every client we serve.",
+    },
+    {
+      icon: "eye",
+      title: "Our Vision",
+      description: "To be the most trusted name in our industry — known for integrity, expertise, and a commitment to our community.",
+    },
+  ],
+  ctaLabel = "Learn More",
+  ctaHref = "/about",
+} = Astro.props;
+---
+
+<section class="bg-surface-alt py-16 sm:py-24 overflow-hidden">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      {/* Left: decorative image cluster */}
+      <div class="relative flex items-center justify-center min-h-[320px] sm:min-h-[400px]">
+        {/* Large accent arc */}
+        <div class="absolute top-0 left-[10%] w-[70%] h-[85%] rounded-full border-[3px] border-secondary/20" aria-hidden="true"></div>
+
+        {/* Accent blob — top right */}
+        <svg class="absolute top-2 right-[15%] w-16 h-16 text-secondary" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true">
+          <path d="M50 0 C60 20 80 20 100 50 C80 80 60 80 50 100 C40 80 20 80 0 50 C20 20 40 20 50 0Z" />
+        </svg>
+
+        {/* Wavy accent — bottom left */}
+        <svg class="absolute bottom-[15%] left-[5%] w-20 h-6 text-secondary/60" viewBox="0 0 120 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">
+          <path d="M2 12 C20 2 40 22 60 12 C80 2 100 22 118 12" />
+        </svg>
+
+        {/* Main circular image */}
+        <div class="relative z-10 w-56 h-56 sm:w-72 sm:h-72 rounded-full overflow-hidden shadow-xl ring-4 ring-white">
+          <img
+            src={mainImage}
+            alt={mainImageAlt}
+            class="w-full h-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+
+        {/* Small overlapping circular image */}
+        <div class="absolute z-20 bottom-4 right-[10%] sm:bottom-2 sm:right-[12%] w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden shadow-lg ring-4 ring-white">
+          <img
+            src={smallImage}
+            alt={smallImageAlt}
+            class="w-full h-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+
+        {/* Small accent dot */}
+        <div class="absolute top-[60%] left-[3%] w-4 h-4 rounded-full bg-secondary/40" aria-hidden="true"></div>
+      </div>
+
+      {/* Right: content */}
+      <div>
+        {eyebrow && (
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">{eyebrow}</p>
+        )}
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-text leading-tight">{heading}</h2>
+        {description && (
+          <p class="mt-4 text-text-muted leading-relaxed text-sm sm:text-base">{description}</p>
+        )}
+
+        {/* Value points */}
+        {values.length > 0 && (
+          <div class="space-y-5 mt-8">
+            {values.map((value) => (
+              <div class="flex items-start gap-4">
+                <div class="shrink-0 flex items-center justify-center w-11 h-11 rounded-full bg-secondary/10">
+                  <Icon name={value.icon || "check-circle"} class="h-5 w-5 text-secondary" strokeWidth={1.5} />
+                </div>
+                <div>
+                  <h3 class="text-base font-bold text-text mb-1">{value.title}</h3>
+                  <p class="text-sm text-text-muted leading-relaxed">{value.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {ctaLabel && ctaHref && (
+          <div class="mt-8">
+            <a
+              href={ctaHref}
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-secondary text-white font-bold text-sm hover:bg-secondary/90 transition-colors shadow-md hover:shadow-lg"
+            >
+              {ctaLabel}
+            </a>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,87 @@
+---
+import PreviewLayout from "../../layouts/PreviewLayout.astro";
+import GalleryGrid from "../../../_section-library/gallery/GalleryGrid.astro";
+import GalleryBeforeAfter from "../../../_section-library/gallery/GalleryBeforeAfter.astro";
+import GalleryMarquee from "../../../_section-library/gallery/GalleryMarquee.astro";
+
+const img = (n: string) => `/images/Preview/${n}`;
+
+const marqueeImages = [
+  { src: img("hvac sample (2).jpg"), alt: "Project 1" },
+  { src: img("hvac sample (3).jpg"), alt: "Project 2" },
+  { src: img("hvac sample (4).jpg"), alt: "Project 3" },
+  { src: img("hvac sample (5).jpg"), alt: "Project 4" },
+  { src: img("hvac sample (6).jpg"), alt: "Project 5" },
+  { src: img("hvac sample (7).jpg"), alt: "Project 6" },
+  { src: img("hvac sample (8).jpg"), alt: "Project 7" },
+  { src: img("hvac sample (9).jpg"), alt: "Project 8" },
+  { src: img("hvac sample (10).jpg"), alt: "Project 9" },
+  { src: img("hvac sample (11).jpg"), alt: "Project 10" },
+  { src: img("hvac sample (12).jpg"), alt: "Project 11" },
+  { src: img("hvac sample (13).jpg"), alt: "Project 12" },
+];
+---
+
+<PreviewLayout title="Gallery">
+  <div class="space-y-16 py-10">
+    <!-- GalleryGrid -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/gallery/GalleryGrid.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">GalleryGrid</h2>
+        <p class="text-gray-500 text-sm">Responsive image grid. Hover for captions.</p>
+      </div>
+      <GalleryGrid images={[
+        { src: img("hvac sample (11).jpg"), alt: "Completed HVAC installation", caption: "Residential AC Installation" },
+        { src: img("hvac sample (12).jpg"), alt: "Commercial HVAC unit", caption: "Commercial System Upgrade" },
+        { src: img("hvac sample (13).jpg"), alt: "Ductwork installation", caption: "New Ductwork Installation" },
+        { src: img("hvac sample (14).jpg"), alt: "Heat pump installation", caption: "Heat Pump Replacement" },
+        { src: img("hvac sample (15).jpg"), alt: "Thermostat upgrade", caption: "Smart Thermostat Setup" },
+        { src: img("hvac sample (16).jpg"), alt: "Maintenance service", caption: "Annual Maintenance Visit" },
+      ]} />
+    </div>
+
+    <!-- GalleryBeforeAfter -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/gallery/GalleryBeforeAfter.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">GalleryBeforeAfter</h2>
+        <p class="text-gray-500 text-sm">Before & After side-by-side pairs. Perfect for renovation/repair work.</p>
+      </div>
+      <GalleryBeforeAfter pairs={[
+        { before: img("hvac sample (4).jpg"), after: img("hvac sample (5).jpg"), title: "Full System Replacement" },
+        { before: img("hvac sample (9).jpg"), after: img("hvac sample (10).jpg"), title: "Ductwork Overhaul" },
+        { before: img("hvac sample (6).jpg"), after: img("hvac sample (7).jpg"), title: "Commercial Unit Upgrade" },
+      ]} />
+    </div>
+    <!-- GalleryMarquee (1 row) -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/gallery/GalleryMarquee.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">GalleryMarquee — Single Row</h2>
+        <p class="text-gray-500 text-sm">Auto-scrolling image strip with soft shadows and edge fade. Pauses on hover. Good for 6–10 images.</p>
+      </div>
+      <GalleryMarquee
+        images={marqueeImages.slice(0, 8)}
+        rows={1}
+        heading="Our Recent Projects"
+        speed={35}
+      />
+    </div>
+
+    <!-- GalleryMarquee (2 rows) -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/gallery/GalleryMarquee.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">GalleryMarquee — Double Row</h2>
+        <p class="text-gray-500 text-sm">Two rows scrolling in opposite directions. Use when the company has 10+ project photos.</p>
+      </div>
+      <GalleryMarquee
+        images={marqueeImages}
+        rows={2}
+        heading="We'll Transform The Look Of Your Home!"
+        speed={45}
+      />
+    </div>
+  </div>
+</PreviewLayout>

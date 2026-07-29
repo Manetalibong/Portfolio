@@ -1,0 +1,87 @@
+---
+/*
+ * Three-column card grid under the heading "What Our Customers Say."
+ * Each card shows gold stars, italic quote, and bold customer name with a soft border and shadow.
+ * Use on homepages or service pages when you want to showcase several reviews at once without a heavy layout.
+ */
+import { siteConfig } from "../../src/config/siteConfig";
+
+export interface Testimonial {
+  name: string;
+  text: string;
+  rating: number;
+}
+
+interface Props {
+  testimonials?: Testimonial[];
+  heading?: string;
+  subheading?: string;
+}
+
+const defaultTestimonials: Testimonial[] = [
+  {
+    name: "John D.",
+    text: "Excellent service! They were on time, professional, and fixed our issue quickly. Highly recommend.",
+    rating: 5,
+  },
+  {
+    name: "Sarah M.",
+    text: "Best experience we've ever had with a service company. Fair pricing and outstanding work.",
+    rating: 5,
+  },
+  {
+    name: "Mike R.",
+    text: "Called them for an emergency and they were here within the hour. Saved us from a major disaster. Will definitely use again.",
+    rating: 5,
+  },
+];
+
+const {
+  testimonials = defaultTestimonials,
+  heading = "What Our Customers Say",
+  subheading = `Trusted by homeowners across ${siteConfig.serviceArea}`,
+} = Astro.props;
+---
+
+<section class="bg-surface-alt py-16 sm:py-20 lg:py-24">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl text-center">
+      <h2 class="font-heading text-3xl font-bold tracking-tight text-primary-dark sm:text-4xl">
+        {heading}
+      </h2>
+      <p class="mt-3 text-lg text-text-muted">{subheading}</p>
+    </div>
+
+    <ul
+      class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3"
+      role="list"
+    >
+      {
+        testimonials.map((t) => (
+          <li class="flex h-full">
+            <article
+              class="flex w-full flex-col rounded-xl border border-border bg-surface p-6 shadow-md shadow-text/5 transition-all hover:border-primary-light/35 hover:shadow-lg"
+            >
+              <div class="flex gap-0.5" aria-hidden="true">
+                {Array.from({ length: Math.min(Math.max(t.rating, 0), 5) }, () => (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    class="h-5 w-5 shrink-0 text-amber-400"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+              <blockquote class="mt-4 flex-1">
+                <p class="text-base italic leading-relaxed text-text">&ldquo;{t.text}&rdquo;</p>
+              </blockquote>
+              <p class="mt-6 text-sm font-bold text-text">&mdash; {t.name}</p>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

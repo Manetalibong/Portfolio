@@ -1,0 +1,136 @@
+---
+/*
+  SERVICE AREA MAP — FULL WIDTH
+  Full-width Google Maps embed on top with a branded info card
+  overlapping the bottom of the map. The card contains a heading,
+  a multi-column grid of linked service area cities, and a CTA button.
+
+  Optionally includes an image on the right side of the card
+  (service van, mascot, team photo — transparent PNG works best).
+
+  Props:
+  - heading: card heading text
+  - areas: array of { name, href } linked cities
+  - ctaLabel, ctaHref: CTA button
+  - imageSrc, imageAlt: optional right-side image in the card
+  - mapHeight: height of the map in px (default "450")
+  - mapSrc: override Google Maps embed URL
+  - cardBg: card background color (default "bg-primary-dark")
+  - columns: 2 | 3 (area list columns, default 3)
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+import GoogleMap from "../../src/components/GoogleMap.astro";
+import Icon from "../../src/components/Icon.astro";
+
+interface AreaLink {
+  name: string;
+  href: string;
+}
+
+interface Props {
+  heading?: string;
+  areas?: AreaLink[];
+  ctaLabel?: string;
+  ctaHref?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  mapHeight?: string;
+  mapSrc?: string;
+  cardBg?: string;
+  columns?: 2 | 3;
+}
+
+const defaultAreas: AreaLink[] = [
+  { name: "Houston, TX", href: "/service-areas/houston-tx" },
+  { name: "Katy, TX", href: "/service-areas/katy-tx" },
+  { name: "Sugar Land, TX", href: "/service-areas/sugar-land-tx" },
+  { name: "Pearland, TX", href: "/service-areas/pearland-tx" },
+  { name: "The Woodlands, TX", href: "/service-areas/the-woodlands-tx" },
+  { name: "Spring, TX", href: "/service-areas/spring-tx" },
+  { name: "Cypress, TX", href: "/service-areas/cypress-tx" },
+  { name: "Tomball, TX", href: "/service-areas/tomball-tx" },
+  { name: "Missouri City, TX", href: "/service-areas/missouri-city-tx" },
+  { name: "League City, TX", href: "/service-areas/league-city-tx" },
+  { name: "Pasadena, TX", href: "/service-areas/pasadena-tx" },
+  { name: "& Surrounding Cities", href: "/service-areas" },
+];
+
+const {
+  heading = `Get The Best Service In ${siteConfig.serviceArea}`,
+  areas = defaultAreas,
+  ctaLabel = "Schedule Online",
+  ctaHref = "/contact",
+  imageSrc = "",
+  imageAlt = siteConfig.businessName,
+  mapHeight = "450",
+  mapSrc,
+  cardBg = "bg-primary-dark",
+  columns = 3,
+} = Astro.props;
+
+const colClass = columns === 2
+  ? "grid-cols-1 sm:grid-cols-2"
+  : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3";
+---
+
+<section class="relative bg-surface">
+  <!-- Full-width map -->
+  <div class="w-full">
+    <GoogleMap height={mapHeight} src={mapSrc} class="rounded-none" />
+  </div>
+
+  <!-- Overlapping info card -->
+  <div class="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 -mt-20 sm:-mt-28 pb-12 sm:pb-16">
+    <div class:list={[
+      "rounded-2xl shadow-2xl overflow-hidden border border-white/10",
+      cardBg,
+    ]}>
+      <div class:list={[
+        "flex flex-col",
+        imageSrc ? "lg:flex-row" : "",
+      ]}>
+        <!-- Content side -->
+        <div class="flex-1 p-6 sm:p-8 lg:p-10">
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white leading-tight mb-6">
+            {heading}
+          </h2>
+
+          <!-- Area links grid -->
+          <div class={`grid ${colClass} gap-x-6 gap-y-2.5 mb-8`}>
+            {areas.map((area) => (
+              <a
+                href={area.href}
+                class="flex items-center gap-2 text-white/80 hover:text-secondary transition-colors group text-sm"
+              >
+                <Icon name="map-pin" class="h-3.5 w-3.5 text-secondary shrink-0" />
+                <span class="group-hover:underline">{area.name}</span>
+              </a>
+            ))}
+          </div>
+
+          <!-- CTA -->
+          <a
+            href={ctaHref}
+            class="inline-flex items-center gap-2.5 rounded-lg bg-secondary px-6 py-3 text-sm font-bold text-white shadow-lg hover:bg-secondary-light transition-colors"
+          >
+            <Icon name="clipboard" class="h-4 w-4" />
+            {ctaLabel}
+          </a>
+        </div>
+
+        <!-- Optional image -->
+        {imageSrc && (
+          <div class="hidden lg:flex items-end justify-center px-6 pb-0 lg:w-72 xl:w-80 flex-shrink-0">
+            <img
+              src={imageSrc}
+              alt={imageAlt}
+              class="max-h-[260px] w-auto object-contain drop-shadow-xl"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

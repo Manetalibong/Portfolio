@@ -1,0 +1,144 @@
+---
+/*
+  WHY CHOOSE US
+  Top row: eyebrow + heading on the left, tall image on the right.
+  Bottom row: shorter image on the left (overlapping below the heading),
+  value points with icons in the middle, and a CTA button. The two
+  images create an asymmetric layout with the content sandwiched between.
+
+  Props:
+  - eyebrow, heading: top-left header
+  - leftImage, rightImage: two photos
+  - values: array of { icon, title, description }
+  - ctaLabel, ctaHref: optional CTA
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+import Icon from "../../src/components/Icon.astro";
+
+interface ValueItem {
+  icon?: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  leftImage?: string;
+  leftImageAlt?: string;
+  rightImage?: string;
+  rightImageAlt?: string;
+  values?: ValueItem[];
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+const {
+  eyebrow = "Why Choose Us",
+  heading = "Commitment to Quality and Client Satisfaction",
+  leftImage = "/images/Preview/service1.jpg",
+  leftImageAlt = `${siteConfig.businessName} team`,
+  rightImage = "/images/Preview/service2.jpg",
+  rightImageAlt = `${siteConfig.businessName} project`,
+  values = [
+    {
+      icon: "shield-check",
+      title: "Quality Assurance",
+      description: "Our team of seasoned professionals ensures every project meets the highest standards of quality and durability.",
+    },
+    {
+      icon: "users",
+      title: "Client-Centric Approach",
+      description: "We work closely with every client to understand their needs, ensuring a smooth and efficient process from start to finish.",
+    },
+    {
+      icon: "tool",
+      title: "Comprehensive Services",
+      description: `From routine maintenance to major projects, ${siteConfig.businessName} offers a full spectrum of services to meet all your needs.`,
+    },
+  ],
+  ctaLabel = "Discover More",
+  ctaHref = "/about",
+} = Astro.props;
+---
+
+<section class="bg-surface py-16 sm:py-24 overflow-hidden">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    {/* Top row: heading left, tall image right */}
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_0.8fr] gap-8 lg:gap-12 items-start mb-8 lg:mb-0">
+      {/* Heading */}
+      <div class="lg:pr-8">
+        {eyebrow && (
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">{eyebrow}</p>
+        )}
+        <h2 class="text-3xl sm:text-4xl lg:text-[2.75rem] font-extrabold text-text leading-tight">{heading}</h2>
+      </div>
+
+      {/* Right image — tall, pulls down on desktop */}
+      <div class="hidden lg:block lg:row-span-2">
+        <div class="rounded-2xl overflow-hidden shadow-lg">
+          <img
+            src={rightImage}
+            alt={rightImageAlt}
+            class="w-full aspect-[3/4] object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+    </div>
+
+    {/* Bottom row: left image + values + CTA */}
+    <div class="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr_0.8fr] gap-8 lg:gap-10 items-start">
+      {/* Left image */}
+      <div class="rounded-2xl overflow-hidden shadow-lg">
+        <img
+          src={leftImage}
+          alt={leftImageAlt}
+          class="w-full aspect-[4/5] object-cover"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+
+      {/* Values list + CTA */}
+      <div>
+        <div class="space-y-6">
+          {values.map((value) => (
+            <div class="flex items-start gap-4">
+              <div class="shrink-0 flex items-center justify-center w-12 h-12 rounded-xl bg-secondary/10">
+                <Icon name={value.icon || "check-circle"} class="h-6 w-6 text-secondary" strokeWidth={1.5} />
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-text mb-1">{value.title}</h3>
+                <p class="text-sm text-text-muted leading-relaxed">{value.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {ctaLabel && ctaHref && (
+          <div class="mt-8">
+            <a
+              href={ctaHref}
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-secondary text-white font-bold text-sm hover:bg-secondary/90 transition-colors shadow-md hover:shadow-lg"
+            >
+              {ctaLabel}
+            </a>
+          </div>
+        )}
+      </div>
+
+      {/* Right image — mobile only (shown on lg in the top row) */}
+      <div class="lg:hidden rounded-2xl overflow-hidden shadow-lg">
+        <img
+          src={rightImage}
+          alt={rightImageAlt}
+          class="w-full aspect-[4/3] object-cover"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </div>
+</section>

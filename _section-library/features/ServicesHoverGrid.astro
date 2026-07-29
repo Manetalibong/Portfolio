@@ -1,0 +1,106 @@
+---
+/*
+  SERVICES — HOVER GRID
+  Centered header (eyebrow, heading, description) above a 3x2 grid
+  of service cards. On hover, a card gets a tinted background, the
+  description fades up, and a colored top-border accent appears.
+
+  Optional decorative images on the left and right sides of the grid
+  (transparent PNG cutouts — planters, tools, etc.). Hidden on mobile.
+
+  Props:
+  - eyebrow, heading, description: section header
+  - services: array of { icon, title, description? }
+  - leftImage, rightImage: optional decorative side images
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+import Icon from "../../src/components/Icon.astro";
+
+interface ServiceItem {
+  icon?: string;
+  title: string;
+  description?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  description?: string;
+  services?: ServiceItem[];
+  leftImage?: string;
+  rightImage?: string;
+}
+
+const {
+  eyebrow = "Our Services",
+  heading = "Building Trust Through Our Services",
+  description = `At ${siteConfig.businessName}, we bring your dreams to life with unparalleled craftsmanship and a commitment to excellence.`,
+  services = [
+    { icon: "home", title: "Custom Homes", description: "Custom-designed homes built to your exact specifications with premium materials and expert craftsmanship." },
+    { icon: "hammer", title: "Renovations", description: "Full-scale renovations that transform your space with modern design and lasting quality." },
+    { icon: "hard-hat", title: "Hardscaping", description: "Durable outdoor features including patios, walkways, and retaining walls built to last." },
+    { icon: "settings", title: "Property Maintenance", description: "Reliable ongoing maintenance to keep your property in peak condition year-round." },
+    { icon: "tool", title: "Groundwork", description: "Site assessments, excavation, and eco-friendly drainage solutions for solid foundations." },
+    { icon: "clipboard", title: "Extensions", description: "Seamless home extensions that expand your living space without compromising your home's character." },
+  ],
+  leftImage = "",
+  rightImage = "",
+} = Astro.props;
+---
+
+<section class="bg-surface-alt py-16 sm:py-24 overflow-hidden">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="text-center max-w-2xl mx-auto mb-14">
+      {eyebrow && (
+        <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">{eyebrow}</p>
+      )}
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-text leading-tight">{heading}</h2>
+      {description && (
+        <p class="mt-4 text-text-muted leading-relaxed text-sm sm:text-base">{description}</p>
+      )}
+    </div>
+
+    <!-- Grid with optional side images -->
+    <div class="relative">
+      {leftImage && (
+        <div class="hidden xl:block absolute -left-16 top-1/2 -translate-y-1/2 w-40 pointer-events-none" aria-hidden="true">
+          <img src={leftImage} alt="" class="w-full h-auto object-contain drop-shadow-lg" />
+        </div>
+      )}
+
+      {rightImage && (
+        <div class="hidden xl:block absolute -right-16 top-1/2 -translate-y-1/2 w-40 pointer-events-none" aria-hidden="true">
+          <img src={rightImage} alt="" class="w-full h-auto object-contain drop-shadow-lg" />
+        </div>
+      )}
+
+      <!-- Service cards grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl mx-auto">
+        {services.map((service) => (
+          <div class="group relative rounded-xl p-6 text-center bg-transparent border border-transparent hover:bg-secondary/8 hover:border-secondary/20 hover:shadow-sm transition-all duration-300 cursor-default">
+            {/* Top accent bar — grows on hover */}
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 h-1 w-0 group-hover:w-10 rounded-b bg-secondary transition-all duration-300" aria-hidden="true"></div>
+
+            {/* Icon */}
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-secondary/10 mb-4 group-hover:bg-secondary/15 transition-colors duration-300">
+              <Icon name={service.icon || "check-circle"} class="h-7 w-7 text-secondary" strokeWidth={1.5} />
+            </div>
+
+            {/* Title */}
+            <h3 class="text-lg font-bold text-text mb-1">{service.title}</h3>
+
+            {/* Description — hidden by default, fades up on hover */}
+            <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-300">
+              <div class="overflow-hidden">
+                <p class="text-sm text-text-muted leading-relaxed pt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                  {service.description || `Professional ${service.title.toLowerCase()} services tailored to your needs.`}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

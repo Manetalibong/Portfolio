@@ -1,0 +1,176 @@
+---
+/**
+ * Linked JSON-LD @graph (WebSite + LocalBusiness + WebPage + BreadcrumbList,
+ * plus Service or Article when requested). Entities reference each other via @id.
+ */
+import { siteConfig } from "../config/siteConfig";
+
+interface Props {
+  type?: "LocalBusiness" | "Service" | "Article";
+  pageTitle?: string;
+  pageDescription?: string;
+  serviceName?: string;
+  serviceDescription?: string;
+  articleTitle?: string;
+  articleDate?: string;
+  articleAuthor?: string;
+  articleImage?: string;
+}
+
+const {
+  type = "LocalBusiness",
+  pageTitle,
+  pageDescription,
+  serviceName,
+  serviceDescription,
+  articleTitle,
+  articleDate,
+  articleAuthor,
+  articleImage,
+} = Astro.props;
+
+const { address, businessName, phone, email, domain, socialLinks, logo, tagline, serviceArea } =
+  siteConfig;
+
+const origin = domain.replace(/\/$/, "");
+const logoUrl = logo.startsWith("http") ? logo : `${origin}${logo}`;
+
+function pageUrl(pathname: string): string {
+  let path = pathname || "/";
+  if (!path.startsWith("/")) path = `/${path}`;
+  if (!path.endsWith("/")) path += "/";
+  return `${origin}${path}`;
+}
+
+const pageId = pageUrl(Astro.url.pathname);
+const businessId = `${origin}/#business`;
+const websiteId = `${origin}/#website`;
+const webpageId = `${pageId}#webpage`;
+const breadcrumbId = `${pageId}#breadcrumb`;
+
+const sameAs = [
+  socialLinks.facebook,
+  socialLinks.instagram,
+  socialLinks.youtube,
+  socialLinks.google,
+].filter(Boolean);
+
+const localBusiness: Record<string, unknown> = {
+  "@type": "LocalBusiness",
+  "@id": businessId,
+  name: businessName,
+  description: tagline,
+  url: `${origin}/`,
+  telephone: phone,
+  email,
+  image: logoUrl,
+  logo: logoUrl,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: address.street,
+    addressLocality: address.city,
+    addressRegion: address.state,
+    postalCode: address.zip,
+    addressCountry: "US",
+  },
+  areaServed: serviceArea,
+};
+
+if (sameAs.length) localBusiness.sameAs = sameAs;
+
+const website = {
+  "@type": "WebSite",
+  "@id": websiteId,
+  url: `${origin}/`,
+  name: businessName,
+  description: tagline,
+  publisher: { "@id": businessId },
+  inLanguage: "en-US",
+};
+
+const webPage: Record<string, unknown> = {
+  "@type": "WebPage",
+  "@id": webpageId,
+  url: pageId,
+  name: pageTitle || `${businessName} | ${tagline}`,
+  isPartOf: { "@id": websiteId },
+  about: { "@id": businessId },
+  breadcrumb: { "@id": breadcrumbId },
+  inLanguage: "en-US",
+};
+
+if (pageDescription) webPage.description = pageDescription;
+
+const segments = Astro.url.pathname.split("/").filter(Boolean);
+const breadcrumbItems = [
+  {
+    "@type": "ListItem",
+    position: 1,
+    name: "Home",
+    item: `${origin}/`,
+  },
+  ...segments.map((segment, index) => {
+    const path = `/${segments.slice(0, index + 1).join("/")}/`;
+    return {
+      "@type": "ListItem",
+      position: index + 2,
+      name: segment.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase()),
+      item: `${origin}${path}`,
+    };
+  }),
+];
+
+const breadcrumb = {
+  "@type": "BreadcrumbList",
+  "@id": breadcrumbId,
+  itemListElement: breadcrumbItems,
+};
+
+const graph: Record<string, unknown>[] = [website, localBusiness, webPage, breadcrumb];
+
+if (type === "Service" && serviceName) {
+  const serviceId = `${pageId}#service`;
+  graph.push({
+    "@type": "Service",
+    "@id": serviceId,
+    name: serviceName,
+    description: serviceDescription,
+    url: pageId,
+    provider: { "@id": businessId },
+    areaServed: serviceArea,
+  });
+  webPage.mainEntity = { "@id": serviceId };
+}
+
+if (type === "Article" && articleTitle) {
+  const articleId = `${pageId}#article`;
+  const imageUrl = articleImage
+    ? articleImage.startsWith("http")
+      ? articleImage
+      : `${origin}${articleImage}`
+    : logoUrl;
+
+  graph.push({
+    "@type": "Article",
+    "@id": articleId,
+    headline: articleTitle,
+    ...(pageDescription ? { description: pageDescription } : {}),
+    datePublished: articleDate,
+    author: {
+      "@type": "Person",
+      name: articleAuthor || "Admin",
+    },
+    publisher: { "@id": businessId },
+    mainEntityOfPage: { "@id": webpageId },
+    image: imageUrl,
+  });
+  webPage.mainEntity = { "@id": articleId };
+}
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": graph,
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

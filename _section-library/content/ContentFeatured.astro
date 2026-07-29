@@ -1,0 +1,132 @@
+---
+/*
+  CONTENT — FEATURED
+  Two-column layout: large image on the left with a decorative colored
+  shape behind it and a floating info badge overlapping the bottom-right
+  corner. Right side has eyebrow, heading, description, and two CTA
+  buttons (primary filled + secondary ghost).
+
+  The decorative shape is a rounded rectangle in the primary color that
+  peeks out from behind the image for visual depth.
+
+  Props:
+  - imageSrc, imageAlt: the main photo
+  - eyebrow, heading, description: content block
+  - badge: { icon, title, subtitle } — floating card on the image
+  - primaryCta: { label, href }
+  - secondaryCta: { label, href }
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+import Icon from "../../src/components/Icon.astro";
+
+interface Badge {
+  icon?: string;
+  title: string;
+  subtitle?: string;
+}
+
+interface CtaButton {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  description?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  badge?: Badge;
+  primaryCta?: CtaButton;
+  secondaryCta?: CtaButton;
+}
+
+const {
+  eyebrow = "Features",
+  heading = `Professional ${siteConfig.businessName} Services`,
+  description = `We handle every detail from start to finish. Our experienced team delivers quality workmanship, transparent pricing, and results that exceed expectations — every single time.`,
+  imageSrc = "/images/Preview/service1.jpg",
+  imageAlt = `${siteConfig.businessName} project`,
+  badge = {
+    icon: "leaf",
+    title: "Full Service",
+    subtitle: "End-to-end project management",
+  },
+  primaryCta = { label: "Learn More", href: "/about" },
+  secondaryCta = { label: "Get In Touch", href: "/contact" },
+} = Astro.props;
+---
+
+<section class="bg-surface py-16 sm:py-24 overflow-hidden">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      {/* Image with decorative shape + badge */}
+      <div class="relative">
+        {/* Decorative background shape */}
+        <div
+          class="absolute -left-4 top-6 bottom-6 w-[60%] rounded-3xl bg-primary"
+          aria-hidden="true"
+        ></div>
+
+        {/* Main image */}
+        <div class="relative z-10 ml-4 sm:ml-8 rounded-2xl overflow-hidden shadow-xl">
+          <img
+            src={imageSrc}
+            alt={imageAlt}
+            class="w-full aspect-[4/3] object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+
+        {/* Floating badge */}
+        {badge && (
+          <div class="absolute z-20 bottom-4 right-0 sm:bottom-6 sm:-right-2 bg-white rounded-xl shadow-lg px-4 py-3 flex items-center gap-3 max-w-[240px]">
+            {badge.icon && (
+              <div class="shrink-0 flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
+                <Icon name={badge.icon} class="h-5 w-5 text-primary" />
+              </div>
+            )}
+            <div class="min-w-0">
+              <p class="text-sm font-bold text-text leading-tight truncate">{badge.title}</p>
+              {badge.subtitle && (
+                <p class="text-xs text-text-muted leading-snug truncate">{badge.subtitle}</p>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Content */}
+      <div>
+        {eyebrow && (
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">{eyebrow}</p>
+        )}
+        <h2 class="text-3xl sm:text-4xl lg:text-[2.75rem] font-extrabold text-text leading-tight">{heading}</h2>
+        {description && (
+          <p class="mt-4 text-text-muted leading-relaxed text-sm sm:text-base">{description}</p>
+        )}
+
+        {/* CTA buttons */}
+        <div class="flex flex-wrap items-center gap-4 mt-8">
+          {primaryCta && (
+            <a
+              href={primaryCta.href}
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-secondary text-white font-bold text-sm hover:bg-secondary/90 transition-colors shadow-md hover:shadow-lg"
+            >
+              {primaryCta.label}
+            </a>
+          )}
+          {secondaryCta && (
+            <a
+              href={secondaryCta.href}
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border text-text font-bold text-sm hover:bg-surface-alt transition-colors"
+            >
+              {secondaryCta.label}
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

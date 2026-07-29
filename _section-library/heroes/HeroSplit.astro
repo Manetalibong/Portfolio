@@ -1,0 +1,84 @@
+---
+/*
+ * Two-column hero: copy and CTAs on a light panel, large photo on the other half.
+ * On small screens the image stacks above the text. Use when you want a clean,
+ * editorial feel with room for a headline and proof points without darkening the photo.
+ */
+import { siteConfig } from "../../src/config/siteConfig";
+
+export interface Props {
+  headline?: string;
+  subtitle?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  estimateLabel?: string;
+  estimateHref?: string;
+  callLabel?: string;
+  eyebrow?: string;
+}
+
+const {
+  headline = `Trusted ${siteConfig.serviceArea.split(",")[0]?.trim() ?? "local"} pros`,
+  subtitle = siteConfig.tagline,
+  imageSrc = "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1600&q=80",
+  imageAlt = "Licensed contractor completing a quality installation",
+  estimateLabel = "Get a Free Estimate",
+  estimateHref = "/contact",
+  callLabel = `Call ${siteConfig.phone}`,
+  eyebrow = siteConfig.businessName,
+} = Astro.props;
+
+const telHref = `tel:${siteConfig.phone.replace(/\D/g, "")}`;
+---
+
+<section
+  class="grid w-full grid-cols-1 bg-surface lg:grid-cols-2"
+  aria-labelledby="hero-split-heading"
+>
+  <div class="relative order-1 aspect-[4/3] min-h-[16rem] w-full lg:order-2 lg:aspect-auto lg:min-h-[28rem]">
+    <img
+      src={imageSrc}
+      alt={imageAlt}
+      class="h-full w-full object-cover"
+      width="1600"
+      height="1067"
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    />
+  </div>
+
+  <div
+    class="order-2 flex flex-col justify-center bg-surface px-6 py-14 sm:px-10 lg:order-1 lg:px-14 lg:py-20 xl:px-20"
+  >
+    <div class="mx-auto w-full max-w-xl">
+      <p class="text-sm font-semibold uppercase tracking-wide text-primary">{eyebrow}</p>
+      <h1
+        id="hero-split-heading"
+        class="font-heading mt-3 text-4xl font-bold tracking-tight text-text sm:text-5xl"
+      >
+        {headline}
+      </h1>
+      <p class="mt-5 text-lg leading-relaxed text-text-muted sm:text-xl">
+        {subtitle}
+      </p>
+      <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
+        <a
+          href={estimateHref}
+          class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-surface shadow-md shadow-primary/25 transition hover:bg-primary-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        >
+          {estimateLabel}
+        </a>
+        <a
+          href={telHref}
+          class="inline-flex items-center justify-center rounded-lg border border-border bg-surface px-8 py-3.5 text-base font-semibold text-text transition hover:border-primary hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        >
+          {callLabel}
+        </a>
+      </div>
+      <p class="mt-8 text-sm text-text-muted">
+        Serving <span class="font-medium text-text">{siteConfig.serviceArea}</span>
+      </p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,83 @@
+---
+/*
+ * FAQ section with a headline and a two-column grid of static Q&A blocks—no JavaScript.
+ * Use for readability and SEO when you want every answer visible at once (e.g. dedicated FAQ page).
+ */
+import { siteConfig } from "../../src/config/siteConfig";
+
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+export interface Props {
+  heading?: string;
+  items?: FaqItem[];
+}
+
+const defaultItems: FaqItem[] = [
+  {
+    question: `What areas do you serve?`,
+    answer: `We proudly serve ${siteConfig.serviceArea} and nearby communities. Reach out to confirm coverage for your location.`,
+  },
+  {
+    question: "How does pricing work?",
+    answer:
+      "You'll receive a clear estimate before we start. We explain labor, materials, and options so you can decide with confidence.",
+  },
+  {
+    question: "Do you offer emergency service?",
+    answer:
+      "Yes—our team is available 24/7 for urgent situations when capacity allows. Call anytime for fastest scheduling.",
+  },
+  {
+    question: "Are you licensed and insured?",
+    answer:
+      "Absolutely. We maintain current licensing and insurance appropriate for the work we perform. Documentation is available on request.",
+  },
+  {
+    question: "What guarantees do you provide?",
+    answer:
+      "We stand behind our workmanship and will walk you through warranty terms for your project before we begin.",
+  },
+];
+
+const { heading = "Frequently Asked Questions", items = defaultItems } = Astro.props;
+
+const mid = Math.ceil(items.length / 2);
+const colLeft = items.slice(0, mid);
+const colRight = items.slice(mid);
+---
+
+<section class="bg-surface-alt px-4 py-14 sm:px-6 lg:px-8 lg:py-20" aria-labelledby="faq-two-col-heading">
+  <div class="mx-auto max-w-6xl">
+    <h2
+      id="faq-two-col-heading"
+      class="font-heading text-center text-3xl font-bold tracking-tight text-text sm:text-4xl"
+    >
+      {heading}
+    </h2>
+    <div class="mt-12 grid gap-10 md:grid-cols-2 md:gap-12 lg:gap-16">
+      <div class="space-y-10">
+        {
+          colLeft.map((item) => (
+            <div>
+              <h3 class="text-lg font-bold text-text">{item.question}</h3>
+              <p class="mt-2 text-base leading-relaxed text-text-muted">{item.answer}</p>
+            </div>
+          ))
+        }
+      </div>
+      <div class="space-y-10">
+        {
+          colRight.map((item) => (
+            <div>
+              <h3 class="text-lg font-bold text-text">{item.question}</h3>
+              <p class="mt-2 text-base leading-relaxed text-text-muted">{item.answer}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

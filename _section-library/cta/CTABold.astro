@@ -1,0 +1,90 @@
+---
+/*
+  CTA — BOLD
+  Eye-catching full-width CTA band with a subtle background pattern,
+  left-aligned content (eyebrow, big headline, CTA button), and an
+  optional cutout image on the right (service van, mascot, team photo).
+
+  Works great anywhere — between sections, above footer, on service
+  pages. The pattern and border accents make it pop without needing
+  a background photo.
+
+  Props:
+  - eyebrow, headline: text content
+  - ctaLabel, ctaHref, ctaIcon: CTA button
+  - imageSrc, imageAlt: optional right-side image (transparent PNG works best)
+  - bgClass: background color (default "bg-secondary" — use any brand color)
+  - borderColor: top/bottom accent border color
+  - pattern: CSS pattern class (default "pattern-diamonds") — see global.css
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+import Icon from "../../src/components/Icon.astro";
+
+interface Props {
+  eyebrow?: string;
+  headline?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  ctaIcon?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  bgClass?: string;
+  borderColor?: string;
+  pattern?: string;
+}
+
+const {
+  eyebrow = "Book Online Today",
+  headline = `Ready For The Best Service In ${siteConfig.serviceArea}?`,
+  ctaLabel = "Schedule Online",
+  ctaHref = "/contact",
+  ctaIcon = "clipboard",
+  imageSrc = "",
+  imageAlt = siteConfig.businessName,
+  bgClass = "bg-secondary",
+  borderColor = "border-primary-dark",
+  pattern = siteConfig.pattern,
+} = Astro.props;
+---
+
+<section class:list={["relative overflow-hidden text-white", bgClass, borderColor, "border-y-4", pattern]}>
+  <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class:list={[
+      "flex items-center gap-8 lg:gap-12",
+      imageSrc ? "justify-between" : "justify-center text-center",
+      "py-12 sm:py-16 lg:py-20",
+    ]}>
+      <!-- Content -->
+      <div class:list={["max-w-xl", !imageSrc && "mx-auto"]}>
+        {eyebrow && (
+          <p class="text-sm font-bold uppercase tracking-wider text-white/80 mb-3">{eyebrow}</p>
+        )}
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight">
+          {headline}
+        </h2>
+        <div class="mt-6">
+          <a
+            href={ctaHref}
+            class="inline-flex items-center gap-2.5 rounded-lg bg-white px-7 py-3.5 text-sm sm:text-base font-bold text-gray-900 shadow-lg hover:bg-gray-100 transition-colors"
+          >
+            {ctaIcon && <Icon name={ctaIcon} class="h-5 w-5" />}
+            {ctaLabel}
+          </a>
+        </div>
+      </div>
+
+      <!-- Optional image (van, mascot, team, etc.) -->
+      {imageSrc && (
+        <div class="hidden md:block flex-shrink-0">
+          <img
+            src={imageSrc}
+            alt={imageAlt}
+            class="max-h-[280px] lg:max-h-[320px] w-auto object-contain drop-shadow-2xl"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      )}
+    </div>
+  </div>
+</section>

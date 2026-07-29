@@ -1,0 +1,140 @@
+---
+/*
+  GALLERY — MARQUEE
+  Auto-scrolling image showcase with a bold heading. Images slide
+  continuously in a slow marquee loop — no interaction needed.
+
+  Single row or double row (rows scroll in opposite directions).
+
+  Props:
+  - heading: text above the gallery
+  - images: array of { src, alt } for the photos
+  - rows: 1 | 2 (default 1) — set to 2 for companies with lots of photos
+  - speed: seconds for one full loop (default 40, higher = slower)
+  - pauseOnHover: pause the animation on hover (default true)
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+
+interface ImageItem {
+  src: string;
+  alt: string;
+}
+
+interface Props {
+  heading?: string;
+  images?: ImageItem[];
+  rows?: 1 | 2;
+  speed?: number;
+  pauseOnHover?: boolean;
+}
+
+const placeholders: ImageItem[] = Array.from({ length: 10 }, (_, i) => ({
+  src: `/images/project-${i + 1}.jpg`,
+  alt: `${siteConfig.businessName} completed project ${i + 1}`,
+}));
+
+const {
+  heading = "We'll Transform The Look Of Your Home!",
+  images = placeholders,
+  rows = 1,
+  speed = 40,
+  pauseOnHover = true,
+} = Astro.props;
+
+const half = Math.ceil(images.length / 2);
+const row1 = rows === 2 ? images.slice(0, half) : images;
+const row2 = rows === 2 ? images.slice(half) : [];
+---
+
+<section class="bg-surface py-12 sm:py-16 overflow-hidden">
+  {heading && (
+    <h2 class="text-center text-3xl sm:text-4xl lg:text-5xl font-extrabold text-text italic mb-8 sm:mb-12 px-4">
+      {heading}
+    </h2>
+  )}
+
+  <!-- Row 1: scrolls left -->
+  <div
+    class:list={["marquee-track", pauseOnHover && "marquee-hover-pause"]}
+    style={`--marquee-speed: ${speed}s;`}
+  >
+    <div class="marquee-inner" aria-hidden="false">
+      {[...row1, ...row1].map((img) => (
+        <div class="marquee-item">
+          <img
+            src={img.src}
+            alt={img.alt}
+            class="h-48 sm:h-56 lg:h-64 w-auto rounded-xl object-cover shadow-md"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Row 2: scrolls right (only if rows === 2) -->
+  {rows === 2 && row2.length > 0 && (
+    <div
+      class:list={["marquee-track marquee-reverse mt-4 sm:mt-6", pauseOnHover && "marquee-hover-pause"]}
+      style={`--marquee-speed: ${speed}s;`}
+    >
+      <div class="marquee-inner" aria-hidden="false">
+        {[...row2, ...row2].map((img) => (
+          <div class="marquee-item">
+            <img
+              src={img.src}
+              alt={img.alt}
+              class="h-48 sm:h-56 lg:h-64 w-auto rounded-xl object-cover shadow-md"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
+</section>
+
+<style>
+  .marquee-track {
+    width: 100%;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  }
+
+  .marquee-inner {
+    display: flex;
+    gap: 1rem;
+    width: max-content;
+    animation: marquee-scroll var(--marquee-speed, 40s) linear infinite;
+  }
+
+  .marquee-reverse .marquee-inner {
+    animation-direction: reverse;
+  }
+
+  .marquee-hover-pause:hover .marquee-inner {
+    animation-play-state: paused;
+  }
+
+  .marquee-item {
+    flex-shrink: 0;
+  }
+
+  @keyframes marquee-scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-inner {
+      animation-play-state: paused;
+    }
+  }
+</style>

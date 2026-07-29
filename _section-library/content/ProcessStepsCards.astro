@@ -1,0 +1,118 @@
+---
+/*
+  PROCESS STEPS — CARDS
+  Bold "Our Simple 3-Step Process" section with bordered cards,
+  prominent step badges, icons, and a bottom CTA link per card.
+
+  Each card has a colored top border, a ribbon-style step badge
+  (overlapping the top edge), an icon circle, title, description,
+  and a CTA link at the bottom.
+
+  Darker background version — feels punchy and structured.
+  Great for electricians, contractors, service companies.
+
+  Props:
+  - heading, description: section header text
+  - steps: array of { icon, title, description, ctaLabel, ctaHref }
+  - bgClass: background color (default "bg-primary-dark")
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+import Icon from "../../src/components/Icon.astro";
+
+interface StepItem {
+  icon?: string;
+  title: string;
+  description: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+interface Props {
+  heading?: string;
+  description?: string;
+  steps?: StepItem[];
+  bgClass?: string;
+}
+
+const {
+  heading = "Our Simple 3 Step Process",
+  description = `Getting world-class service from ${siteConfig.businessName} has never been easier.`,
+  steps = [
+    {
+      icon: "clipboard",
+      title: "Get a Fast Quote",
+      description: "Click the quote button and send us your details. We promise to respond promptly with personalized information tailored to your needs. We also offer free onsite consultations.",
+      ctaLabel: "Get a Fast Quote",
+      ctaHref: "/contact",
+    },
+    {
+      icon: "clock",
+      title: "Set a Schedule",
+      description: "Get the work done at a time that suits you with fast and easy scheduling. We'll arrive when we say, and you can even track our arrival for complete clarity.",
+      ctaLabel: "Get a Fast Quote",
+      ctaHref: "/contact",
+    },
+    {
+      icon: "thumbs-up",
+      title: "Sit Back & Relax",
+      description: "Our highly trained team is here to handle everything, and we guarantee a smooth process so you won't have to worry about a thing. Simply look forward to outstanding results.",
+      ctaLabel: "Get a Fast Quote",
+      ctaHref: "/contact",
+    },
+  ],
+  bgClass = "bg-primary-dark",
+} = Astro.props;
+---
+
+<section class:list={["py-16 sm:py-24", bgClass]}>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white uppercase tracking-tight">
+        {heading}
+      </h2>
+      {description && (
+        <p class="mt-4 text-white/60">{description}</p>
+      )}
+    </div>
+
+    <!-- Cards -->
+    <div class:list={[
+      "grid gap-6 lg:gap-8",
+      steps.length === 4 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" : "grid-cols-1 sm:grid-cols-3",
+    ]}>
+      {steps.map((step, i) => (
+        <div class="relative bg-white rounded-2xl border-t-4 border-secondary pt-12 pb-8 px-6 text-center flex flex-col">
+          {/* Step badge — ribbon overlapping top edge */}
+          <div class="absolute -top-5 left-1/2 -translate-x-1/2 flex items-center">
+            <div class="relative flex items-center">
+              {/* Icon circle */}
+              <div class="relative z-10 flex items-center justify-center h-14 w-14 rounded-full bg-secondary text-white shadow-lg ring-4 ring-white">
+                <Icon name={step.icon || "check-circle"} class="h-6 w-6" />
+              </div>
+              {/* Step label */}
+              <div class="relative -ml-2 bg-primary text-white text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-r-full shadow-md">
+                Step {i + 1}
+              </div>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-extrabold text-text mt-2 mb-3">{step.title}</h3>
+          <p class="text-sm text-text-muted leading-relaxed flex-1">{step.description}</p>
+
+          {step.ctaLabel && step.ctaHref && (
+            <div class="mt-6 pt-4 border-t border-gray-100">
+              <a
+                href={step.ctaHref}
+                class="inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-secondary transition-colors"
+              >
+                {step.ctaLabel}
+                <Icon name="arrow-right" class="h-4 w-4" />
+              </a>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

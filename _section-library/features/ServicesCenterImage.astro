@@ -1,0 +1,154 @@
+---
+/*
+  SERVICES — CENTER IMAGE
+  Centered header (eyebrow, heading, description) above a 3-row layout
+  with a large product/feature image in the center. Services are split
+  into two columns — left side services have text right-aligned flowing
+  toward the center image, right side services have text left-aligned
+  flowing away from it. Each service has an icon, title, and description.
+  Optional CTA button at the bottom.
+
+  Props:
+  - eyebrow, heading, description: centered header
+  - centerImage, centerImageAlt: the hero image in the middle
+  - leftServices, rightServices: arrays of { icon, title, description }
+  - ctaLabel, ctaHref: optional bottom CTA
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+import Icon from "../../src/components/Icon.astro";
+
+interface ServiceItem {
+  icon?: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  description?: string;
+  centerImage?: string;
+  centerImageAlt?: string;
+  leftServices?: ServiceItem[];
+  rightServices?: ServiceItem[];
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+const {
+  eyebrow = "Our Services",
+  heading = `We Provide Quality ${siteConfig.businessName} Services`,
+  description = "From routine maintenance to complex repairs, our certified technicians deliver reliable results with industry-leading quality.",
+  centerImage = "/images/Preview/hero.jpg",
+  centerImageAlt = `${siteConfig.businessName} services`,
+  leftServices = [
+    { icon: "search", title: "Inspections", description: "Thorough diagnostic assessments to identify issues before they become costly problems." },
+    { icon: "wrench", title: "Repairs", description: "Expert repair services using quality parts and proven techniques for lasting results." },
+    { icon: "settings", title: "Maintenance", description: "Scheduled maintenance plans to keep everything running at peak performance." },
+  ],
+  rightServices = [
+    { icon: "shield-check", title: "Safety Checks", description: "Comprehensive safety inspections to protect your property and family." },
+    { icon: "tool", title: "Installations", description: "Professional installation with attention to detail and clean workmanship." },
+    { icon: "zap", title: "Emergency Service", description: "Fast response times when you need urgent help, day or night." },
+  ],
+  ctaLabel = "Book Appointment",
+  ctaHref = "/contact",
+} = Astro.props;
+---
+
+<section class="bg-surface py-16 sm:py-24">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    {/* Header */}
+    <div class="text-center max-w-2xl mx-auto mb-14 lg:mb-16">
+      {eyebrow && (
+        <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">{eyebrow}</p>
+      )}
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-text leading-tight">{heading}</h2>
+      {description && (
+        <p class="mt-4 text-text-muted leading-relaxed text-sm sm:text-base">{description}</p>
+      )}
+    </div>
+
+    {/* Services grid with center image — desktop */}
+    <div class="hidden lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-x-8 xl:gap-x-12 lg:items-center">
+      {/* Left column — text right-aligned */}
+      <div class="space-y-10">
+        {leftServices.map((service) => (
+          <div class="flex items-start gap-4 text-right flex-row-reverse">
+            <div class="shrink-0 flex items-center justify-center w-12 h-12 rounded-xl bg-secondary/10">
+              <Icon name={service.icon || "check-circle"} class="h-6 w-6 text-secondary" strokeWidth={1.5} />
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-text mb-1">{service.title}</h3>
+              <p class="text-sm text-text-muted leading-relaxed">{service.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Center image */}
+      <div class="flex items-center justify-center px-4">
+        <img
+          src={centerImage}
+          alt={centerImageAlt}
+          class="w-64 xl:w-72 h-auto max-h-[420px] object-contain drop-shadow-2xl"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+
+      {/* Right column — text left-aligned */}
+      <div class="space-y-10">
+        {rightServices.map((service) => (
+          <div class="flex items-start gap-4">
+            <div class="shrink-0 flex items-center justify-center w-12 h-12 rounded-xl bg-secondary/10">
+              <Icon name={service.icon || "check-circle"} class="h-6 w-6 text-secondary" strokeWidth={1.5} />
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-text mb-1">{service.title}</h3>
+              <p class="text-sm text-text-muted leading-relaxed">{service.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* Mobile/tablet layout — stacked */}
+    <div class="lg:hidden">
+      <div class="flex justify-center mb-10">
+        <img
+          src={centerImage}
+          alt={centerImageAlt}
+          class="w-48 sm:w-56 h-auto max-h-72 object-contain drop-shadow-2xl"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {[...leftServices, ...rightServices].map((service) => (
+          <div class="flex items-start gap-4">
+            <div class="shrink-0 flex items-center justify-center w-11 h-11 rounded-xl bg-secondary/10">
+              <Icon name={service.icon || "check-circle"} class="h-5 w-5 text-secondary" strokeWidth={1.5} />
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-text mb-1">{service.title}</h3>
+              <p class="text-sm text-text-muted leading-relaxed">{service.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* CTA */}
+    {ctaLabel && ctaHref && (
+      <div class="text-center mt-12 lg:mt-14">
+        <a
+          href={ctaHref}
+          class="inline-flex items-center gap-2 px-7 py-3 rounded-lg bg-secondary text-white font-bold text-sm hover:bg-secondary/90 transition-colors shadow-md hover:shadow-lg"
+        >
+          {ctaLabel}
+        </a>
+      </div>
+    )}
+  </div>
+</section>

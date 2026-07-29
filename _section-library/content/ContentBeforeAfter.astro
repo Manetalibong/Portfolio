@@ -1,0 +1,176 @@
+---
+/*
+  CONTENT — BEFORE / AFTER SHOWCASE
+  Two-column layout with overlapping before/after images on one side
+  and structured content (eyebrow, heading, description, numbered
+  process steps, CTA) on the other.
+
+  The images stack with a subtle offset and the "After" image overlaps
+  on top with a decorative frame, label badges, and a curved arrow
+  connector. Looks polished and editorial — not template-y.
+
+  Props:
+  - eyebrow, heading, description: text content
+  - beforeImage, afterImage: { src, alt } for each photo
+  - steps: array of { title, description } for the process list
+  - ctaLabel, ctaHref: CTA button
+  - imagePosition: "left" | "right" (default "left")
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+import Icon from "../../src/components/Icon.astro";
+
+interface ImageData {
+  src: string;
+  alt: string;
+}
+
+interface StepItem {
+  title: string;
+  description: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  description?: string;
+  beforeImage?: ImageData;
+  afterImage?: ImageData;
+  steps?: StepItem[];
+  ctaLabel?: string;
+  ctaHref?: string;
+  imagePosition?: "left" | "right";
+}
+
+const {
+  eyebrow = "Our Process",
+  heading = "Quality Results, Every Time",
+  description = `At ${siteConfig.businessName}, every project follows our proven process — from initial consultation through final walkthrough. We don't cut corners, and we don't consider the job done until you're thrilled with the result.`,
+  beforeImage = {
+    src: "/images/before.jpg",
+    alt: "Project before work began",
+  },
+  afterImage = {
+    src: "/images/after.jpg",
+    alt: "Completed project result",
+  },
+  steps = [
+    {
+      title: "Initial Consultation",
+      description: "We assess your needs, discuss goals, and create a clear plan with transparent pricing.",
+    },
+    {
+      title: "Expert Execution",
+      description: "Our skilled team handles every detail with premium materials and proven techniques.",
+    },
+    {
+      title: "Quality Inspection",
+      description: "We perform a thorough walkthrough to ensure everything meets our high standards.",
+    },
+    {
+      title: "Final Reveal",
+      description: "We walk you through the finished project and make sure you're completely satisfied.",
+    },
+  ],
+  ctaLabel = "Book a Consultation",
+  ctaHref = "/contact",
+  imagePosition = "left",
+} = Astro.props;
+
+const imagesLeft = imagePosition === "left";
+---
+
+<section class="relative bg-surface-alt py-16 sm:py-24 overflow-hidden">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+      <!-- Image cluster -->
+      <div class:list={["relative", !imagesLeft && "lg:order-2"]}>
+        <div class="relative mx-auto max-w-lg lg:max-w-none">
+          <!-- Before image (background, top-left) -->
+          <div class="relative z-10 w-[65%] rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5">
+            <img
+              src={beforeImage.src}
+              alt={beforeImage.alt}
+              class="w-full aspect-[4/3] object-cover"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="absolute top-3 left-3 flex items-center gap-1.5 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 shadow-sm">
+              <span class="h-2 w-2 rounded-full bg-red-400"></span>
+              <span class="text-xs font-bold text-gray-700 uppercase tracking-wide">Before</span>
+            </div>
+          </div>
+
+          <!-- After image (foreground, overlapping bottom-right) -->
+          <div class="absolute bottom-0 right-0 z-20 w-[65%] translate-y-4 rounded-2xl overflow-hidden shadow-2xl ring-1 ring-black/5">
+            <img
+              src={afterImage.src}
+              alt={afterImage.alt}
+              class="w-full aspect-[4/3] object-cover"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="absolute top-3 left-3 flex items-center gap-1.5 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 shadow-sm">
+              <span class="h-2 w-2 rounded-full bg-green-500"></span>
+              <span class="text-xs font-bold text-gray-700 uppercase tracking-wide">After</span>
+            </div>
+          </div>
+
+          <!-- Decorative arrow between images -->
+          <div class="absolute z-30 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div class="flex items-center justify-center h-12 w-12 rounded-full bg-secondary text-white shadow-lg">
+              <Icon name="arrow-right" class="h-5 w-5" />
+            </div>
+          </div>
+
+          <!-- Decorative background shapes -->
+          <div class="absolute -z-10 -top-6 -left-6 w-32 h-32 rounded-2xl bg-primary/10" aria-hidden="true"></div>
+          <div class="absolute -z-10 -bottom-4 -right-4 w-40 h-40 rounded-full border-2 border-secondary/20" aria-hidden="true"></div>
+
+          <!-- Spacer to account for the overlap -->
+          <div class="h-16 sm:h-20"></div>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class:list={[!imagesLeft && "lg:order-1"]}>
+        {eyebrow && (
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">{eyebrow}</p>
+        )}
+        <h2 class="text-3xl sm:text-4xl lg:text-[2.75rem] font-extrabold text-text leading-tight">
+          {heading}
+        </h2>
+        {description && (
+          <p class="mt-4 text-text-muted leading-relaxed">{description}</p>
+        )}
+
+        {steps.length > 0 && (
+          <div class="mt-8 space-y-5">
+            {steps.map((step, i) => (
+              <div class="flex gap-4">
+                <div class="flex-shrink-0 flex items-center justify-center h-9 w-9 rounded-full bg-primary text-white text-sm font-bold shadow-sm">
+                  {i + 1}
+                </div>
+                <div class="pt-0.5">
+                  <h3 class="font-bold text-text">{step.title}</h3>
+                  <p class="text-sm text-text-muted mt-0.5">{step.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div class="mt-8">
+          <a
+            href={ctaHref}
+            class="inline-flex items-center gap-2 rounded-lg bg-secondary px-6 py-3 text-sm font-bold text-white shadow-lg hover:bg-secondary-light transition-colors"
+          >
+            {ctaLabel}
+            <Icon name="arrow-right" class="h-4 w-4" />
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

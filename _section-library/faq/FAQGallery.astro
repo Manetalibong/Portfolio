@@ -1,0 +1,213 @@
+---
+/*
+  FAQ — GALLERY
+  Two-column layout: eyebrow + heading + numbered accordion on the left,
+  4-image mosaic grid on the right. Active item has a colored underline
+  bar and accent-colored question text. Plus/minus icon toggles.
+
+  Props:
+  - eyebrow, heading: left header
+  - items: array of { question, answer }
+  - images: array of 4 image objects { src, alt }
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface ImageItem {
+  src: string;
+  alt?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  items?: FaqItem[];
+  images?: ImageItem[];
+}
+
+const {
+  eyebrow = "FAQ",
+  heading = "Frequently Asked\nQuestions",
+  items = [
+    {
+      question: `How much do ${siteConfig.businessName} services cost?`,
+      answer: "Pricing varies by project scope and complexity. We provide free, transparent estimates before any work begins so you know exactly what to expect — no hidden fees or surprise charges.",
+    },
+    {
+      question: "What is your cancellation policy?",
+      answer: "You can cancel or reschedule with 24 hours notice at no charge. Same-day cancellations may incur a small trip fee to cover our technician's time.",
+    },
+    {
+      question: "How long does a typical project take?",
+      answer: "Most standard jobs are completed in a single visit. Larger projects are scoped out during the estimate so you'll have a clear timeline before we start.",
+    },
+    {
+      question: "Do you offer warranties on your work?",
+      answer: "Yes. All our work comes with a satisfaction guarantee and warranty coverage. Specific terms vary by service type and are explained upfront in your estimate.",
+    },
+    {
+      question: "What areas do you serve?",
+      answer: `We serve ${siteConfig.serviceArea} and surrounding communities. Contact us to confirm availability for your location.`,
+    },
+  ],
+  images = [
+    { src: "/images/Preview/service1.jpg", alt: "Project 1" },
+    { src: "/images/Preview/service2.jpg", alt: "Project 2" },
+    { src: "/images/Preview/service3.jpg", alt: "Project 3" },
+    { src: "/images/Preview/about.jpg", alt: "Project 4" },
+  ],
+} = Astro.props;
+
+const headingLines = heading.split("\n");
+const faqId = `faq-gal-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<section class="bg-surface py-16 sm:py-24">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+      {/* Left: heading + accordion */}
+      <div>
+        {eyebrow && (
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">{eyebrow}</p>
+        )}
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-text leading-tight mb-10">
+          {headingLines.map((line) => (
+            <span class="block">{line}</span>
+          ))}
+        </h2>
+
+        <div data-faq-group={faqId}>
+          {items.map((item, i) => (
+            <div class="faq-item border-b border-border" data-faq-index={i}>
+              <button
+                type="button"
+                class="faq-trigger flex items-center justify-between w-full py-4 text-left gap-4 group"
+                aria-expanded={i === 0 ? "true" : "false"}
+              >
+                <span class:list={[
+                  "faq-label text-sm sm:text-base font-bold leading-snug transition-colors",
+                  i === 0 ? "text-secondary" : "text-text group-hover:text-secondary",
+                ]}>
+                  {i + 1}. {item.question}
+                </span>
+                <span class="shrink-0 text-text-muted">
+                  <svg
+                    class="faq-plus h-4 w-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                  >
+                    <line x1="12" y1="5" x2="12" y2="19" class:list={["faq-vline transition-transform duration-300 origin-center", i === 0 && "scale-y-0"]} />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                </span>
+              </button>
+              <div
+                class:list={[
+                  "faq-content overflow-hidden transition-all duration-300",
+                  i === 0 ? "max-h-96" : "max-h-0",
+                ]}
+              >
+                <p class="text-sm text-text-muted leading-relaxed pb-3 pr-8">{item.answer}</p>
+                {/* Accent underline bar */}
+                <div class="h-0.5 w-full bg-secondary rounded-full mb-3"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Right: 4-image mosaic */}
+      <div class="grid grid-cols-2 gap-3 sm:gap-4">
+        {/* Top-left — tall */}
+        <div class="row-span-2 rounded-xl overflow-hidden">
+          <img
+            src={images[0]?.src}
+            alt={images[0]?.alt || ""}
+            class="w-full h-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        {/* Top-right */}
+        <div class="rounded-xl overflow-hidden">
+          <img
+            src={images[1]?.src}
+            alt={images[1]?.alt || ""}
+            class="w-full h-full object-cover aspect-[4/3]"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        {/* Middle-right */}
+        <div class="rounded-xl overflow-hidden">
+          <img
+            src={images[2]?.src}
+            alt={images[2]?.alt || ""}
+            class="w-full h-full object-cover aspect-[4/3]"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        {/* Bottom — full width */}
+        <div class="col-span-2 rounded-xl overflow-hidden">
+          <img
+            src={images[3]?.src}
+            alt={images[3]?.alt || ""}
+            class="w-full h-48 sm:h-56 object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll("[data-faq-group]").forEach((group) => {
+    const items = group.querySelectorAll(".faq-item");
+
+    items.forEach((item) => {
+      const trigger = item.querySelector(".faq-trigger");
+      if (!trigger) return;
+
+      trigger.addEventListener("click", () => {
+        const isOpen = trigger.getAttribute("aria-expanded") === "true";
+
+        items.forEach((other) => {
+          const ot = other.querySelector(".faq-trigger");
+          const oc = other.querySelector(".faq-content") as HTMLElement;
+          const vl = other.querySelector(".faq-vline");
+          const ol = other.querySelector(".faq-label");
+          if (!ot || !oc) return;
+
+          ot.setAttribute("aria-expanded", "false");
+          oc.style.maxHeight = "0";
+          vl?.classList.remove("scale-y-0");
+          ol?.classList.remove("text-secondary");
+          ol?.classList.add("text-text");
+        });
+
+        if (!isOpen) {
+          const content = item.querySelector(".faq-content") as HTMLElement;
+          const vline = item.querySelector(".faq-vline");
+          const label = trigger.querySelector(".faq-label");
+          if (!content) return;
+
+          trigger.setAttribute("aria-expanded", "true");
+          content.style.maxHeight = content.scrollHeight + "px";
+          vline?.classList.add("scale-y-0");
+          label?.classList.remove("text-text");
+          label?.classList.add("text-secondary");
+        }
+      });
+    });
+  });
+</script>

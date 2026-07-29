@@ -1,0 +1,37 @@
+---
+/*
+ * Centered prose column: optional section title and freeform body via the default slot.
+ * Use for policies, long-form explanations, or blog-style blocks that need breathing room.
+ */
+import { siteConfig } from "../../src/config/siteConfig";
+
+export interface Props {
+  title?: string;
+}
+
+const { title } = Astro.props;
+---
+
+<section
+  class="bg-surface px-4 py-14 sm:px-6 lg:px-8 lg:py-20"
+  aria-labelledby={title ? "content-fw-heading" : undefined}
+  aria-label={title ? undefined : `Long-form content from ${siteConfig.businessName}`}
+>
+  <div class="mx-auto max-w-3xl">
+    {
+      title && (
+        <h2 id="content-fw-heading" class="font-heading text-3xl font-bold tracking-tight text-text sm:text-4xl">
+          {title}
+        </h2>
+      )
+    }
+    <div
+      class:list={[
+        "prose prose-lg max-w-none text-text prose-headings:font-heading prose-headings:text-text prose-a:text-primary prose-strong:text-text",
+        title && "mt-8",
+      ]}
+    >
+      <slot />
+    </div>
+  </div>
+</section>

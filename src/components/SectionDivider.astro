@@ -1,0 +1,88 @@
+---
+/*
+  SECTION DIVIDER
+  Decorative SVG shape placed between two sections to create a visual
+  edge transition (torn paper, wave, angle, curve, zigzag, etc.).
+  
+  Place this BETWEEN two sections. The `color` prop should match the
+  background color of the section BELOW (the one it transitions into).
+  
+  Usage:
+    <SomeSection />
+    <SectionDivider type="torn" color="bg-primary-dark" />
+    <NextSection class="bg-primary-dark" />
+  
+  Props:
+  - type: "torn" | "wave" | "angle" | "curve" | "zigzag" | "rough"
+  - color: the Tailwind bg class of the NEXT section (e.g. "bg-primary-dark")
+  - flip: if true, flips the divider vertically (use at top of a section)
+  - height: pixel height of the divider (default 60–80 depending on type)
+*/
+
+interface Props {
+  type?: "torn" | "wave" | "angle" | "curve" | "zigzag" | "rough";
+  color?: string;
+  flip?: boolean;
+  height?: number;
+}
+
+const {
+  type = "wave",
+  color = "bg-surface",
+  flip = false,
+  height,
+} = Astro.props;
+
+const defaultHeights: Record<string, number> = {
+  torn: 70,
+  wave: 60,
+  angle: 50,
+  curve: 80,
+  zigzag: 40,
+  rough: 65,
+};
+
+const h = height ?? defaultHeights[type] ?? 60;
+---
+
+<div
+  class:list={["w-full leading-[0] overflow-hidden", flip && "rotate-180"]}
+  style={`height:${h}px; margin-top:-1px; margin-bottom:-1px;`}
+  aria-hidden="true"
+>
+  {type === "wave" && (
+    <svg class:list={["w-full h-full", color]} viewBox="0 0 1440 120" preserveAspectRatio="none" fill="currentColor">
+      <path d="M0,64 C360,120 720,0 1080,64 C1260,96 1380,80 1440,64 L1440,120 L0,120 Z" />
+    </svg>
+  )}
+
+  {type === "torn" && (
+    <svg class:list={["w-full h-full", color]} viewBox="0 0 1440 120" preserveAspectRatio="none" fill="currentColor">
+      <path d="M0,52 L40,58 L80,48 L120,62 L160,44 L200,56 L240,40 L280,60 L320,46 L360,54 L400,42 L440,58 L480,38 L520,52 L560,44 L600,60 L640,36 L680,56 L720,48 L760,62 L800,40 L840,54 L880,46 L920,58 L960,42 L1000,56 L1040,38 L1080,52 L1120,44 L1160,60 L1200,48 L1240,54 L1280,42 L1320,58 L1360,46 L1400,52 L1440,48 L1440,120 L0,120 Z" />
+    </svg>
+  )}
+
+  {type === "angle" && (
+    <svg class:list={["w-full h-full", color]} viewBox="0 0 1440 120" preserveAspectRatio="none" fill="currentColor">
+      <polygon points="0,120 1440,0 1440,120" />
+    </svg>
+  )}
+
+  {type === "curve" && (
+    <svg class:list={["w-full h-full", color]} viewBox="0 0 1440 120" preserveAspectRatio="none" fill="currentColor">
+      <path d="M0,120 Q720,-40 1440,120 Z" />
+    </svg>
+  )}
+
+  {type === "zigzag" && (
+    <svg class:list={["w-full h-full", color]} viewBox="0 0 1440 120" preserveAspectRatio="none" fill="currentColor">
+      <path d="M0,60 L72,20 L144,60 L216,20 L288,60 L360,20 L432,60 L504,20 L576,60 L648,20 L720,60 L792,20 L864,60 L936,20 L1008,60 L1080,20 L1152,60 L1224,20 L1296,60 L1368,20 L1440,60 L1440,120 L0,120 Z" />
+    </svg>
+  )}
+
+  {type === "rough" && (
+    <svg class:list={["w-full h-full", color]} viewBox="0 0 1440 120" preserveAspectRatio="none" fill="currentColor">
+      <path d="M0,56 C48,62 72,38 120,48 C168,58 192,34 240,44 C288,54 336,30 384,42 C432,54 456,36 504,46 C552,56 600,28 648,40 C696,52 720,32 768,44 C816,56 864,26 912,38 C960,50 984,34 1032,46 C1080,58 1128,30 1176,42 C1224,54 1248,36 1296,44 C1344,52 1392,38 1440,48 L1440,120 L0,120 Z" />
+    </svg>
+  )}
+</div>

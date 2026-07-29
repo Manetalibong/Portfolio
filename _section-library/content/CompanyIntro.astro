@@ -1,0 +1,154 @@
+---
+/*
+  COMPANY INTRO
+  Bold homepage section introducing the company. Two-column layout
+  with decorative background patterns for visual interest.
+  
+  Left: eyebrow, large headline, description paragraph, checklist
+  bullets with colored checkmarks, and a CTA button.
+  Right: large image — works best with a transparent-background PNG
+  cutout of a person/team member, but also works fine with a
+  regular photo in a styled container.
+  
+  Has decorative dot and geometric patterns in the background
+  to add visual texture. Feels premium and unique — not template-y.
+  
+  Props:
+  - eyebrow, headline, description: text content
+  - bullets: array of checklist strings
+  - ctaLabel, ctaHref, ctaIcon: CTA button (optional `Icon.astro` name)
+  - imageSrc, imageAlt: right-side image
+  - isCutout: if true, image renders without a container (for transparent PNGs)
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+import Icon from "../../src/components/Icon.astro";
+
+interface Props {
+  eyebrow?: string;
+  headline?: string;
+  description?: string;
+  bullets?: string[];
+  ctaLabel?: string;
+  ctaHref?: string;
+  ctaIcon?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  isCutout?: boolean;
+}
+
+const {
+  eyebrow = `${siteConfig.businessName} in ${siteConfig.serviceArea}`,
+  headline = `When In Need, Call Your Local Experts!`,
+  description = `From routine maintenance to complex repairs and everything in between, ${siteConfig.businessName} is your one-stop shop for all your needs. We're proud to have served the area for over a decade and continually strive to keep our business on the cutting edge. We're fully licensed, bonded, and insured, and our commitment to customer satisfaction ensures a service that goes beyond expectations.`,
+  bullets = [
+    "Comprehensive Service Solutions",
+    "Free Inspection With Every Visit",
+    "Exceptional Customer Experience",
+    "Satisfaction Guaranteed on Every Job",
+  ],
+  ctaLabel = "Get A Fast Quote",
+  ctaHref = "/contact",
+  ctaIcon = "zap",
+  imageSrc = "/images/about-team.jpg",
+  imageAlt = siteConfig.businessName + " professional",
+  isCutout = false,
+} = Astro.props;
+---
+
+<section class="relative py-16 sm:py-20 bg-surface overflow-hidden">
+  <!-- Decorative dots pattern (left side) -->
+  <div class="absolute left-0 top-1/4 opacity-[0.06] pointer-events-none" aria-hidden="true">
+    <svg width="200" height="300" viewBox="0 0 200 300">
+      {Array.from({ length: 15 }).map((_, row) =>
+        Array.from({ length: 10 }).map((_, col) => (
+          <circle cx={col * 20 + 10} cy={row * 20 + 10} r="2" fill="currentColor" class="text-primary" />
+        ))
+      )}
+    </svg>
+  </div>
+
+  <!-- Decorative geometric pattern (right side) -->
+  <div class="absolute right-0 top-0 bottom-0 w-1/3 opacity-[0.04] pointer-events-none" aria-hidden="true">
+    <svg class="h-full w-full" viewBox="0 0 400 800" preserveAspectRatio="xMaxYMid slice">
+      <path d="M200 0 L400 100 L400 300 L200 400 L0 300 L0 100 Z" fill="none" stroke="currentColor" stroke-width="1" class="text-primary" />
+      <path d="M200 200 L400 300 L400 500 L200 600 L0 500 L0 300 Z" fill="none" stroke="currentColor" stroke-width="1" class="text-primary" />
+      <path d="M200 400 L400 500 L400 700 L200 800 L0 700 L0 500 Z" fill="none" stroke="currentColor" stroke-width="1" class="text-primary" />
+      <line x1="0" y1="0" x2="400" y2="400" stroke="currentColor" stroke-width="0.5" class="text-secondary" />
+      <line x1="400" y1="0" x2="0" y2="400" stroke="currentColor" stroke-width="0.5" class="text-secondary" />
+      <line x1="0" y1="400" x2="400" y2="800" stroke="currentColor" stroke-width="0.5" class="text-secondary" />
+    </svg>
+  </div>
+
+  <!-- Decorative accent bar (top-left corner) -->
+  <div class="absolute left-0 top-0 w-1 h-32 bg-secondary" aria-hidden="true"></div>
+
+  <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <!-- Left: Content -->
+      <div>
+        {eyebrow && (
+          <p class="text-sm sm:text-base font-bold uppercase tracking-wider text-secondary mb-3">
+            {eyebrow}
+          </p>
+        )}
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-text leading-tight uppercase italic">
+          {headline}
+        </h2>
+        {description && (
+          <p class="mt-5 text-text-muted leading-relaxed">
+            {description}
+          </p>
+        )}
+
+        <!-- Checklist -->
+        {bullets.length > 0 && (
+          <ul class="mt-6 space-y-3">
+            {bullets.map((bullet) => (
+              <li class="flex items-start gap-3">
+                <svg class="h-5 w-5 mt-0.5 shrink-0 text-accent" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                </svg>
+                <span class="font-semibold text-text">{bullet}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <!-- CTA -->
+        <div class="mt-8">
+          <a
+            href={ctaHref}
+            class="inline-flex items-center gap-2 rounded-lg bg-secondary px-7 py-3.5 text-sm font-bold text-white uppercase tracking-wider shadow-lg hover:bg-secondary-light transition-colors"
+          >
+            {ctaIcon && <Icon name={ctaIcon} class="h-4 w-4" />}
+            {ctaLabel}
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: Image -->
+      <div class="relative flex justify-center lg:justify-end">
+        {isCutout ? (
+          <img
+            src={imageSrc}
+            alt={imageAlt}
+            class="relative z-10 max-h-[500px] w-auto object-contain drop-shadow-2xl"
+            loading="lazy"
+          />
+        ) : (
+          <div class="relative w-full max-w-md lg:max-w-none">
+            <div class="absolute -inset-4 bg-secondary/10 rounded-2xl rotate-2" aria-hidden="true"></div>
+            <img
+              src={imageSrc}
+              alt={imageAlt}
+              class="relative z-10 w-full rounded-xl shadow-2xl object-cover aspect-[4/5]"
+              loading="lazy"
+            />
+            <!-- Decorative accent corner -->
+            <div class="absolute -bottom-3 -right-3 w-24 h-24 border-2 border-secondary/30 rounded-xl z-0" aria-hidden="true"></div>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

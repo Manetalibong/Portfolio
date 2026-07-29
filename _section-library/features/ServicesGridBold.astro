@@ -1,0 +1,140 @@
+---
+/*
+  SERVICES GRID — BOLD
+  Dark primary-colored background with a two-tone heading (line 1 white,
+  line 2 in secondary color). Below: a 4-column grid of cards, each with
+  an icon area at the top, title, description, and a colored link + arrow.
+  
+  Cards have a semi-transparent dark background with a subtle lighter
+  header zone for the icon. No images needed — icons carry the visuals.
+  
+  Great for homepage "How can we help?" or main services overview.
+  Icons use `Icon.astro` by name.
+  
+  Props:
+  - headingLine1, headingLine2: two-line heading (line 2 gets secondary color)
+  - services: array of { icon, title, description, href, linkLabel }
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+import Icon from "../../src/components/Icon.astro";
+
+interface ServiceItem {
+  icon?: string;
+  title: string;
+  description: string;
+  href: string;
+  linkLabel?: string;
+}
+
+interface Props {
+  headingLine1?: string;
+  headingLine2?: string;
+  services?: ServiceItem[];
+}
+
+const defaultServices: ServiceItem[] = [
+  {
+    icon: "wrench",
+    title: "Emergency Repairs",
+    description: "Give your home an instant fix with our reliable emergency repair services. Available 24/7 for your peace of mind.",
+    href: "/services",
+    linkLabel: "Emergency Repairs",
+  },
+  {
+    icon: "settings",
+    title: "New Installations",
+    description: "For both new and existing properties, our installation services offer a complete solution tailored to your needs.",
+    href: "/services",
+    linkLabel: "New Installations",
+  },
+  {
+    icon: "tool",
+    title: "System Repairs",
+    description: "If you need repairs, our local team is here to help. We offer a wide range of repair services for every situation.",
+    href: "/services",
+    linkLabel: "System Repairs",
+  },
+  {
+    icon: "sun",
+    title: "Upgrades",
+    description: "Looking to upgrade your home with modern, efficient systems? Our team will work with you to find the perfect solution.",
+    href: "/services",
+    linkLabel: "Upgrades",
+  },
+  {
+    icon: "bolt",
+    title: "Inspections",
+    description: "Make sure everything is up to code with our thorough inspection services. Professional, prompt, and trusted.",
+    href: "/services",
+    linkLabel: "Inspections",
+  },
+  {
+    icon: "hammer",
+    title: "Remodeling",
+    description: "Allow our team to provide you with reliable remodeling support. Premium products and outstanding craftsmanship.",
+    href: "/services",
+    linkLabel: "Remodeling",
+  },
+  {
+    icon: "leaf",
+    title: "Maintenance",
+    description: "Looking for a way to enhance and protect your property? Our maintenance service is tailored to your needs.",
+    href: "/services",
+    linkLabel: "Maintenance",
+  },
+  {
+    icon: "shield-check",
+    title: "Protection Plans",
+    description: "Don't put your home at risk. Trust our team to install high quality protection, giving you total peace of mind.",
+    href: "/services",
+    linkLabel: "Protection Plans",
+  },
+];
+
+const {
+  headingLine1 = "We're Glad You're Here.",
+  headingLine2 = "How Can We Help?",
+  services = defaultServices,
+} = Astro.props;
+---
+
+<section class="py-16 sm:py-20 bg-primary-dark">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Two-tone heading -->
+    <div class="text-center mb-12 sm:mb-16">
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold uppercase leading-tight">
+        <span class="text-white block">{headingLine1}</span>
+        <span class="text-secondary block">{headingLine2}</span>
+      </h2>
+    </div>
+
+    <!-- Cards grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+      {services.map((service) => (
+        <div class="group flex flex-col rounded-xl bg-white/[0.06] border border-white/[0.08] overflow-hidden transition-colors hover:bg-white/[0.1]">
+          <!-- Icon header area -->
+          <div class="px-5 pt-5 pb-3">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-white/[0.08] mb-1">
+              <Icon name={service.icon || "check-circle"} class="h-7 w-7 text-secondary" />
+            </div>
+          </div>
+
+          <!-- Content -->
+          <div class="px-5 pb-5 flex flex-col flex-1">
+            <h3 class="text-base font-bold text-white mb-2">{service.title}</h3>
+            <p class="text-sm text-white/55 leading-relaxed flex-1 mb-4">{service.description}</p>
+            <a
+              href={service.href}
+              class="inline-flex items-center gap-1.5 text-sm font-bold text-secondary hover:text-secondary-light transition-colors"
+            >
+              {service.linkLabel || service.title}
+              <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

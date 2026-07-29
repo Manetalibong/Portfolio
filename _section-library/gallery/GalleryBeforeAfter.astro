@@ -1,0 +1,97 @@
+---
+/*
+ * Before/after gallery: each row is a titled pair with two images side-by-side and clear labels.
+ * Stays two columns on mobile with tighter spacing. Ideal for restoration, cleaning, or remodel proof.
+ */
+import { siteConfig } from "../../src/config/siteConfig";
+
+export interface BeforeAfterPair {
+  before: string;
+  after: string;
+  title: string;
+}
+
+export interface Props {
+  heading?: string;
+  pairs?: BeforeAfterPair[];
+}
+
+const defaultPairs: BeforeAfterPair[] = [
+  {
+    title: "Kitchen update",
+    before: "/images/portfolio/before-1.jpg",
+    after: "/images/portfolio/after-1.jpg",
+  },
+  {
+    title: "Bath refresh",
+    before: "/images/portfolio/before-2.jpg",
+    after: "/images/portfolio/after-2.jpg",
+  },
+  {
+    title: "Exterior restoration",
+    before: "/images/portfolio/before-3.jpg",
+    after: "/images/portfolio/after-3.jpg",
+  },
+];
+
+const { heading = "Before & After", pairs = defaultPairs } = Astro.props;
+---
+
+<section class="bg-surface-alt px-4 py-14 sm:px-6 lg:px-8 lg:py-20" aria-labelledby="gallery-ba-heading">
+  <div class="mx-auto max-w-6xl">
+    <div class="text-center">
+      <p class="text-sm font-semibold uppercase tracking-wide text-primary">{siteConfig.businessName}</p>
+      <h2
+        id="gallery-ba-heading"
+        class="font-heading mt-2 text-3xl font-bold tracking-tight text-text sm:text-4xl"
+      >
+        {heading}
+      </h2>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-text-muted">
+        See the difference professional work makes—real projects from real homes.
+      </p>
+    </div>
+
+    <div class="mt-12 grid gap-10 sm:gap-12">
+      {
+        pairs.map((pair) => (
+          <article class="rounded-2xl border border-border bg-surface p-3 shadow-sm sm:p-4">
+            <h3 class="mb-3 text-center text-base font-semibold text-text sm:mb-4 sm:text-lg">
+              {pair.title}
+            </h3>
+            <div class="grid grid-cols-2 gap-2 sm:gap-4">
+              <div class="relative overflow-hidden rounded-lg ring-1 ring-border">
+                <span class="absolute left-2 top-2 rounded bg-text/80 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-surface sm:left-3 sm:top-3 sm:px-2.5 sm:text-xs">
+                  Before
+                </span>
+                <img
+                  src={pair.before}
+                  alt={`${pair.title} — before`}
+                  class="aspect-[4/3] w-full object-cover"
+                  width="800"
+                  height="600"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="relative overflow-hidden rounded-lg ring-1 ring-border">
+                <span class="absolute left-2 top-2 rounded bg-primary px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-surface sm:left-3 sm:top-3 sm:px-2.5 sm:text-xs">
+                  After
+                </span>
+                <img
+                  src={pair.after}
+                  alt={`${pair.title} — after`}
+                  class="aspect-[4/3] w-full object-cover"
+                  width="800"
+                  height="600"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

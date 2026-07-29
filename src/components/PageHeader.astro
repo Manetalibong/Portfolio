@@ -1,0 +1,62 @@
+---
+/*
+  PAGE HEADER BANNER
+  Used at the top of interior pages (About, Contact, Services, etc.).
+  Two styles:
+  - With backgroundImage: image behind with dark overlay
+  - Without: solid primary color background
+  
+  Supports optional breadcrumb navigation.
+*/
+import { siteConfig } from "../config/siteConfig";
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  backgroundImage?: string;
+  breadcrumbs?: { label: string; href?: string }[];
+}
+
+const {
+  title,
+  subtitle,
+  backgroundImage,
+  breadcrumbs,
+} = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-primary py-16 sm:py-20">
+  {backgroundImage && (
+    <div class="absolute inset-0 z-0">
+      <img
+        src={backgroundImage}
+        alt=""
+        class="h-full w-full object-cover opacity-20"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div class="absolute inset-0 bg-primary/80"></div>
+    </div>
+  )}
+
+  <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+    {breadcrumbs && breadcrumbs.length > 0 && (
+      <nav class="mb-4 text-sm text-white/60">
+        {breadcrumbs.map((crumb, i) => (
+          <>
+            {i > 0 && <span class="mx-2">/</span>}
+            {crumb.href ? (
+              <a href={crumb.href} class="hover:text-white transition-colors">{crumb.label}</a>
+            ) : (
+              <span class="text-white">{crumb.label}</span>
+            )}
+          </>
+        ))}
+      </nav>
+    )}
+    <h1 class="text-4xl sm:text-5xl font-extrabold text-white italic">{title}</h1>
+    {subtitle && (
+      <p class="mt-4 text-lg text-white/80 max-w-2xl mx-auto">{subtitle}</p>
+    )}
+  </div>
+</section>

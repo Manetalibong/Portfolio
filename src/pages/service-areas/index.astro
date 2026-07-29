@@ -1,0 +1,41 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import AreaCard from "../../components/AreaCard.astro";
+import CTABanner from "../../components/CTABanner.astro";
+import { siteConfig } from "../../config/siteConfig";
+import { getCollection } from "astro:content";
+
+const serviceAreas = await getCollection("serviceAreas");
+---
+
+<BaseLayout
+  title={`Service Areas | ${siteConfig.businessName}`}
+  description={`${siteConfig.businessName} proudly serves ${siteConfig.serviceArea} and surrounding communities. Find your area and see the services we offer near you.`}
+>
+  <section class="bg-primary py-16 sm:py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl sm:text-5xl font-bold text-white">Service Areas</h1>
+      <p class="mt-4 text-lg text-white/80 max-w-2xl mx-auto">
+        Proudly serving {siteConfig.serviceArea} and the surrounding communities.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-16 sm:py-20 bg-surface">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {serviceAreas.map((area) => (
+          <AreaCard
+            city={area.data.city}
+            state={area.data.state}
+            slug={area.id}
+            description={area.data.description}
+            image={area.data.image}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTABanner />
+</BaseLayout>

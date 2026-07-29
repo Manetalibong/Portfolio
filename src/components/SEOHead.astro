@@ -1,0 +1,85 @@
+---
+import { siteConfig } from "../config/siteConfig";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonicalUrl?: string;
+  type?: "website" | "article";
+  noindex?: boolean;
+}
+
+const {
+  title = `${siteConfig.businessName} | ${siteConfig.tagline}`,
+  description = `${siteConfig.businessName} provides professional services in ${siteConfig.serviceArea}. Call ${siteConfig.phone} for a free estimate.`,
+  image = siteConfig.logo,
+  type = "website",
+  noindex = false,
+} = Astro.props;
+
+/** Canonical: site + path, trailing slash, no query/hash (UTMs must not create duplicate canonicals). */
+function buildCanonical(override?: string): string {
+  if (override) {
+    const u = new URL(override);
+    let path = u.pathname;
+    if (!path.endsWith("/")) path += "/";
+    return `${u.origin}${path}`;
+  }
+
+  const base = siteConfig.domain.replace(/\/$/, "");
+  let path = Astro.url.pathname;
+  if (!path.endsWith("/")) path += "/";
+  return `${base}${path}`;
+}
+
+const canonicalUrl = buildCanonical(Astro.props.canonicalUrl);
+
+const fullImageUrl = image.startsWith("http")
+  ? image
+  : new URL(image, siteConfig.domain).toString();
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+<meta name="generator" content={Astro.generator} />
+
+<meta
+  name="robots"
+  content={noindex
+    ? "noindex, nofollow"
+    : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"}
+/>
+
+<title>{title}</title>
+<meta name="description" content={description} />
+{!noindex && <link rel="canonical" href={canonicalUrl} />}
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={fullImageUrl} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:site_name" content={siteConfig.businessName} />
+<meta property="og:locale" content="en_US" />
+
+<meta name="twitter:card" content="summary_large_image" />
+
+<!-- Geo / Local -->
+<meta name="geo.region" content={`US-${siteConfig.address.state}`} />
+<meta name="geo.placename" content={siteConfig.address.city} />
+
+{siteConfig.gtmId && (
+  <script
+    set:html={`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','${siteConfig.gtmId}');`}
+  />
+)}

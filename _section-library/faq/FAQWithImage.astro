@@ -1,0 +1,181 @@
+---
+/*
+  FAQ — WITH IMAGE
+  Three-column layout: tall image on the far left, eyebrow + heading
+  in the middle-left, and an accordion FAQ on the right. The first
+  item starts expanded. Click a row to toggle — the active row shows
+  the answer text and flips the arrow icon.
+
+  Light/cream background. Clean, editorial.
+
+  Props:
+  - eyebrow, heading: left-side header
+  - imageSrc, imageAlt: tall image on the left
+  - items: array of { question, answer }
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  items?: FaqItem[];
+}
+
+const {
+  eyebrow = "FAQ's",
+  heading = "Frequently Asked Questions",
+  imageSrc = "/images/Preview/about.jpg",
+  imageAlt = `${siteConfig.businessName}`,
+  items = [
+    {
+      question: `What services does ${siteConfig.businessName} provide?`,
+      answer: `We offer a full range of services including repairs, installations, maintenance plans, and emergency service. Contact us for a detailed list tailored to your property's needs.`,
+    },
+    {
+      question: "At what point should I call a professional?",
+      answer: "If you notice anything unusual — strange noises, leaks, reduced performance, or safety concerns — it's best to call us right away. Early intervention prevents costly damage.",
+    },
+    {
+      question: "How do I find the right contractor for my project?",
+      answer: "Look for licensed, insured professionals with strong reviews and transparent pricing. We're happy to provide references and credentials upon request.",
+    },
+    {
+      question: "Does hiring a professional add substantial cost?",
+      answer: "Professional work actually saves money long-term by preventing callbacks, code violations, and premature failures. We offer upfront pricing with no hidden fees.",
+    },
+    {
+      question: "Do you handle smaller jobs and quick fixes?",
+      answer: "Absolutely. No job is too small. We bring the same level of care and professionalism to a minor repair as we do to a major installation.",
+    },
+  ],
+} = Astro.props;
+
+const faqId = `faq-image-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<section class="bg-surface-alt py-16 sm:py-24 overflow-hidden">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] xl:grid-cols-[320px_1fr] gap-10 lg:gap-14">
+      {/* Left column: image + heading */}
+      <div class="flex flex-col gap-8">
+        {/* Image */}
+        <div class="rounded-2xl overflow-hidden shadow-lg">
+          <img
+            src={imageSrc}
+            alt={imageAlt}
+            class="w-full aspect-[3/4] object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+
+        {/* Heading — below image on mobile, beside on desktop */}
+        <div>
+          {eyebrow && (
+            <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">{eyebrow}</p>
+          )}
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-text leading-tight">{heading}</h2>
+        </div>
+      </div>
+
+      {/* Right column: accordion */}
+      <div class="flex flex-col justify-center" data-faq-group={faqId}>
+        {items.map((item, i) => (
+          <div
+            class="faq-item border-b border-border"
+            data-faq-index={i}
+          >
+            <button
+              type="button"
+              class="faq-trigger flex items-center justify-between w-full py-5 text-left gap-4 group"
+              aria-expanded={i === 0 ? "true" : "false"}
+            >
+              <span class:list={[
+                "text-base font-bold leading-snug transition-colors",
+                i === 0 ? "text-secondary" : "text-text group-hover:text-secondary",
+              ]}>
+                {item.question}
+              </span>
+              <span class="shrink-0 text-text-muted">
+                <svg
+                  class:list={[
+                    "faq-arrow h-4 w-4 transition-transform duration-300",
+                    i === 0 && "rotate-90",
+                  ]}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="7" y1="17" x2="17" y2="7" />
+                  <polyline points="7 7 17 7 17 17" />
+                </svg>
+              </span>
+            </button>
+            <div
+              class:list={[
+                "faq-content overflow-hidden transition-all duration-300",
+                i === 0 ? "max-h-96 pb-5" : "max-h-0",
+              ]}
+            >
+              <p class="text-sm text-text-muted leading-relaxed pr-8">{item.answer}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll("[data-faq-group]").forEach((group) => {
+    const items = group.querySelectorAll(".faq-item");
+
+    items.forEach((item) => {
+      const trigger = item.querySelector(".faq-trigger");
+      if (!trigger) return;
+
+      trigger.addEventListener("click", () => {
+        const isOpen = trigger.getAttribute("aria-expanded") === "true";
+
+        items.forEach((other) => {
+          const otherTrigger = other.querySelector(".faq-trigger");
+          const otherContent = other.querySelector(".faq-content") as HTMLElement;
+          const otherArrow = other.querySelector(".faq-arrow");
+          const otherLabel = otherTrigger?.querySelector("span:first-child");
+          if (!otherTrigger || !otherContent || !otherArrow) return;
+
+          otherTrigger.setAttribute("aria-expanded", "false");
+          otherContent.style.maxHeight = "0";
+          otherContent.classList.remove("pb-5");
+          otherArrow.classList.remove("rotate-90");
+          otherLabel?.classList.remove("text-secondary");
+          otherLabel?.classList.add("text-text");
+        });
+
+        if (!isOpen) {
+          const content = item.querySelector(".faq-content") as HTMLElement;
+          const arrow = item.querySelector(".faq-arrow");
+          const label = trigger.querySelector("span:first-child");
+          if (!content || !arrow) return;
+
+          trigger.setAttribute("aria-expanded", "true");
+          content.style.maxHeight = content.scrollHeight + 20 + "px";
+          content.classList.add("pb-5");
+          arrow.classList.add("rotate-90");
+          label?.classList.remove("text-text");
+          label?.classList.add("text-secondary");
+        }
+      });
+    });
+  });
+</script>

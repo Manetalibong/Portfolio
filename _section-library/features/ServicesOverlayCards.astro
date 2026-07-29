@@ -1,0 +1,147 @@
+---
+/*
+  SERVICES — OVERLAY CARDS
+  Full-width background image section with a ragged/grunge SVG cutout
+  along the top edge. Eyebrow + bold heading overlaid on the left.
+  Optional video play button on the right. A row of image-based
+  service cards sit at the bottom, slightly overlapping the dark
+  background and the section below.
+
+  The SVG cutout type can be chosen from the SectionDivider shapes
+  (torn, rough, wave, zigzag, etc.) to match the site's style.
+
+  Props:
+  - eyebrow, heading: text overlaid on the background
+  - bgImage: full-width background image URL
+  - videoUrl: optional video link (shows play button)
+  - cutoutType: SVG divider shape for the top edge
+  - services: array of { image, title, href? }
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+
+type CutoutType = "torn" | "rough" | "wave" | "zigzag";
+
+interface ServiceCard {
+  image: string;
+  title: string;
+  href?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  bgImage?: string;
+  videoUrl?: string;
+  cutoutType?: CutoutType;
+  services?: ServiceCard[];
+}
+
+const {
+  eyebrow = "Our Services",
+  heading = "Expert Solutions\nYou Can Trust",
+  bgImage = "/images/Preview/hero.jpg",
+  videoUrl = "",
+  cutoutType = "torn",
+  services = [
+    { image: "/images/Preview/service1.jpg", title: "Residential", href: "#" },
+    { image: "/images/Preview/service2.jpg", title: "Commercial", href: "#" },
+    { image: "/images/Preview/service3.jpg", title: "Emergency", href: "#" },
+    { image: "/images/Preview/about.jpg", title: "Inspections", href: "#" },
+    { image: "/images/Preview/hero.jpg", title: "Maintenance", href: "#" },
+  ],
+} = Astro.props;
+
+const headingLines = heading.split("\n");
+
+const cutoutPaths: Record<CutoutType, string> = {
+  torn: "M0,52 L40,58 L80,48 L120,62 L160,44 L200,56 L240,40 L280,60 L320,46 L360,54 L400,42 L440,58 L480,38 L520,52 L560,44 L600,60 L640,36 L680,56 L720,48 L760,62 L800,40 L840,54 L880,46 L920,58 L960,42 L1000,56 L1040,38 L1080,52 L1120,44 L1160,60 L1200,48 L1240,54 L1280,42 L1320,58 L1360,46 L1400,52 L1440,48 L1440,0 L0,0 Z",
+  rough: "M0,56 C48,62 72,38 120,48 C168,58 192,34 240,44 C288,54 336,30 384,42 C432,54 456,36 504,46 C552,56 600,28 648,40 C696,52 720,32 768,44 C816,56 864,26 912,38 C960,50 984,34 1032,46 C1080,58 1128,30 1176,42 C1224,54 1248,36 1296,44 C1344,52 1392,38 1440,48 L1440,0 L0,0 Z",
+  wave: "M0,64 C360,120 720,0 1080,64 C1260,96 1380,80 1440,64 L1440,0 L0,0 Z",
+  zigzag: "M0,60 L72,20 L144,60 L216,20 L288,60 L360,20 L432,60 L504,20 L576,60 L648,20 L720,60 L792,20 L864,60 L936,20 L1008,60 L1080,20 L1152,60 L1224,20 L1296,60 L1368,20 L1440,60 L1440,0 L0,0 Z",
+};
+---
+
+<section class="relative">
+  {/* Background image with dark overlay */}
+  <div class="relative min-h-[420px] sm:min-h-[480px] lg:min-h-[520px] overflow-hidden">
+    <img
+      src={bgImage}
+      alt=""
+      class="absolute inset-0 w-full h-full object-cover"
+      loading="lazy"
+      decoding="async"
+    />
+    <div class="absolute inset-0 bg-gray-950/70" aria-hidden="true"></div>
+
+    {/* SVG cutout at the top */}
+    <div class="absolute top-0 left-0 right-0 z-10 leading-[0]" aria-hidden="true">
+      <svg
+        class="w-full text-surface"
+        viewBox="0 0 1440 80"
+        preserveAspectRatio="none"
+        fill="currentColor"
+        style="height:70px;"
+      >
+        <path d={cutoutPaths[cutoutType]} />
+      </svg>
+    </div>
+
+    {/* Content overlay */}
+    <div class="relative z-20 flex flex-col justify-center min-h-[420px] sm:min-h-[480px] lg:min-h-[520px] mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-32 sm:pb-36">
+      <div class="max-w-xl">
+        {eyebrow && (
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">{eyebrow}</p>
+        )}
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight">
+          {headingLines.map((line) => (
+            <span class="block">{line}</span>
+          ))}
+        </h2>
+      </div>
+
+      {/* Optional video play button */}
+      {videoUrl && (
+        <a
+          href={videoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="absolute right-8 sm:right-12 lg:right-20 top-1/2 -translate-y-1/2 flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 hover:bg-white/30 transition-all group"
+          aria-label="Play video"
+        >
+          <svg class="h-7 w-7 sm:h-8 sm:w-8 text-white ml-1 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </a>
+      )}
+    </div>
+  </div>
+
+  {/* Service cards — overlap the bottom of the bg image */}
+  <div class="relative z-30 -mt-20 sm:-mt-24 pb-8 sm:pb-12">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+        {services.map((service) => {
+          const Tag = service.href ? "a" : "div";
+          return (
+            <Tag
+              href={service.href || undefined}
+              class="group relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+            >
+              <img
+                src={service.image}
+                alt={service.title}
+                class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-gray-950/80 via-gray-950/20 to-transparent" aria-hidden="true"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
+                <h3 class="text-sm sm:text-base font-bold text-white">{service.title}</h3>
+              </div>
+            </Tag>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+</section>

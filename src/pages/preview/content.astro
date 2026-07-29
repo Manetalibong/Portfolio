@@ -1,0 +1,306 @@
+---
+import PreviewLayout from "../../layouts/PreviewLayout.astro";
+import ContentSplit from "../../../_section-library/content/ContentSplit.astro";
+import ContentFullWidth from "../../../_section-library/content/ContentFullWidth.astro";
+import ServiceAreaMap from "../../../_section-library/content/ServiceAreaMap.astro";
+import CompanyIntro from "../../../_section-library/content/CompanyIntro.astro";
+import ContentBeforeAfter from "../../../_section-library/content/ContentBeforeAfter.astro";
+import ProcessSteps from "../../../_section-library/content/ProcessSteps.astro";
+import ProcessStepsCards from "../../../_section-library/content/ProcessStepsCards.astro";
+import ServiceAreaMapFull from "../../../_section-library/content/ServiceAreaMapFull.astro";
+import ContentShowcase from "../../../_section-library/content/ContentShowcase.astro";
+import ValuesPillars from "../../../_section-library/content/ValuesPillars.astro";
+import ContentMosaicStats from "../../../_section-library/content/ContentMosaicStats.astro";
+import ContentTiltedImage from "../../../_section-library/content/ContentTiltedImage.astro";
+import ContentFeatured from "../../../_section-library/content/ContentFeatured.astro";
+import WhyChooseUs from "../../../_section-library/content/WhyChooseUs.astro";
+import AboutDecorative from "../../../_section-library/content/AboutDecorative.astro";
+import WhyChooseUsCenter from "../../../_section-library/content/WhyChooseUsCenter.astro";
+
+const img = (n: string) => `/images/Preview/${n}`;
+---
+
+<PreviewLayout title="Content">
+  <div class="space-y-16 py-10">
+    <!-- ContentSplit (image right) -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/content/ContentSplit.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ContentSplit — Image Right</h2>
+        <p class="text-gray-500 text-sm">Two-column: text + bullets on left, image on right.</p>
+      </div>
+      <ContentSplit imageSrc={img("hvac sample (8).jpg")} imagePosition="right" />
+    </div>
+
+    <!-- ContentSplit (image left) -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/content/ContentSplit.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ContentSplit — Image Left</h2>
+        <p class="text-gray-500 text-sm">Same component, flipped: image on left, text on right.</p>
+      </div>
+      <ContentSplit
+        imageSrc={img("hvac sample (9).jpg")}
+        imagePosition="left"
+        eyebrow="Our story"
+        heading="Serving the community for 20+ years"
+        paragraphs={[
+          "We started as a small family business and grew into one of the most trusted names in the industry.",
+          "Our commitment to quality work, honest pricing, and customer satisfaction has never changed.",
+        ]}
+        bullets={["Family-owned & operated", "A+ BBB rating", "Thousands of happy customers"]}
+      />
+    </div>
+
+    <!-- ContentFullWidth -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/content/ContentFullWidth.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ContentFullWidth</h2>
+        <p class="text-gray-500 text-sm">Full-width prose section. Uses a slot for freeform HTML/markdown content.</p>
+      </div>
+      <ContentFullWidth title="Our Commitment to Excellence">
+        <p>At Acme Plumbing, we believe every homeowner deserves reliable, professional service at a fair price. That's why we've invested in the best training, tools, and technology to deliver results that last.</p>
+        <p>Whether it's a routine maintenance visit or a complete system installation, our team treats every job with the same attention to detail. We show up on time, keep your property clean, and stand behind our work with industry-leading warranties.</p>
+        <h3>What sets us apart</h3>
+        <ul>
+          <li>Licensed, bonded, and insured professionals</li>
+          <li>Transparent, upfront pricing with no hidden fees</li>
+          <li>24/7 emergency service availability</li>
+          <li>100% satisfaction guarantee on every project</li>
+        </ul>
+      </ContentFullWidth>
+    </div>
+
+    <!-- ServiceAreaMap -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/content/ServiceAreaMap.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ServiceAreaMap</h2>
+        <p class="text-gray-500 text-sm">Linked service area list + Google Maps embed. Areas link to their individual pages. Set googleMapsEmbed in siteConfig to show a real map.</p>
+      </div>
+      <ServiceAreaMap />
+    </div>
+
+    <!-- ServiceAreaMapFull -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/content/ServiceAreaMapFull.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ServiceAreaMapFull</h2>
+        <p class="text-gray-500 text-sm">Full-width map up top with a branded overlay card containing linked service areas, CTA, and optional image. Set googleMapsEmbed in siteConfig to show a real map.</p>
+      </div>
+      <ServiceAreaMapFull />
+    </div>
+
+    <!-- CompanyIntro (with regular photo) -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/content/CompanyIntro.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">CompanyIntro — With Photo</h2>
+        <p class="text-gray-500 text-sm">Bold company intro with checklist, CTA, decorative patterns, and styled photo container. Set isCutout=true for transparent PNGs.</p>
+      </div>
+      <CompanyIntro imageSrc={img("hvac sample (2).jpg")} />
+    </div>
+
+    <!-- ContentBeforeAfter (images left) -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/content/ContentBeforeAfter.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ContentBeforeAfter — Images Left</h2>
+        <p class="text-gray-500 text-sm">Overlapping before/after images with numbered process steps and CTA. Great for showcasing transformations.</p>
+      </div>
+      <ContentBeforeAfter
+        beforeImage={{ src: img("hvac sample (5).jpg"), alt: "Before renovation" }}
+        afterImage={{ src: img("hvac sample (6).jpg"), alt: "After renovation" }}
+      />
+    </div>
+
+    <!-- ContentBeforeAfter (images right) -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/content/ContentBeforeAfter.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ContentBeforeAfter — Images Right</h2>
+        <p class="text-gray-500 text-sm">Same component with imagePosition="right" — flips the layout.</p>
+      </div>
+      <ContentBeforeAfter
+        beforeImage={{ src: img("hvac sample (7).jpg"), alt: "Before restoration" }}
+        afterImage={{ src: img("hvac sample (8).jpg"), alt: "After restoration" }}
+        imagePosition="right"
+        eyebrow="Service Highlight"
+        heading="Modern Home Extension"
+        description="A seamless extension to an existing family home, adding a new living area and additional bedrooms. The project emphasized maintaining architectural consistency and enhancing the home's functionality."
+        steps={[
+          { title: "Initial Consultation", description: "Identified the client's needs and their goals for future growth." },
+          { title: "Design Integration", description: "Ensured the extension matched the original structure seamlessly." },
+          { title: "Construction", description: "Built the extension with high-quality materials and expert craftsmanship." },
+          { title: "Interior Finishing", description: "Integrated the new space with existing interiors for a cohesive result." },
+        ]}
+        ctaLabel="Book an Appointment"
+      />
+    </div>
+
+    <!-- ProcessSteps (3 columns) -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/content/ProcessSteps.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ProcessSteps — 3 Columns</h2>
+        <p class="text-gray-500 text-sm">Centered "How It Works" with icon cards and curved dashed arrows connecting them. Optional CTA.</p>
+      </div>
+      <ProcessSteps ctaLabel="View All Projects" ctaHref="/our-work" />
+    </div>
+
+    <!-- ProcessSteps (4 columns) -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/content/ProcessSteps.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ProcessSteps — 4 Columns</h2>
+        <p class="text-gray-500 text-sm">Same component with columns=4 and a 4-step process.</p>
+      </div>
+      <ProcessSteps
+        columns={4}
+        heading="From Call to Complete"
+        description="Our proven 4-step process ensures every project is handled with care, precision, and total transparency."
+        steps={[
+          { icon: "phone", title: "Free Consultation", description: "Call us or book online. We'll discuss your project and schedule a visit." },
+          { icon: "search", title: "On-Site Assessment", description: "Our team inspects the work area and prepares a detailed, honest estimate." },
+          { icon: "hammer", title: "Expert Execution", description: "We complete the work on time, on budget, with premium materials." },
+          { icon: "thumbs-up", title: "Final Walkthrough", description: "We review everything together to make sure you're 100% satisfied." },
+        ]}
+        ctaLabel="Get Started Today"
+      />
+    </div>
+
+    <!-- ProcessStepsCards -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/content/ProcessStepsCards.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ProcessStepsCards</h2>
+        <p class="text-gray-500 text-sm">Bold dark-background variant with bordered white cards, ribbon step badges, icon circles, and per-card CTAs.</p>
+      </div>
+      <ProcessStepsCards />
+    </div>
+
+    <!-- ContentShowcase (images left) -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/content/ContentShowcase.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ContentShowcase — Images Left</h2>
+        <p class="text-gray-500 text-sm">Two stacked overlapping images with a stat badge, watermark background, and content with bullets + CTA on the right.</p>
+      </div>
+      <ContentShowcase
+        topImage={{ src: img("hvac sample (4).jpg"), alt: "Professional at work" }}
+        bottomImage={{ src: img("hvac sample (5).jpg"), alt: "Completed project" }}
+        watermarkSrc={img("hvac sample (3).jpg")}
+      />
+    </div>
+
+    <!-- ContentShowcase (images right) -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/content/ContentShowcase.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ContentShowcase — Images Right</h2>
+        <p class="text-gray-500 text-sm">Same section with imagePosition="right" and custom stat.</p>
+      </div>
+      <ContentShowcase
+        imagePosition="right"
+        topImage={{ src: img("hvac sample (8).jpg"), alt: "Service in progress" }}
+        bottomImage={{ src: img("hvac sample (9).jpg"), alt: "Finished result" }}
+        eyebrow="Why Choose Us"
+        heading="Trusted By Homeowners Across The Region"
+        description="With decades of combined experience, our team brings unmatched expertise to every project. We're not just service providers — we're your neighbors, committed to keeping your home safe and comfortable."
+        bullets={[
+          "Family-owned and operated since 2005",
+          "Over 10,000 satisfied customers",
+          "A+ rating with the Better Business Bureau",
+          "Fully licensed, bonded, and insured",
+        ]}
+        stat={{ value: "10K+", label: "Happy customers served" }}
+        ctaLabel="Learn Our Story"
+        ctaHref="/about"
+      />
+    </div>
+
+    <!-- ContentMosaicStats -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/content/ContentMosaicStats.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ContentMosaicStats</h2>
+        <p class="text-gray-500 text-sm">4-image mosaic grid left, eyebrow + heading + description + stat counters right. Staggered image heights for editorial feel.</p>
+      </div>
+      <ContentMosaicStats
+        images={[
+          { src: img("hvac sample (4).jpg"), alt: "Service work" },
+          { src: img("hvac sample (5).jpg"), alt: "Team at work" },
+          { src: img("hvac sample (6).jpg"), alt: "Project in progress" },
+          { src: img("hvac sample (7).jpg"), alt: "Completed project" },
+        ]}
+      />
+    </div>
+
+    <!-- ContentTiltedImage -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/content/ContentTiltedImage.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ContentTiltedImage</h2>
+        <p class="text-gray-500 text-sm">Tilted photo with decorative bg card on left, heading + description + CTA + circular stat badges on right.</p>
+      </div>
+      <ContentTiltedImage imageSrc={img("hvac sample (8).jpg")} />
+    </div>
+
+    <!-- ContentFeatured -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/content/ContentFeatured.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ContentFeatured</h2>
+        <p class="text-gray-500 text-sm">Image with decorative color shape behind it + floating badge, heading + description + dual CTA buttons on the right.</p>
+      </div>
+      <ContentFeatured imageSrc={img("hvac sample (10).jpg")} />
+    </div>
+
+    <!-- WhyChooseUs -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/content/WhyChooseUs.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">WhyChooseUs</h2>
+        <p class="text-gray-500 text-sm">Heading top-left, tall image top-right, shorter image bottom-left, value points with icons + CTA in the middle.</p>
+      </div>
+      <WhyChooseUs
+        leftImage={img("hvac sample (4).jpg")}
+        rightImage={img("hvac sample (13).jpg")}
+      />
+    </div>
+
+    <!-- AboutDecorative -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/content/AboutDecorative.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">AboutDecorative</h2>
+        <p class="text-gray-500 text-sm">Circular images with accent blob shapes left, heading + description + mission/vision value points + CTA right. Cream bg.</p>
+      </div>
+      <AboutDecorative
+        mainImage={img("hvac sample (15).jpg")}
+        smallImage={img("hvac sample (16).jpg")}
+      />
+    </div>
+
+    <!-- WhyChooseUsCenter -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/content/WhyChooseUsCenter.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">WhyChooseUsCenter</h2>
+        <p class="text-gray-500 text-sm">Centered heading, 3 values per side flanking a center image with gradient circle bg. Circular icon badges.</p>
+      </div>
+      <WhyChooseUsCenter centerImage={img("hvac sample (3).jpg")} />
+    </div>
+
+    <!-- ValuesPillars -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/content/ValuesPillars.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ValuesPillars</h2>
+        <p class="text-gray-500 text-sm">Two-tone heading, 4 value pillar cards with icons, decorative silhouette at the bottom.</p>
+      </div>
+      <ValuesPillars />
+    </div>
+  </div>
+</PreviewLayout>

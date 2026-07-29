@@ -1,0 +1,233 @@
+---
+/*
+  FAQ — DECORATED
+  Two-column layout on a tinted/patterned background with rough SVG
+  edge dividers top and bottom. Left side: eyebrow, heading, decorative
+  blob shape, and two stat counters. Right side: card-style accordion
+  FAQ with plus/minus icons. First item starts expanded.
+
+  The rough edges and background pattern give it a playful, textured
+  feel that breaks up flat sections.
+
+  Props:
+  - eyebrow, heading: left header
+  - stats: array of { value, label }
+  - items: array of { question, answer }
+  - pattern: CSS pattern class from global.css
+  - edgeType: SVG divider shape for top/bottom edges
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+
+interface StatItem {
+  value: string;
+  label: string;
+}
+
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  stats?: StatItem[];
+  items?: FaqItem[];
+  pattern?: string;
+  edgeType?: "torn" | "rough" | "wave";
+}
+
+const {
+  eyebrow = "Frequently Asked Questions",
+  heading = `Frequently Asked Questions About ${siteConfig.businessName}`,
+  stats = [
+    { value: "48+", label: `Active technicians taking care of your property at ${siteConfig.businessName}` },
+    { value: "2.5k", label: `Satisfied customers trust ${siteConfig.businessName} for reliable, professional service` },
+  ],
+  items = [
+    {
+      question: `What services does ${siteConfig.businessName} offer?`,
+      answer: "We offer a full range of services including installations, repairs, scheduled maintenance, emergency calls, and system upgrades for both residential and commercial properties.",
+    },
+    {
+      question: `What areas does ${siteConfig.businessName} serve?`,
+      answer: `We proudly serve ${siteConfig.serviceArea} and surrounding communities. Contact us to confirm service availability in your area.`,
+    },
+    {
+      question: "What safety measures do you follow?",
+      answer: "All our technicians are fully licensed and insured. We follow strict safety protocols, use quality materials, and comply with all local building codes and regulations.",
+    },
+    {
+      question: `How can I schedule service with ${siteConfig.businessName}?`,
+      answer: "You can call us, fill out the contact form on our website, or request service online. We offer flexible scheduling including same-day and next-day appointments.",
+    },
+    {
+      question: "What are your operating hours?",
+      answer: "We're available Monday through Saturday during regular business hours, with 24/7 emergency service available for urgent situations.",
+    },
+  ],
+  pattern = siteConfig.pattern,
+  edgeType = "rough",
+} = Astro.props;
+
+const faqId = `faq-dec-${Math.random().toString(36).slice(2, 8)}`;
+
+const edgePaths: Record<string, string> = {
+  torn: "M0,52 L40,58 L80,48 L120,62 L160,44 L200,56 L240,40 L280,60 L320,46 L360,54 L400,42 L440,58 L480,38 L520,52 L560,44 L600,60 L640,36 L680,56 L720,48 L760,62 L800,40 L840,54 L880,46 L920,58 L960,42 L1000,56 L1040,38 L1080,52 L1120,44 L1160,60 L1200,48 L1240,54 L1280,42 L1320,58 L1360,46 L1400,52 L1440,48 L1440,120 L0,120 Z",
+  rough: "M0,56 C48,62 72,38 120,48 C168,58 192,34 240,44 C288,54 336,30 384,42 C432,54 456,36 504,46 C552,56 600,28 648,40 C696,52 720,32 768,44 C816,56 864,26 912,38 C960,50 984,34 1032,46 C1080,58 1128,30 1176,42 C1224,54 1248,36 1296,44 C1344,52 1392,38 1440,48 L1440,120 L0,120 Z",
+  wave: "M0,64 C360,120 720,0 1080,64 C1260,96 1380,80 1440,64 L1440,120 L0,120 Z",
+};
+---
+
+{/* Top edge — surface color biting into the tinted section */}
+<div class="w-full leading-[0] overflow-hidden bg-surface-alt" style="height:60px; margin-bottom:-1px;" aria-hidden="true">
+  <svg class="w-full h-full text-surface" viewBox="0 0 1440 120" preserveAspectRatio="none" fill="currentColor">
+    <path d={edgePaths[edgeType]} />
+  </svg>
+</div>
+
+<section class:list={["relative bg-surface-alt py-12 sm:py-16 overflow-hidden", pattern]}>
+  <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-14 items-start">
+      {/* Left column: heading + stats */}
+      <div>
+        {eyebrow && (
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">{eyebrow}</p>
+        )}
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-text leading-tight">{heading}</h2>
+
+        {/* Stats */}
+        {stats.length > 0 && (
+          <div class="grid grid-cols-2 gap-4 mt-10">
+            {stats.map((stat) => (
+              <div class="rounded-xl bg-white/80 backdrop-blur-sm p-5 shadow-sm">
+                <p class="text-3xl sm:text-4xl font-extrabold text-secondary leading-none mb-2">{stat.value}</p>
+                <p class="text-xs text-text-muted leading-relaxed">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Right column: accordion */}
+      <div class="space-y-3" data-faq-group={faqId}>
+        {items.map((item, i) => (
+          <div
+            class:list={[
+              "faq-item rounded-xl transition-all duration-300",
+              i === 0 ? "bg-secondary text-white shadow-md" : "bg-white shadow-sm",
+            ]}
+            data-faq-index={i}
+          >
+            <button
+              type="button"
+              class="faq-trigger flex items-center justify-between w-full px-5 py-4 text-left gap-4"
+              aria-expanded={i === 0 ? "true" : "false"}
+            >
+              <span class:list={[
+                "faq-label text-sm sm:text-base font-bold leading-snug",
+                i === 0 ? "text-white" : "text-text",
+              ]}>
+                {item.question}
+              </span>
+              <span class:list={[
+                "faq-icon shrink-0 flex items-center justify-center w-8 h-8 rounded-full border-2 transition-colors",
+                i === 0 ? "border-white/40" : "border-border",
+              ]}>
+                <svg
+                  class="faq-plus h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                >
+                  <line x1="12" y1="5" x2="12" y2="19" class:list={["faq-vline transition-transform duration-300 origin-center", i === 0 && "scale-y-0"]} />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+              </span>
+            </button>
+            <div
+              class:list={[
+                "faq-content overflow-hidden transition-all duration-300",
+                i === 0 ? "max-h-96" : "max-h-0",
+              ]}
+            >
+              <p class:list={[
+                "faq-answer text-sm leading-relaxed px-5 pb-4",
+                i === 0 ? "text-white/85" : "text-text-muted",
+              ]}>
+                {item.answer}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+{/* Bottom edge — flipped, surface color biting into the tinted section */}
+<div class="w-full leading-[0] overflow-hidden bg-surface-alt rotate-180" style="height:60px; margin-top:-1px;" aria-hidden="true">
+  <svg class="w-full h-full text-surface" viewBox="0 0 1440 120" preserveAspectRatio="none" fill="currentColor">
+    <path d={edgePaths[edgeType]} />
+  </svg>
+</div>
+
+<script>
+  document.querySelectorAll("[data-faq-group]").forEach((group) => {
+    const items = group.querySelectorAll(".faq-item");
+
+    items.forEach((item) => {
+      const trigger = item.querySelector(".faq-trigger");
+      if (!trigger) return;
+
+      trigger.addEventListener("click", () => {
+        const isOpen = trigger.getAttribute("aria-expanded") === "true";
+
+        items.forEach((other) => {
+          const ot = other.querySelector(".faq-trigger");
+          const oc = other.querySelector(".faq-content") as HTMLElement;
+          const vl = other.querySelector(".faq-vline");
+          const icon = other.querySelector(".faq-icon");
+          const label = other.querySelector(".faq-label");
+          const answer = other.querySelector(".faq-answer");
+          if (!ot || !oc) return;
+
+          ot.setAttribute("aria-expanded", "false");
+          oc.style.maxHeight = "0";
+          other.classList.remove("bg-secondary", "text-white", "shadow-md");
+          other.classList.add("bg-white", "shadow-sm");
+          vl?.classList.remove("scale-y-0");
+          icon?.classList.remove("border-white/40");
+          icon?.classList.add("border-border");
+          label?.classList.remove("text-white");
+          label?.classList.add("text-text");
+          answer?.classList.remove("text-white/85");
+          answer?.classList.add("text-text-muted");
+        });
+
+        if (!isOpen) {
+          const content = item.querySelector(".faq-content") as HTMLElement;
+          const vline = item.querySelector(".faq-vline");
+          const icon = item.querySelector(".faq-icon");
+          const label = trigger.querySelector(".faq-label");
+          const answer = item.querySelector(".faq-answer");
+          if (!content) return;
+
+          trigger.setAttribute("aria-expanded", "true");
+          content.style.maxHeight = content.scrollHeight + "px";
+          item.classList.add("bg-secondary", "text-white", "shadow-md");
+          item.classList.remove("bg-white", "shadow-sm");
+          vline?.classList.add("scale-y-0");
+          icon?.classList.add("border-white/40");
+          icon?.classList.remove("border-border");
+          label?.classList.add("text-white");
+          label?.classList.remove("text-text");
+          answer?.classList.add("text-white/85");
+          answer?.classList.remove("text-text-muted");
+        }
+      });
+    });
+  });
+</script>

@@ -1,0 +1,87 @@
+---
+import PreviewLayout from "../../layouts/PreviewLayout.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import LeadForm from "../../components/LeadForm.astro";
+import GoogleMap from "../../components/GoogleMap.astro";
+
+const img = (n: string) => `/images/Preview/${n}`;
+---
+
+<PreviewLayout title="Components">
+  <div class="space-y-16 py-10">
+    <!-- PageHeader (solid bg) -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">src/components/PageHeader.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">PageHeader — Solid Background</h2>
+        <p class="text-gray-500 text-sm">Interior page banner with primary color background + breadcrumbs.</p>
+      </div>
+      <PageHeader
+        title="Our Services"
+        subtitle="Professional solutions for your home"
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Services" },
+        ]}
+      />
+    </div>
+
+    <!-- PageHeader (with image) -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">src/components/PageHeader.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">PageHeader — With Background Image</h2>
+        <p class="text-gray-500 text-sm">Same component with a background image and dark overlay.</p>
+      </div>
+      <PageHeader
+        title="About Our Company"
+        subtitle="Trusted by homeowners since 2005"
+        backgroundImage={img("hvac sample (17).jpg")}
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "About Us" },
+        ]}
+      />
+    </div>
+
+    <!-- LeadForm (full) -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">src/components/LeadForm.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">LeadForm — Full Variant</h2>
+        <p class="text-gray-500 text-sm">Full lead capture form with all fields. Used on contact page and hero sections.</p>
+      </div>
+      <div class="mx-auto max-w-xl px-4">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sm:p-8">
+          <LeadForm formId="preview-full-form" variant="full" submitLabel="Get Free Estimate" />
+        </div>
+      </div>
+    </div>
+
+    <!-- LeadForm (compact) -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">src/components/LeadForm.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">LeadForm — Compact Variant</h2>
+        <p class="text-gray-500 text-sm">Smaller form for sidebars, CTAs, and embedded sections.</p>
+      </div>
+      <div class="mx-auto max-w-md px-4">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <LeadForm formId="preview-compact-form" variant="compact" submitLabel="Request Callback" />
+        </div>
+      </div>
+    </div>
+
+    <!-- GoogleMap -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">src/components/GoogleMap.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">GoogleMap</h2>
+        <p class="text-gray-500 text-sm">Reusable Google Maps iframe embed. Reads from siteConfig.googleMapsEmbed or pass a src prop.</p>
+      </div>
+      <div class="mx-auto max-w-2xl px-4">
+        <GoogleMap />
+      </div>
+    </div>
+  </div>
+</PreviewLayout>

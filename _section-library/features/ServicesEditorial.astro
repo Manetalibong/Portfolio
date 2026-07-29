@@ -1,0 +1,105 @@
+---
+/*
+  SERVICES — EDITORIAL
+  Top section: eyebrow + bold heading on the left, description paragraph
+  on the right. Below: a row of 4 tall image cards with titles and
+  arrow links underneath. Images have varied heights for an editorial
+  masonry-like feel. Clean, minimal, modern.
+
+  Props:
+  - eyebrow, heading, description: header content
+  - services: array of { image, title, href? }
+  - tall: array of indices that get extra height (default [1,2] — 2nd and 3rd cards)
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+
+interface ServiceCard {
+  image: string;
+  title: string;
+  href?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  description?: string;
+  services?: ServiceCard[];
+  tall?: number[];
+}
+
+const {
+  eyebrow = "Our Services",
+  heading = "Expert Solutions\nYou Can Trust",
+  description = `Our team delivers professional results across a wide range of services. From routine maintenance to complex projects, we bring the expertise and attention to detail your property deserves.`,
+  services = [
+    { image: "/images/Preview/service1.jpg", title: "Residential", href: "#" },
+    { image: "/images/Preview/service2.jpg", title: "Commercial", href: "#" },
+    { image: "/images/Preview/service3.jpg", title: "Repairs", href: "#" },
+    { image: "/images/Preview/about.jpg", title: "Maintenance", href: "#" },
+  ],
+  tall = [1, 2],
+} = Astro.props;
+
+const headingLines = heading.split("\n");
+---
+
+<section class="bg-surface py-16 sm:py-24">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    {/* Header row: heading left, description right */}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-16 mb-12 lg:mb-14">
+      <div>
+        {eyebrow && (
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">{eyebrow}</p>
+        )}
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-text leading-tight">
+          {headingLines.map((line) => (
+            <span class="block">{line}</span>
+          ))}
+        </h2>
+      </div>
+      {description && (
+        <div class="flex items-end">
+          <p class="text-text-muted leading-relaxed text-sm sm:text-base max-w-lg">{description}</p>
+        </div>
+      )}
+    </div>
+
+    {/* Image cards row */}
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 items-end">
+      {services.map((service, i) => {
+        const isTall = tall.includes(i);
+        const Tag = service.href ? "a" : "div";
+        return (
+          <div class="group">
+            <Tag
+              href={service.href || undefined}
+              class="block overflow-hidden rounded-lg"
+            >
+              <img
+                src={service.image}
+                alt={service.title}
+                class:list={[
+                  "w-full object-cover rounded-lg group-hover:scale-105 transition-transform duration-500",
+                  isTall ? "h-72 sm:h-80 lg:h-96" : "h-56 sm:h-64 lg:h-72",
+                ]}
+                loading="lazy"
+                decoding="async"
+              />
+            </Tag>
+            <div class="flex items-center justify-between mt-3 px-0.5">
+              <h3 class="text-sm sm:text-base font-bold text-text uppercase tracking-wide">{service.title}</h3>
+              {service.href && (
+                <a href={service.href} class="text-text-muted hover:text-primary transition-colors" aria-label={`View ${service.title}`}>
+                  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="7" y1="17" x2="17" y2="7" />
+                    <polyline points="7 7 17 7 17 17" />
+                  </svg>
+                </a>
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>

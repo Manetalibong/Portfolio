@@ -1,0 +1,56 @@
+---
+import PreviewLayout from "../../layouts/PreviewLayout.astro";
+import Silhouette from "../../components/Silhouette.astro";
+
+const types = ["trees", "cityscape", "roofline", "tools", "waves", "mountains"] as const;
+const industries: Record<string, string> = {
+  trees: "Landscaping, tree service, outdoor contractors",
+  cityscape: "General contractors, commercial, urban services",
+  roofline: "Roofing, home improvement, remodeling",
+  tools: "Plumbing, electrical, HVAC, handyman",
+  waves: "Plumbing, pool service, marine, pressure washing",
+  mountains: "General outdoor, adventure, rural contractors",
+};
+---
+
+<PreviewLayout title="Silhouettes">
+  <div class="py-10 space-y-12">
+    <div class="mx-auto max-w-7xl px-4">
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">Decorative Silhouettes</h1>
+      <p class="text-gray-500">Industry-specific SVG silhouettes for section backgrounds. Use the <code class="text-xs bg-gray-200 px-1 rounded">Silhouette</code> component with a <code class="text-xs bg-gray-200 px-1 rounded">type</code> prop. Pick one that matches the client's business.</p>
+    </div>
+
+    {types.map((type) => (
+      <div>
+        <div class="mx-auto max-w-7xl px-4 mb-2">
+          <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">type="{type}"</span>
+          <span class="text-xs text-gray-400 ml-2">{industries[type]}</span>
+        </div>
+        <div class="relative bg-surface-alt overflow-hidden" style="height:200px;">
+          <div class="absolute bottom-0 left-0 right-0">
+            <Silhouette type={type} />
+          </div>
+        </div>
+      </div>
+    ))}
+
+    <!-- Dark background examples -->
+    <div class="mx-auto max-w-7xl px-4 mt-8 mb-4">
+      <h2 class="text-2xl font-bold text-gray-900 mb-2">On Dark Backgrounds</h2>
+      <p class="text-gray-500 text-sm">Same silhouettes work on dark sections too — just change the color class.</p>
+    </div>
+
+    {types.map((type) => (
+      <div>
+        <div class="mx-auto max-w-7xl px-4 mb-2">
+          <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">type="{type}" class="text-white/10"</span>
+        </div>
+        <div class="relative bg-primary-dark overflow-hidden" style="height:200px;">
+          <div class="absolute bottom-0 left-0 right-0">
+            <Silhouette type={type} class="text-white/10" />
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</PreviewLayout>

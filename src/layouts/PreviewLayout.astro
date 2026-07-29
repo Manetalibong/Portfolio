@@ -1,0 +1,70 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+
+const categories = [
+  { label: "All", href: "/preview" },
+  { label: "Headers", href: "/preview/headers" },
+  { label: "Heroes", href: "/preview/heroes" },
+  { label: "Features", href: "/preview/features" },
+  { label: "Content", href: "/preview/content" },
+  { label: "Testimonials", href: "/preview/testimonials" },
+  { label: "Stats", href: "/preview/stats" },
+  { label: "CTA", href: "/preview/cta" },
+  { label: "FAQ", href: "/preview/faq" },
+  { label: "Gallery", href: "/preview/gallery" },
+  { label: "Dividers", href: "/preview/dividers" },
+  { label: "Silhouettes", href: "/preview/silhouettes" },
+  { label: "Icons", href: "/preview/icons" },
+  { label: "Components", href: "/preview/components" },
+];
+
+const currentPath = Astro.url.pathname.replace(/\/$/, "");
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title} — Section Preview</title>
+  </head>
+  <body class="bg-gray-100 min-h-screen">
+    <div class="sticky top-0 z-[100] bg-gray-900 text-white shadow-lg">
+      <div class="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="text-lg font-bold tracking-tight">Section Preview</span>
+          <span class="text-xs text-gray-400 hidden sm:inline">_section-library/</span>
+        </div>
+        <a href="/" class="text-xs text-gray-400 hover:text-white transition-colors">← Back to site</a>
+      </div>
+      <div class="mx-auto max-w-7xl px-4 pb-3 flex flex-wrap gap-1.5">
+        {categories.map((cat) => (
+          <a
+            href={cat.href}
+            class:list={[
+              "px-3 py-1 rounded-full text-xs font-medium transition-colors",
+              currentPath === cat.href.replace(/\/$/, "")
+                ? "bg-white text-gray-900"
+                : "bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white",
+            ]}
+          >
+            {cat.label}
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <slot />
+
+    <div class="bg-gray-900 text-gray-500 text-center py-6 text-xs mt-12">
+      Section Library Preview — Not included in client builds
+    </div>
+  </body>
+</html>

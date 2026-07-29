@@ -1,0 +1,239 @@
+---
+/*
+  REUSABLE LEAD FORM
+  Single form component used across the entire site. Import this everywhere
+  instead of writing inline forms. Supports two variants:
+  
+  - "full" (default): first/last name, email, phone, service dropdown, city/zip, message
+  - "compact": name, phone, email, message (smaller footprint for CTAs/sidebars)
+  
+  All forms POST to siteConfig.formEndpoint as JSON.
+  Use a unique formId when placing multiple forms on the same page.
+*/
+import { siteConfig } from "../config/siteConfig";
+
+interface Props {
+  formId?: string;
+  variant?: "full" | "compact";
+  showServiceDropdown?: boolean;
+  submitLabel?: string;
+  messagePlaceholder?: string;
+}
+
+const {
+  formId = "lead-form",
+  variant = "full",
+  showServiceDropdown = true,
+  submitLabel = "Submit",
+  messagePlaceholder = "Tell us about your project...",
+} = Astro.props;
+
+const isFull = variant === "full";
+const endpoint = siteConfig.formEndpoint;
+---
+
+<form id={formId} class="space-y-4" novalidate>
+  {isFull ? (
+    <!-- Full: First Name / Last Name side by side -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label for={`${formId}-firstName`} class="block text-xs font-semibold text-text-muted mb-1">First Name *</label>
+        <input
+          type="text"
+          id={`${formId}-firstName`}
+          name="firstName"
+          required
+          autocomplete="given-name"
+          class="w-full rounded-lg border border-border bg-surface px-3.5 py-2.5 text-sm text-text placeholder:text-text-muted focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-colors"
+          placeholder="John"
+        />
+      </div>
+      <div>
+        <label for={`${formId}-lastName`} class="block text-xs font-semibold text-text-muted mb-1">Last Name *</label>
+        <input
+          type="text"
+          id={`${formId}-lastName`}
+          name="lastName"
+          required
+          autocomplete="family-name"
+          class="w-full rounded-lg border border-border bg-surface px-3.5 py-2.5 text-sm text-text placeholder:text-text-muted focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-colors"
+          placeholder="Doe"
+        />
+      </div>
+    </div>
+  ) : (
+    <!-- Compact: Single name field -->
+    <div>
+      <label for={`${formId}-name`} class="block text-xs font-semibold text-text-muted mb-1">Name *</label>
+      <input
+        type="text"
+        id={`${formId}-name`}
+        name="name"
+        required
+        autocomplete="name"
+        class="w-full rounded-lg border border-border bg-surface px-3.5 py-2.5 text-sm text-text placeholder:text-text-muted focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-colors"
+        placeholder="Your name"
+      />
+    </div>
+  )}
+
+  {showServiceDropdown && (
+    <div>
+      <label for={`${formId}-service`} class="block text-xs font-semibold text-text-muted mb-1">Service Needed *</label>
+      <select
+        id={`${formId}-service`}
+        name="service"
+        required
+        class="w-full rounded-lg border border-border bg-surface px-3.5 py-2.5 text-sm text-text focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-colors"
+      >
+        <option value="">Select a service...</option>
+        <slot name="service-options" />
+      </select>
+    </div>
+  )}
+
+  {isFull ? (
+    <!-- Full: Phone and Email side by side -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label for={`${formId}-phone`} class="block text-xs font-semibold text-text-muted mb-1">Phone *</label>
+        <input
+          type="tel"
+          id={`${formId}-phone`}
+          name="phone"
+          required
+          autocomplete="tel"
+          class="w-full rounded-lg border border-border bg-surface px-3.5 py-2.5 text-sm text-text placeholder:text-text-muted focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-colors"
+          placeholder="(555) 123-4567"
+        />
+      </div>
+      <div>
+        <label for={`${formId}-email`} class="block text-xs font-semibold text-text-muted mb-1">Email *</label>
+        <input
+          type="email"
+          id={`${formId}-email`}
+          name="email"
+          required
+          autocomplete="email"
+          class="w-full rounded-lg border border-border bg-surface px-3.5 py-2.5 text-sm text-text placeholder:text-text-muted focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-colors"
+          placeholder="john@example.com"
+        />
+      </div>
+    </div>
+  ) : (
+    <!-- Compact: Phone and Email stacked -->
+    <div>
+      <label for={`${formId}-phone`} class="block text-xs font-semibold text-text-muted mb-1">Phone *</label>
+      <input
+        type="tel"
+        id={`${formId}-phone`}
+        name="phone"
+        required
+        autocomplete="tel"
+        class="w-full rounded-lg border border-border bg-surface px-3.5 py-2.5 text-sm text-text placeholder:text-text-muted focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-colors"
+        placeholder="(555) 123-4567"
+      />
+    </div>
+    <div>
+      <label for={`${formId}-email`} class="block text-xs font-semibold text-text-muted mb-1">Email *</label>
+      <input
+        type="email"
+        id={`${formId}-email`}
+        name="email"
+        required
+        autocomplete="email"
+        class="w-full rounded-lg border border-border bg-surface px-3.5 py-2.5 text-sm text-text placeholder:text-text-muted focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-colors"
+        placeholder="john@example.com"
+      />
+    </div>
+  )}
+
+  {isFull && (
+    <!-- Full: City / Zip side by side -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label for={`${formId}-city`} class="block text-xs font-semibold text-text-muted mb-1">City *</label>
+        <input
+          type="text"
+          id={`${formId}-city`}
+          name="city"
+          required
+          autocomplete="address-level2"
+          class="w-full rounded-lg border border-border bg-surface px-3.5 py-2.5 text-sm text-text placeholder:text-text-muted focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-colors"
+        />
+      </div>
+      <div>
+        <label for={`${formId}-zip`} class="block text-xs font-semibold text-text-muted mb-1">Zip Code *</label>
+        <input
+          type="text"
+          id={`${formId}-zip`}
+          name="zipCode"
+          required
+          autocomplete="postal-code"
+          class="w-full rounded-lg border border-border bg-surface px-3.5 py-2.5 text-sm text-text placeholder:text-text-muted focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-colors"
+        />
+      </div>
+    </div>
+  )}
+
+  <div>
+    <label for={`${formId}-message`} class="block text-xs font-semibold text-text-muted mb-1">
+      Message {isFull ? "(Optional)" : "*"}
+    </label>
+    <textarea
+      id={`${formId}-message`}
+      name="message"
+      rows={isFull ? 3 : 3}
+      required={!isFull}
+      class="w-full rounded-lg border border-border bg-surface px-3.5 py-2.5 text-sm text-text placeholder:text-text-muted focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-colors resize-y"
+      placeholder={messagePlaceholder}
+    ></textarea>
+  </div>
+
+  <input type="hidden" name="source" value={siteConfig.domain} />
+  <input type="hidden" name="businessName" value={siteConfig.businessName} />
+
+  <button
+    type="submit"
+    class="w-full rounded-lg bg-secondary px-6 py-3 text-base font-bold text-white shadow-sm hover:bg-secondary-light transition-colors focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:ring-offset-2"
+  >
+    {submitLabel}
+  </button>
+</form>
+
+<script is:inline define:vars={{ formId, endpoint }}>
+  (function () {
+    const form = document.getElementById(formId);
+    if (!form || !(form instanceof HTMLFormElement)) return;
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const btn = form.querySelector('button[type="submit"]');
+      const originalText = btn?.textContent;
+      if (btn) { btn.textContent = "Sending..."; btn.disabled = true; }
+
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        });
+
+        if (!res.ok) throw new Error("Failed");
+
+        form.innerHTML =
+          '<div class="text-center py-6">' +
+          '<div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-accent/10">' +
+          '<svg class="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">' +
+          '<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />' +
+          "</svg></div>" +
+          '<p class="text-lg font-bold text-text">Thank you!</p>' +
+          '<p class="mt-1 text-sm text-text-muted">We\'ll be in touch shortly.</p>' +
+          "</div>";
+      } catch {
+        if (btn) { btn.textContent = originalText; btn.disabled = false; }
+        alert("Something went wrong. Please try again or call us directly.");
+      }
+    });
+  })();
+</script>

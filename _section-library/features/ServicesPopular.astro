@@ -1,0 +1,100 @@
+---
+/*
+  SERVICES — POPULAR
+  Header row: eyebrow + bold heading on the left, short description
+  on the right. Below: a row of 4 image cards with title and tagline
+  overlaid at the bottom-left. Cards have rounded corners and a
+  gradient overlay. The 3rd card is slightly taller for visual variety.
+
+  Props:
+  - eyebrow, heading, description: header content
+  - services: array of { image, title, tagline?, href? }
+  - tallIndex: which card gets extra height (default 2, zero-based)
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+
+interface ServiceCard {
+  image: string;
+  title: string;
+  tagline?: string;
+  href?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  description?: string;
+  services?: ServiceCard[];
+  tallIndex?: number;
+}
+
+const {
+  eyebrow = "Our Services",
+  heading = "Our Popular\nServices",
+  description = `From routine maintenance to complex installations, ${siteConfig.businessName} delivers reliable results backed by years of experience.`,
+  services = [
+    { image: "/images/Preview/service1.jpg", title: "Residential Service", tagline: "Complete home solutions", href: "#" },
+    { image: "/images/Preview/service2.jpg", title: "Commercial Service", tagline: "Professional-grade work", href: "#" },
+    { image: "/images/Preview/service3.jpg", title: "Preventive Maintenance", tagline: "Keep systems running", href: "#" },
+    { image: "/images/Preview/about.jpg", title: "Emergency Repairs", tagline: "Fast response times", href: "#" },
+  ],
+  tallIndex = 2,
+} = Astro.props;
+
+const headingLines = heading.split("\n");
+---
+
+<section class="bg-surface py-16 sm:py-24">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    {/* Header row */}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-16 mb-10 lg:mb-12">
+      <div>
+        {eyebrow && (
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">{eyebrow}</p>
+        )}
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-text leading-tight">
+          {headingLines.map((line) => (
+            <span class="block">{line}</span>
+          ))}
+        </h2>
+      </div>
+      {description && (
+        <div class="flex items-end">
+          <p class="text-text-muted leading-relaxed text-sm sm:text-base max-w-md">{description}</p>
+        </div>
+      )}
+    </div>
+
+    {/* Cards row */}
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      {services.map((service, i) => {
+        const isTall = i === tallIndex;
+        const Tag = service.href ? "a" : "div";
+        return (
+          <Tag
+            href={service.href || undefined}
+            class:list={[
+              "group relative rounded-2xl overflow-hidden",
+              isTall ? "h-72 sm:h-80 lg:h-[22rem]" : "h-60 sm:h-68 lg:h-76",
+            ]}
+          >
+            <img
+              src={service.image}
+              alt={service.title}
+              class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-gray-950/70 via-gray-950/10 to-transparent" aria-hidden="true"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
+              <h3 class="text-base sm:text-lg font-bold text-white leading-snug">{service.title}</h3>
+              {service.tagline && (
+                <p class="text-xs sm:text-sm text-white/70 mt-0.5">{service.tagline}</p>
+              )}
+            </div>
+          </Tag>
+        );
+      })}
+    </div>
+  </div>
+</section>

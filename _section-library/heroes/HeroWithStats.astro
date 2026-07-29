@@ -1,0 +1,119 @@
+---
+/*
+ * Centered hero over a full-bleed image with a dark overlay, plus a bottom stats strip
+ * on a semi-transparent bar. Ideal when you want credibility (years, reviews, availability)
+ * visible immediately without scrolling—common for emergency trades and competitive markets.
+ */
+import { siteConfig } from "../../src/config/siteConfig";
+
+export type HeroStat = {
+  value: string;
+  label: string;
+};
+
+export interface Props {
+  headline?: string;
+  subtitle?: string;
+  backgroundImage?: string;
+  backgroundImageAlt?: string;
+  stats?: HeroStat[];
+  estimateLabel?: string;
+  estimateHref?: string;
+  callLabel?: string;
+  overlayClass?: string;
+  statsBarClass?: string;
+  minHeightClass?: string;
+}
+
+const defaultStats: HeroStat[] = [
+  { value: "15+", label: "Years Experience" },
+  { value: "500+", label: "Jobs Completed" },
+  { value: "5★", label: "Google Rating" },
+  { value: "24/7", label: "Emergency Service" },
+];
+
+const {
+  headline = siteConfig.businessName,
+  subtitle = siteConfig.tagline,
+  backgroundImage = "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=2000&q=80",
+  backgroundImageAlt = "Professional home service team",
+  stats = defaultStats,
+  estimateLabel = "Get a Free Estimate",
+  estimateHref = "/contact",
+  callLabel = `Call ${siteConfig.phone}`,
+  overlayClass = "bg-black/55",
+  statsBarClass = "bg-text/75 backdrop-blur-md",
+  minHeightClass = "min-h-[90vh] min-h-[36rem]",
+} = Astro.props;
+
+const telHref = `tel:${siteConfig.phone.replace(/\D/g, "")}`;
+---
+
+<section
+  class:list={["relative isolate flex w-full flex-col overflow-hidden", minHeightClass]}
+  aria-labelledby="hero-stats-heading"
+>
+  <div class="pointer-events-none absolute inset-0 -z-20">
+    <img
+      src={backgroundImage}
+      alt={backgroundImageAlt}
+      class="h-full w-full object-cover"
+      width="2000"
+      height="1333"
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    />
+  </div>
+  <div class:list={["pointer-events-none absolute inset-0 -z-10", overlayClass]} aria-hidden="true"></div>
+
+  <div class="relative z-10 flex flex-1 flex-col">
+    <div class="flex flex-1 flex-col items-center justify-center px-4 py-16 text-center sm:px-6 lg:px-8 lg:py-20">
+      <p class="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-white/90">
+        {siteConfig.serviceArea}
+      </p>
+      <h1
+        id="hero-stats-heading"
+        class="font-heading max-w-4xl text-4xl font-bold tracking-tight text-surface sm:text-5xl lg:text-6xl"
+      >
+        {headline}
+      </h1>
+      <p class="mt-6 max-w-2xl text-lg text-white/90 sm:text-xl">
+        {subtitle}
+      </p>
+      <div class="mt-10 flex w-full max-w-xl flex-col items-stretch justify-center gap-4 sm:flex-row sm:items-center">
+        <a
+          href={estimateHref}
+          class="inline-flex items-center justify-center rounded-lg bg-secondary px-8 py-3.5 text-base font-semibold text-text shadow-lg shadow-black/20 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-surface"
+        >
+          {estimateLabel}
+        </a>
+        <a
+          href={telHref}
+          class="inline-flex items-center justify-center rounded-lg border-2 border-white/45 bg-white/10 px-8 py-3.5 text-base font-semibold text-surface backdrop-blur-sm transition hover:border-accent hover:bg-accent/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        >
+          {callLabel}
+        </a>
+      </div>
+    </div>
+
+    <div class:list={["border-t border-white/10", statsBarClass]}>
+      <div
+        class="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-4 py-8 sm:grid-cols-4 sm:gap-8 sm:px-6 lg:px-8"
+        role="list"
+        aria-label="Company highlights"
+      >
+        {
+          stats.map((item) => (
+            <div class="text-center" role="listitem">
+              <p class="font-heading text-2xl font-bold text-surface sm:text-3xl">{item.value}</p>
+              <p class="mt-1 text-xs font-medium uppercase tracking-wide text-white/80 sm:text-sm">
+                {item.label}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

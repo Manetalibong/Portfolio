@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ServiceCard from "../../components/ServiceCard.astro";
+import CTABanner from "../../components/CTABanner.astro";
+import { siteConfig } from "../../config/siteConfig";
+import { getCollection } from "astro:content";
+
+const services = (await getCollection("services")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<BaseLayout
+  title={`Our Services | ${siteConfig.businessName}`}
+  description={`Browse the full range of professional services offered by ${siteConfig.businessName} in ${siteConfig.serviceArea}. Call ${siteConfig.phone} for a free estimate.`}
+>
+  <section class="bg-primary py-16 sm:py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl sm:text-5xl font-bold text-white">Our Services</h1>
+      <p class="mt-4 text-lg text-white/80 max-w-2xl mx-auto">
+        Professional services for homes and businesses across {siteConfig.serviceArea}.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-16 sm:py-20 bg-surface">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {services.map((service) => (
+          <ServiceCard
+            title={service.data.title}
+            description={service.data.description}
+            slug={service.id}
+            icon={service.data.icon}
+            image={service.data.image}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTABanner />
+</BaseLayout>

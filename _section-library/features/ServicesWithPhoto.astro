@@ -1,0 +1,128 @@
+---
+/*
+  SERVICES — WITH PHOTO
+  Single grid layout: tall photo on the left spanning the full height,
+  eyebrow + heading top-right, 3 service cards bottom-right.
+
+  Props:
+  - eyebrow, heading: section header text
+  - imageSrc, imageAlt: left-side photo
+  - services: array of { icon, title, description }
+  - cardBg: card background color (default "bg-secondary/5")
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+import Icon from "../../src/components/Icon.astro";
+
+interface ServiceItem {
+  icon?: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  services?: ServiceItem[];
+  cardBg?: string;
+}
+
+const {
+  eyebrow = "Main Services",
+  heading = "A Glance At Our Top Requested Offerings",
+  imageSrc = "/images/Preview/service1.jpg",
+  imageAlt = `${siteConfig.businessName} team member`,
+  services = [
+    {
+      icon: "home",
+      title: "Residential Service",
+      description: "Complete home solutions to keep your property safe, comfortable, and running smoothly.",
+    },
+    {
+      icon: "tool",
+      title: "Commercial Service",
+      description: "Professional services for offices, retail spaces, and commercial properties of all sizes.",
+    },
+    {
+      icon: "shield-check",
+      title: "Preventive Maintenance",
+      description: "Scheduled maintenance plans to prevent costly breakdowns and extend equipment life.",
+    },
+  ],
+  cardBg = "bg-secondary/5",
+} = Astro.props;
+---
+
+<section class="bg-surface py-16 sm:py-24 overflow-hidden">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    {/* Mobile: stacked layout */}
+    <div class="lg:hidden">
+      <div class="mb-8">
+        <div class="rounded-2xl overflow-hidden shadow-xl">
+          <img
+            src={imageSrc}
+            alt={imageAlt}
+            class="w-full aspect-[4/3] object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+      <div class="mb-8">
+        {eyebrow && (
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">{eyebrow}</p>
+        )}
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-text leading-tight">{heading}</h2>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {services.map((service) => (
+          <div class:list={["rounded-xl p-5 transition-shadow hover:shadow-md", cardBg]}>
+            <div class="mb-3">
+              <Icon name={service.icon || "check-circle"} class="h-9 w-9 text-secondary" strokeWidth={1.5} />
+            </div>
+            <h3 class="text-base font-bold text-text mb-1.5">{service.title}</h3>
+            <p class="text-sm text-text-muted leading-relaxed">{service.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* Desktop: 2-column grid, photo spans full height */}
+    <div class="hidden lg:grid lg:grid-cols-[1fr_1.2fr] lg:gap-12 xl:gap-16">
+      {/* Photo — spans both rows */}
+      <div class="row-span-2 self-stretch">
+        <div class="rounded-2xl overflow-hidden shadow-xl h-full">
+          <img
+            src={imageSrc}
+            alt={imageAlt}
+            class="w-full h-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+
+      {/* Heading — top right */}
+      <div class="flex flex-col justify-end pb-6">
+        {eyebrow && (
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">{eyebrow}</p>
+        )}
+        <h2 class="text-3xl lg:text-[2.75rem] font-extrabold text-text leading-tight">{heading}</h2>
+      </div>
+
+      {/* Service cards — bottom right */}
+      <div class="grid grid-cols-3 gap-4 self-start">
+        {services.map((service) => (
+          <div class:list={["rounded-xl p-5 transition-shadow hover:shadow-md", cardBg]}>
+            <div class="mb-3">
+              <Icon name={service.icon || "check-circle"} class="h-9 w-9 text-secondary" strokeWidth={1.5} />
+            </div>
+            <h3 class="text-base font-bold text-text mb-1.5">{service.title}</h3>
+            <p class="text-sm text-text-muted leading-relaxed">{service.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

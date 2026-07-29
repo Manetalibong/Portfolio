@@ -1,0 +1,108 @@
+---
+/*
+  SERVICE PAGE — HERO IMAGE LAYOUT
+  Large hero image spanning full width behind the title (like a landing page).
+  Content below in centered prose. Features displayed as an icon grid
+  between the content and the CTA.
+  Best for: visually-driven services where a strong hero photo makes an impact
+  (e.g. remodeling, landscaping, pool services).
+
+  To use: copy this file's contents into src/pages/services/[slug].astro
+*/
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CTABanner from "../../components/CTABanner.astro";
+import { siteConfig } from "../../config/siteConfig";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const services = await getCollection("services");
+  return services.map((service) => ({
+    params: { slug: service.id },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+const { Content } = await render(service);
+const { title, description, metaTitle, metaDescription, image, features } = service.data;
+---
+
+<BaseLayout
+  title={metaTitle || `${title} | ${siteConfig.businessName}`}
+  description={metaDescription || description}
+  image={image}
+  schema="Service"
+>
+  <!-- Full-width hero with image background -->
+  <section class="relative overflow-hidden bg-gray-900 text-white">
+    <div class="absolute inset-0 z-0">
+      {image ? (
+        <img src={image} alt="" class="h-full w-full object-cover opacity-30" loading="eager" fetchpriority="high" />
+      ) : (
+        <div class="h-full w-full bg-primary"></div>
+      )}
+      <div class="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/60 to-gray-900/40"></div>
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-28 sm:py-36 lg:py-44">
+      <nav class="mb-6 text-sm text-white/50">
+        <a href="/" class="hover:text-white transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/services" class="hover:text-white transition-colors">Services</a>
+        <span class="mx-2">/</span>
+        <span class="text-white/80">{title}</span>
+      </nav>
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight max-w-4xl">{title}</h1>
+      <p class="mt-6 text-xl text-gray-300 max-w-2xl leading-relaxed">{description}</p>
+      <div class="mt-8 flex flex-col sm:flex-row gap-4">
+        <a
+          href="/contact"
+          class="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3.5 text-base font-semibold text-white shadow-lg hover:bg-primary-dark transition-colors"
+        >
+          Get a Free Estimate
+        </a>
+        <a
+          href={`tel:${siteConfig.phone.replace(/\D/g, "")}`}
+          class="inline-flex items-center justify-center rounded-lg border-2 border-white/25 bg-white/5 px-6 py-3.5 text-base font-semibold text-white backdrop-blur hover:bg-white/10 transition-colors"
+        >
+          <svg class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+          </svg>
+          Call {siteConfig.phone}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <article class="py-16 sm:py-20 bg-surface">
+    <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+      <div class="prose prose-lg max-w-none prose-headings:text-text prose-p:text-text-muted prose-a:text-primary">
+        <Content />
+      </div>
+    </div>
+  </article>
+
+  <!-- Features as icon grid -->
+  {features.length > 0 && (
+    <section class="py-16 bg-surface-alt">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h2 class="text-2xl sm:text-3xl font-bold text-text text-center mb-10">Why Choose Our {title} Service</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {features.map((feature) => (
+            <div class="text-center p-5">
+              <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                <svg class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <p class="text-sm font-medium text-text">{feature}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <CTABanner />
+</BaseLayout>

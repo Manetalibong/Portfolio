@@ -1,0 +1,71 @@
+---
+import PreviewLayout from "../../layouts/PreviewLayout.astro";
+import CTABanner from "../../../_section-library/cta/CTABanner.astro";
+import CTAWithForm from "../../../_section-library/cta/CTAWithForm.astro";
+import CTASplit from "../../../_section-library/cta/CTASplit.astro";
+import CTABold from "../../../_section-library/cta/CTABold.astro";
+
+const img = (n: string) => `/images/Preview/${n}`;
+---
+
+<PreviewLayout title="CTA">
+  <div class="space-y-16 py-10">
+    <!-- CTABanner -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/cta/CTABanner.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">CTABanner</h2>
+        <p class="text-gray-500 text-sm">Bold full-width banner with headline + two CTA buttons. Simple and effective.</p>
+      </div>
+      <CTABanner />
+    </div>
+
+    <!-- CTAWithForm -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/cta/CTAWithForm.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">CTAWithForm</h2>
+        <p class="text-gray-500 text-sm">CTA section with embedded lead form. Great for mid-page conversion.</p>
+      </div>
+      <CTAWithForm />
+    </div>
+
+    <!-- CTASplit -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/cta/CTASplit.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">CTASplit</h2>
+        <p class="text-gray-500 text-sm">Two-column: image left, CTA text + buttons right.</p>
+      </div>
+      <CTASplit imageSrc={img("hvac sample (10).jpg")} />
+    </div>
+    <!-- CTABold (no image) -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/cta/CTABold.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">CTABold — No Image</h2>
+        <p class="text-gray-500 text-sm">Vibrant CTA with radial burst pattern, centered content. Works anywhere — between sections, above footer.</p>
+      </div>
+      <CTABold />
+    </div>
+
+    <!-- CTABold (with image, primary bg) -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/cta/CTABold.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">CTABold — With Image + Primary BG</h2>
+        <p class="text-gray-500 text-sm">Same component with an image on the right (van, mascot, team photo) and primary background.</p>
+      </div>
+      <CTABold
+        bgClass="bg-primary"
+        borderColor="border-secondary"
+        imageSrc={img("hvac sample (2).jpg")}
+        imageAlt="Service van"
+        eyebrow="Get Started Today"
+        headline="Your Home Deserves The Best — Let's Make It Happen"
+        ctaLabel="Get a Free Quote"
+        ctaIcon="phone"
+      />
+    </div>
+  </div>
+</PreviewLayout>

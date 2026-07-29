@@ -1,0 +1,64 @@
+---
+import PreviewLayout from "../../layouts/PreviewLayout.astro";
+import Icon from "../../components/Icon.astro";
+
+const iconNames = [
+  "wrench", "shield", "shield-check", "star", "phone", "clock",
+  "map-pin", "home", "users", "award", "zap", "thumbs-up",
+  "check", "check-circle", "settings", "tool", "truck", "droplet",
+  "flame", "thermometer", "wind", "sun", "bolt", "hammer",
+  "hard-hat", "clipboard", "arrow-right", "search", "eye", "leaf",
+  "heart", "dollar", "lock", "target",
+];
+---
+
+<PreviewLayout title="Icons">
+  <div class="mx-auto max-w-7xl px-4 py-10">
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">Icon Set</h1>
+    <p class="text-gray-500 mb-8">
+      All available SVG icons via <code class="text-xs bg-gray-200 px-1 rounded">&lt;Icon name="..." /&gt;</code>.
+      Stroke-based, 24x24 viewBox, inherits <code class="text-xs bg-gray-200 px-1 rounded">currentColor</code>.
+    </p>
+
+    <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
+      {iconNames.map((name) => (
+        <div class="flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-200 bg-white hover:border-primary/30 hover:shadow-sm transition-all">
+          <Icon name={name} class="h-7 w-7 text-gray-700" />
+          <span class="text-xs font-mono text-gray-500">{name}</span>
+        </div>
+      ))}
+    </div>
+
+    <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">Sizes</h2>
+    <div class="flex items-end gap-6 flex-wrap">
+      {["h-4 w-4", "h-5 w-5", "h-6 w-6", "h-7 w-7", "h-8 w-8", "h-10 w-10", "h-12 w-12"].map((size) => (
+        <div class="flex flex-col items-center gap-2">
+          <Icon name="wrench" class={`${size} text-primary`} />
+          <span class="text-xs font-mono text-gray-400">{size}</span>
+        </div>
+      ))}
+    </div>
+
+    <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">Colors</h2>
+    <div class="flex items-center gap-6 flex-wrap">
+      {["text-primary", "text-secondary", "text-accent", "text-gray-900", "text-gray-400"].map((color) => (
+        <div class="flex flex-col items-center gap-2">
+          <Icon name="star" class={`h-8 w-8 ${color}`} />
+          <span class="text-xs font-mono text-gray-400">{color}</span>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-12 p-6 bg-gray-900 rounded-xl">
+      <h2 class="text-xl font-bold text-white mb-4">On Dark Backgrounds</h2>
+      <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-4">
+        {iconNames.slice(0, 20).map((name) => (
+          <div class="flex flex-col items-center gap-2">
+            <Icon name={name} class="h-6 w-6 text-white/80" />
+            <span class="text-[10px] font-mono text-white/40">{name}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</PreviewLayout>

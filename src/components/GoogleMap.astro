@@ -1,0 +1,45 @@
+---
+/*
+  GOOGLE MAP EMBED
+  Reusable iframe wrapper for a Google Maps / Google Business Profile embed.
+  Reads the embed URL from siteConfig.googleMapsEmbed by default,
+  or accepts an override via the `src` prop.
+  
+  Used in: footer, contact page, service area sections, etc.
+*/
+import { siteConfig } from "../config/siteConfig";
+
+interface Props {
+  src?: string;
+  height?: string;
+  class?: string;
+  title?: string;
+}
+
+const {
+  src = siteConfig.googleMapsEmbed,
+  height = "350",
+  class: className = "",
+  title = `${siteConfig.businessName} location`,
+} = Astro.props;
+---
+
+{src ? (
+  <div class:list={["w-full overflow-hidden rounded-xl", className]}>
+    <iframe
+      src={src}
+      width="100%"
+      height={height}
+      style="border:0;"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      title={title}
+      class="w-full"
+    ></iframe>
+  </div>
+) : (
+  <div class:list={["w-full rounded-xl bg-gray-100 flex items-center justify-center text-gray-400 text-sm", className]} style={`height:${height}px`}>
+    Google Maps embed — set googleMapsEmbed in siteConfig
+  </div>
+)}

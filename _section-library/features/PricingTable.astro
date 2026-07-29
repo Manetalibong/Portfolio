@@ -1,0 +1,176 @@
+---
+/*
+  PRICING TABLE
+  Two-column layout: feature checklist on the left, pricing tier
+  cards on the right. One card can be marked as "featured" to get
+  a dark highlight treatment.
+
+  Props:
+  - eyebrow, heading: section header
+  - ctaLabel, ctaHref: top-right header CTA button
+  - features: array of strings for the left checklist
+  - plans: array of plan objects (see interface below)
+  - columns: 2 | 3 (plan card columns, default 3)
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+import Icon from "../../src/components/Icon.astro";
+
+interface PlanItem {
+  name: string;
+  price: string;
+  period?: string;
+  description: string;
+  featured?: boolean;
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  features?: string[];
+  plans?: PlanItem[];
+  columns?: 2 | 3;
+}
+
+const {
+  eyebrow = "Pricing",
+  heading = "Choose Your Plan",
+  ctaLabel = "Book Appointment",
+  ctaHref = "/contact",
+  features = [
+    "Licensed & insured professionals",
+    "Upfront, transparent pricing",
+    "Same-day service available",
+    "Satisfaction guarantee",
+    "Emergency support 24/7",
+    "Free on-site estimates",
+    "Premium materials included",
+    "Clean job site, every time",
+  ],
+  plans = [
+    {
+      name: "Basic Service",
+      price: "$49.99",
+      period: "/visit",
+      description: "Standard service call with diagnostics and minor repairs. Perfect for routine maintenance and quick fixes.",
+      ctaLabel: "Book Appointment",
+      ctaHref: "/contact",
+    },
+    {
+      name: "Premium Service",
+      price: "$99.99",
+      period: "/visit",
+      description: "Comprehensive service including full inspection, priority scheduling, and extended warranty on all work performed.",
+      featured: true,
+      ctaLabel: "Book Appointment",
+      ctaHref: "/contact",
+    },
+    {
+      name: "Maintenance Plan",
+      price: "$149.99",
+      period: "/month",
+      description: "Monthly maintenance plan with scheduled visits, priority emergency service, and discounts on all repairs and parts.",
+      ctaLabel: "Book Appointment",
+      ctaHref: "/contact",
+    },
+  ],
+  columns = 3,
+} = Astro.props;
+
+const gridClass = columns === 2
+  ? "grid-cols-1 sm:grid-cols-2"
+  : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3";
+---
+
+<section class="bg-surface py-16 sm:py-24">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
+      <div>
+        {eyebrow && (
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-2">{eyebrow}</p>
+        )}
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-text">{heading}</h2>
+      </div>
+      {ctaLabel && (
+        <a
+          href={ctaHref}
+          class="inline-flex items-center gap-2 rounded-lg bg-secondary px-5 py-2.5 text-sm font-bold text-white shadow hover:bg-secondary-light transition-colors self-start sm:self-auto"
+        >
+          {ctaLabel}
+        </a>
+      )}
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-10 lg:gap-14">
+      <!-- Left: Feature checklist -->
+      <div>
+        <ul class="space-y-3.5">
+          {features.map((feature) => (
+            <li class="flex items-start gap-3">
+              <Icon name="check" class="h-5 w-5 text-secondary shrink-0 mt-0.5" />
+              <span class="text-text text-sm leading-relaxed">{feature}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Right: Plan cards -->
+      <div class={`grid ${gridClass} gap-5`}>
+        {plans.map((plan) => (
+          <div class:list={[
+            "rounded-2xl p-6 sm:p-7 flex flex-col border transition-shadow",
+            plan.featured
+              ? "bg-gray-950 text-white border-gray-800 shadow-xl ring-2 ring-secondary/50 scale-[1.02]"
+              : "bg-white text-text border-gray-200 shadow-sm hover:shadow-md",
+          ]}>
+            {/* Plan name */}
+            <p class:list={[
+              "text-xs font-bold uppercase tracking-wider mb-4",
+              plan.featured ? "text-white/60" : "text-text-muted",
+            ]}>
+              {plan.name}
+            </p>
+
+            {/* Price */}
+            <div class="flex items-baseline gap-1 mb-4">
+              <span class="text-4xl sm:text-5xl font-extrabold">{plan.price}</span>
+              {plan.period && (
+                <span class:list={[
+                  "text-sm font-medium",
+                  plan.featured ? "text-white/50" : "text-text-muted",
+                ]}>
+                  {plan.period}
+                </span>
+              )}
+            </div>
+
+            {/* Description */}
+            <p class:list={[
+              "text-sm leading-relaxed flex-1 mb-6",
+              plan.featured ? "text-white/70" : "text-text-muted",
+            ]}>
+              {plan.description}
+            </p>
+
+            {/* CTA */}
+            <a
+              href={plan.ctaHref || ctaHref}
+              class:list={[
+                "block w-full text-center rounded-lg px-4 py-3 text-sm font-bold transition-colors",
+                plan.featured
+                  ? "bg-secondary text-white hover:bg-secondary-light"
+                  : "bg-secondary text-white hover:bg-secondary-light",
+              ]}
+            >
+              {plan.ctaLabel || "Get Started"}
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

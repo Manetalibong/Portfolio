@@ -1,0 +1,69 @@
+---
+/*
+ * “Our Work” heading plus a responsive image grid with rounded corners, subtle zoom on hover,
+ * and optional captions as a bottom gradient overlay. Use to showcase projects on home or portfolio pages.
+ */
+import { siteConfig } from "../../src/config/siteConfig";
+
+export interface GalleryImage {
+  src: string;
+  alt: string;
+  caption?: string;
+}
+
+export interface Props {
+  heading?: string;
+  images?: GalleryImage[];
+}
+
+const defaultImages: GalleryImage[] = [
+  { src: "/images/portfolio/project-1.jpg", alt: "Completed project 1", caption: "Kitchen refresh" },
+  { src: "/images/portfolio/project-2.jpg", alt: "Completed project 2", caption: "Exterior upgrade" },
+  { src: "/images/portfolio/project-3.jpg", alt: "Completed project 3", caption: "Repair & finish" },
+  { src: "/images/portfolio/project-4.jpg", alt: "Completed project 4", caption: "Custom detail" },
+  { src: "/images/portfolio/project-5.jpg", alt: "Completed project 5", caption: "Full remodel" },
+  { src: "/images/portfolio/project-6.jpg", alt: "Completed project 6", caption: "Quality craftsmanship" },
+];
+
+const { heading = "Our Work", images = defaultImages } = Astro.props;
+---
+
+<section class="bg-surface px-4 py-14 sm:px-6 lg:px-8 lg:py-20" aria-labelledby="gallery-grid-heading">
+  <div class="mx-auto max-w-6xl">
+    <div class="text-center">
+      <p class="text-sm font-semibold uppercase tracking-wide text-primary">{siteConfig.businessName}</p>
+      <h2
+        id="gallery-grid-heading"
+        class="font-heading mt-2 text-3xl font-bold tracking-tight text-text sm:text-4xl"
+      >
+        {heading}
+      </h2>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-text-muted">
+        A sample of recent projects—every job finished with care.
+      </p>
+    </div>
+
+    <div class="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+      {
+        images.map((img) => (
+          <figure class="group relative overflow-hidden rounded-lg bg-surface-alt shadow-sm ring-1 ring-border">
+            <img
+              src={img.src}
+              alt={img.alt}
+              class="aspect-[4/3] w-full object-cover transition duration-300 group-hover:scale-105"
+              width="800"
+              height="600"
+              loading="lazy"
+              decoding="async"
+            />
+            {img.caption && (
+              <figcaption class="pointer-events-none absolute inset-x-0 bottom-0 translate-y-full bg-gradient-to-t from-text/90 to-transparent p-4 pt-12 text-sm font-medium text-surface opacity-0 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                {img.caption}
+              </figcaption>
+            )}
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>

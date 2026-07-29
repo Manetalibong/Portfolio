@@ -1,0 +1,174 @@
+---
+/*
+  FAQ — IMAGE RIGHT
+  Two-column layout: accordion FAQ on the left with clean line-separated
+  rows, eyebrow + heading + image stacked on the right. First item
+  starts expanded with the question in accent color. Chevron toggles.
+
+  Props:
+  - eyebrow, heading: right-side header
+  - imageSrc, imageAlt: right-side image below the heading
+  - items: array of { question, answer }
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  items?: FaqItem[];
+}
+
+const {
+  eyebrow = "FAQ's",
+  heading = "Frequently Asked\nQuestions",
+  imageSrc = "/images/Preview/about.jpg",
+  imageAlt = `${siteConfig.businessName}`,
+  items = [
+    {
+      question: `Do you have experience with projects like mine?`,
+      answer: `Absolutely. Our team has handled thousands of residential and commercial projects across ${siteConfig.serviceArea}. We bring deep expertise to every job, large or small, and tailor our approach to your specific needs.`,
+    },
+    {
+      question: "What is your cancellation policy?",
+      answer: "We understand plans change. You can cancel or reschedule appointments with at least 24 hours notice at no charge. Same-day cancellations may be subject to a small trip fee.",
+    },
+    {
+      question: "What professional certifications do you have?",
+      answer: "Our technicians hold all required state and local licenses, carry full insurance, and maintain current industry certifications. We invest in ongoing training to stay current with best practices.",
+    },
+    {
+      question: "Do you offer maintenance plans?",
+      answer: "Yes. Our maintenance plans include regular inspections, priority scheduling, and discounted service rates. They're designed to prevent costly breakdowns and extend the life of your equipment.",
+    },
+    {
+      question: "How quickly can you respond to emergencies?",
+      answer: "We offer same-day emergency service for urgent situations. In most cases, we can have a technician at your door within a few hours of your call.",
+    },
+  ],
+} = Astro.props;
+
+const headingLines = heading.split("\n");
+const faqId = `faq-imgr-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<section class="bg-surface py-16 sm:py-24">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10 lg:gap-16 items-start">
+      {/* Left: accordion */}
+      <div data-faq-group={faqId}>
+        {items.map((item, i) => (
+          <div class="faq-item border-b border-border" data-faq-index={i}>
+            <button
+              type="button"
+              class="faq-trigger flex items-center justify-between w-full py-5 text-left gap-4 group"
+              aria-expanded={i === 0 ? "true" : "false"}
+            >
+              <span class:list={[
+                "faq-label text-base font-bold leading-snug transition-colors",
+                i === 0 ? "text-secondary" : "text-text group-hover:text-secondary",
+              ]}>
+                {item.question}
+              </span>
+              <span class="shrink-0 text-text-muted">
+                <svg
+                  class:list={[
+                    "faq-chevron h-5 w-5 transition-transform duration-300",
+                    i === 0 && "rotate-180",
+                  ]}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </span>
+            </button>
+            <div
+              class:list={[
+                "faq-content overflow-hidden transition-all duration-300",
+                i === 0 ? "max-h-96 pb-5" : "max-h-0",
+              ]}
+            >
+              <p class="text-sm text-text-muted leading-relaxed pr-10">{item.answer}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Right: heading + image */}
+      <div>
+        {eyebrow && (
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">{eyebrow}</p>
+        )}
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-text leading-tight mb-8">
+          {headingLines.map((line) => (
+            <span class="block">{line}</span>
+          ))}
+        </h2>
+        <div class="rounded-2xl overflow-hidden shadow-lg">
+          <img
+            src={imageSrc}
+            alt={imageAlt}
+            class="w-full aspect-[4/3] object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll("[data-faq-group]").forEach((group) => {
+    const items = group.querySelectorAll(".faq-item");
+
+    items.forEach((item) => {
+      const trigger = item.querySelector(".faq-trigger");
+      if (!trigger) return;
+
+      trigger.addEventListener("click", () => {
+        const isOpen = trigger.getAttribute("aria-expanded") === "true";
+
+        items.forEach((other) => {
+          const ot = other.querySelector(".faq-trigger");
+          const oc = other.querySelector(".faq-content") as HTMLElement;
+          const oa = other.querySelector(".faq-chevron");
+          const ol = other.querySelector(".faq-label");
+          if (!ot || !oc || !oa) return;
+
+          ot.setAttribute("aria-expanded", "false");
+          oc.style.maxHeight = "0";
+          oc.classList.remove("pb-5");
+          oa.classList.remove("rotate-180");
+          ol?.classList.remove("text-secondary");
+          ol?.classList.add("text-text");
+        });
+
+        if (!isOpen) {
+          const content = item.querySelector(".faq-content") as HTMLElement;
+          const arrow = item.querySelector(".faq-chevron");
+          const label = trigger.querySelector(".faq-label");
+          if (!content || !arrow) return;
+
+          trigger.setAttribute("aria-expanded", "true");
+          content.style.maxHeight = content.scrollHeight + 20 + "px";
+          content.classList.add("pb-5");
+          arrow.classList.add("rotate-180");
+          label?.classList.remove("text-text");
+          label?.classList.add("text-secondary");
+        }
+      });
+    });
+  });
+</script>

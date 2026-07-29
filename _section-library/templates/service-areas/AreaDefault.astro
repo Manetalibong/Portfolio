@@ -1,0 +1,93 @@
+---
+/*
+  SERVICE AREA PAGE — DEFAULT LAYOUT
+  Full-width content with optional hero image, markdown body,
+  then a services grid showing all services available in this area.
+  Clean, straightforward layout.
+  Best for: most service area pages. Simple and effective.
+
+  To use: copy this file's contents into src/pages/service-areas/[slug].astro
+*/
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ServiceCard from "../../components/ServiceCard.astro";
+import CTABanner from "../../components/CTABanner.astro";
+import { siteConfig } from "../../config/siteConfig";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const serviceAreas = await getCollection("serviceAreas");
+  return serviceAreas.map((area) => ({
+    params: { slug: area.id },
+    props: { area },
+  }));
+}
+
+const { area } = Astro.props;
+const { Content } = await render(area);
+const { city, state, description, metaTitle, metaDescription, image } = area.data;
+
+const services = (await getCollection("services")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<BaseLayout
+  title={metaTitle || `${siteConfig.businessName} in ${city}, ${state}`}
+  description={metaDescription || description}
+  image={image}
+>
+  <section class="bg-primary py-16 sm:py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <nav class="mb-4 text-sm text-white/60">
+        <a href="/" class="hover:text-white transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/service-areas" class="hover:text-white transition-colors">Service Areas</a>
+        <span class="mx-2">/</span>
+        <span class="text-white">{city}, {state}</span>
+      </nav>
+      <h1 class="text-4xl sm:text-5xl font-bold text-white">
+        {siteConfig.businessName} in {city}, {state}
+      </h1>
+      <p class="mt-4 text-lg text-white/80 max-w-3xl">{description}</p>
+    </div>
+  </section>
+
+  <section class="py-16 sm:py-20 bg-surface">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      {image && (
+        <img
+          src={image}
+          alt={`${city}, ${state}`}
+          class="w-full rounded-xl mb-10 aspect-[21/9] object-cover"
+          loading="lazy"
+        />
+      )}
+
+      <div class="prose prose-lg max-w-none prose-headings:text-text prose-p:text-text-muted prose-a:text-primary mb-16">
+        <Content />
+      </div>
+
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-text mb-8">
+          Services Available in {city}, {state}
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services.map((service) => (
+            <ServiceCard
+              title={service.data.title}
+              description={service.data.description}
+              slug={service.id}
+              icon={service.data.icon}
+              image={service.data.image}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CTABanner
+    title={`Need Service in ${city}?`}
+    subtitle={`${siteConfig.businessName} is ready to help. Call us or request a free estimate today.`}
+  />
+</BaseLayout>

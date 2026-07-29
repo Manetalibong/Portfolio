@@ -1,0 +1,111 @@
+---
+/*
+  CONTENT — TILTED IMAGE
+  Two-column layout: tilted/rotated image with a decorative background
+  card on the left, rich content (eyebrow, heading, description, CTA)
+  on the right, with circular stat badges below the content.
+
+  The image has a slight rotation and a grey card behind it at the
+  opposite angle for a layered, dynamic feel.
+
+  Props:
+  - imageSrc, imageAlt: the main photo
+  - eyebrow, heading, description: content block
+  - ctaLabel, ctaHref: optional CTA button
+  - stats: array of { value, label } shown as circular badges
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+
+interface StatItem {
+  value: string;
+  label: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  description?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  stats?: StatItem[];
+}
+
+const {
+  eyebrow = "Best Experience",
+  heading = "Find Out What We Actually Do For Giving Complete Solutions.",
+  description = `At ${siteConfig.businessName}, we go beyond the basics. Our team delivers comprehensive solutions tailored to your property's unique needs, backed by years of hands-on experience and a commitment to lasting quality.`,
+  imageSrc = "/images/Preview/service1.jpg",
+  imageAlt = `${siteConfig.businessName} team at work`,
+  ctaLabel = "Learn More",
+  ctaHref = "/about",
+  stats = [
+    { value: "90%", label: "Satisfaction" },
+    { value: "75+", label: "Projects" },
+    { value: "30+", label: "Years Exp." },
+  ],
+} = Astro.props;
+---
+
+<section class="bg-surface py-16 sm:py-24 overflow-hidden">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      {/* Image with tilted background card */}
+      <div class="relative flex items-center justify-center py-8 px-4">
+        {/* Background decorative card */}
+        <div
+          class="absolute w-[75%] h-[85%] rounded-2xl bg-gray-200/70 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-6"
+          aria-hidden="true"
+        ></div>
+
+        {/* Main image */}
+        <div class="relative w-[80%] rounded-2xl overflow-hidden shadow-xl rotate-3 hover:rotate-0 transition-transform duration-500">
+          <img
+            src={imageSrc}
+            alt={imageAlt}
+            class="w-full aspect-[4/3] object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+
+      {/* Content */}
+      <div>
+        {eyebrow && (
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">{eyebrow}</p>
+        )}
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-text leading-tight">{heading}</h2>
+        {description && (
+          <p class="mt-4 text-text-muted leading-relaxed text-sm sm:text-base">{description}</p>
+        )}
+
+        {ctaLabel && ctaHref && (
+          <div class="mt-6">
+            <a
+              href={ctaHref}
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-secondary text-white font-bold text-sm hover:bg-secondary/90 transition-colors shadow-md hover:shadow-lg"
+            >
+              {ctaLabel}
+            </a>
+          </div>
+        )}
+
+        {/* Circular stat badges */}
+        {stats.length > 0 && (
+          <div class="flex flex-wrap gap-5 sm:gap-6 mt-10">
+            {stats.map((stat) => (
+              <div class="flex items-center justify-center w-24 h-24 sm:w-28 sm:h-28 rounded-full border-[3px] border-secondary text-center">
+                <div>
+                  <p class="text-xl sm:text-2xl font-extrabold text-text leading-none">{stat.value}</p>
+                  <p class="text-[10px] sm:text-xs text-text-muted mt-1 font-medium">{stat.label}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

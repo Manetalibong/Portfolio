@@ -1,0 +1,81 @@
+---
+/*
+ * Two-column story block: heading, body copy, optional bullets, and a supporting image on
+ * the left or right. Flip with `imagePosition` for variety on about pages and long-form service content.
+ */
+import { siteConfig } from "../../src/config/siteConfig";
+
+export interface Props {
+  heading?: string;
+  paragraphs?: string[];
+  bullets?: string[];
+  imageSrc?: string;
+  imageAlt?: string;
+  imagePosition?: "left" | "right";
+  eyebrow?: string;
+}
+
+const {
+  heading = `Why homeowners choose ${siteConfig.businessName}`,
+  paragraphs = [
+    `We’ve built our reputation in ${siteConfig.serviceArea} on honest assessments, quality workmanship, and respect for your home.`,
+    "From the first call to the final walkthrough, you’ll know what to expect—and we won’t consider the job done until you’re satisfied.",
+  ],
+  bullets = [
+    "Licensed, insured team members",
+    "Clear estimates before work begins",
+    "Respectful, on-time service",
+  ],
+  imageSrc = "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80",
+  imageAlt = "Professional contractor consulting with a homeowner",
+  imagePosition = "right",
+  eyebrow = "About us",
+} = Astro.props;
+
+const imageOnLeft = imagePosition === "left";
+---
+
+<section class="bg-surface px-4 py-14 sm:px-6 lg:px-8 lg:py-20" aria-labelledby="content-split-heading">
+  <div class="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-2 lg:gap-14">
+    <div class:list={[imageOnLeft && "lg:order-2"]}>
+      <p class="text-sm font-semibold uppercase tracking-wide text-primary">{eyebrow}</p>
+      <h2
+        id="content-split-heading"
+        class="font-heading mt-2 text-3xl font-bold tracking-tight text-text sm:text-4xl"
+      >
+        {heading}
+      </h2>
+      <div class="mt-6 space-y-4 text-base leading-relaxed text-text-muted">
+        {paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+      {
+        bullets.length > 0 && (
+          <ul class="mt-8 space-y-2">
+            {bullets.map((item) => (
+              <li class="flex gap-3 text-text">
+                <span
+                  class="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-secondary"
+                  aria-hidden="true"
+                />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+    <div class:list={[imageOnLeft && "lg:order-1"]}>
+      <div class="overflow-hidden rounded-2xl shadow-lg ring-1 ring-border">
+        <img
+          src={imageSrc}
+          alt={imageAlt}
+          class="aspect-[4/3] w-full object-cover"
+          width="1200"
+          height="900"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </div>
+</section>

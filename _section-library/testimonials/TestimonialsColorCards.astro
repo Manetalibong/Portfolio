@@ -1,0 +1,130 @@
+---
+/*
+  TESTIMONIALS — COLOR CARDS
+  Light/cream background with a bold centered heading, then side-by-side
+  testimonial cards in the primary-dark color. Each card has:
+  - Review text
+  - Large decorative quote mark (bottom-right)
+  - Avatar image, star rating, service label, reviewer name
+  
+  Below the cards: an optional "See More Reviews" link.
+  Subtle dot pattern on the background for texture.
+  
+  More personality than the basic grid. Great for homepage or
+  service pages where you want reviews to pop.
+  
+  Props:
+  - heading: section heading
+  - testimonials: array of { text, name, service, rating, avatar }
+  - reviewsHref, reviewsLabel: optional link below cards
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+
+interface Testimonial {
+  text: string;
+  name: string;
+  service?: string;
+  rating?: number;
+  avatar?: string;
+}
+
+interface Props {
+  heading?: string;
+  testimonials?: Testimonial[];
+  reviewsHref?: string;
+  reviewsLabel?: string;
+}
+
+const defaultTestimonials: Testimonial[] = [
+  {
+    text: `${siteConfig.businessName} did a great job at a reasonable price. I highly recommend them for this sort of service. They arrived when they said they would and went right to work. I'm a satisfied customer.`,
+    name: "George D.",
+    service: `Service in ${siteConfig.address.city}, ${siteConfig.address.state}`,
+    rating: 5,
+  },
+  {
+    text: `I got several quotes from different companies. Every company I talked with wanted 2 or 3 times as much as ${siteConfig.businessName}. The guys were fun to work with, very knowledgeable and did a really good job. I would highly recommend this company.`,
+    name: "James M.",
+    service: `Service in ${siteConfig.address.city}, ${siteConfig.address.state}`,
+    rating: 5,
+  },
+];
+
+const {
+  heading = `What Your Neighbors Are Saying About ${siteConfig.businessName}`,
+  testimonials = defaultTestimonials,
+  reviewsHref = "",
+  reviewsLabel = "See More Reviews",
+} = Astro.props;
+---
+
+<section class="relative py-16 sm:py-20 bg-surface-alt pattern-dots overflow-hidden">
+  <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Heading -->
+    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-text text-center uppercase max-w-3xl mx-auto mb-10 sm:mb-14">
+      {heading}
+    </h2>
+
+    <!-- Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+      {testimonials.map((t) => (
+        <div class="relative rounded-xl bg-primary-dark p-6 sm:p-8 overflow-hidden">
+          <!-- Quote text -->
+          <p class="text-white/85 leading-relaxed text-sm sm:text-base pr-8">
+            {t.text}
+          </p>
+
+          <!-- Decorative quote mark -->
+          <div class="absolute bottom-4 right-5 text-6xl sm:text-7xl font-serif text-secondary/30 leading-none select-none" aria-hidden="true">
+            &rdquo;
+          </div>
+
+          <!-- Footer: avatar + info -->
+          <div class="mt-6 flex items-center gap-3">
+            {t.avatar ? (
+              <img
+                src={t.avatar}
+                alt={t.name}
+                class="h-11 w-11 rounded-full object-cover border-2 border-secondary/50"
+                loading="lazy"
+              />
+            ) : (
+              <div class="h-11 w-11 rounded-full bg-secondary/20 flex items-center justify-center text-secondary font-bold text-sm">
+                {t.name.charAt(0)}
+              </div>
+            )}
+            <div class="flex-1 min-w-0">
+              <!-- Stars -->
+              {t.rating && (
+                <div class="flex gap-0.5 mb-1">
+                  {Array.from({ length: t.rating }).map(() => (
+                    <svg class="h-4 w-4 text-secondary" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+              )}
+              {t.service && (
+                <p class="text-xs text-white/50 truncate">{t.service}</p>
+              )}
+              <p class="text-sm font-bold text-white">{t.name}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Reviews link -->
+    {reviewsHref && (
+      <div class="text-center mt-10">
+        <a
+          href={reviewsHref}
+          class="inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-primary-dark transition-colors"
+        >
+          <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-secondary text-white"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+          {reviewsLabel}
+        </a>
+      </div>
+    )}
+  </div>
+</section>

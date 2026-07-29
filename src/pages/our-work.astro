@@ -1,0 +1,85 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CTABanner from "../components/CTABanner.astro";
+import { siteConfig } from "../config/siteConfig";
+import { getCollection } from "astro:content";
+
+const projects = await getCollection("portfolio");
+---
+
+<BaseLayout
+  title={`Our Work | ${siteConfig.businessName}`}
+  description={`See examples of our work. ${siteConfig.businessName} is proud to showcase completed projects across ${siteConfig.serviceArea}.`}
+>
+  <section class="bg-primary py-16 sm:py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl sm:text-5xl font-bold text-white">Our Work</h1>
+      <p class="mt-4 text-lg text-white/80 max-w-2xl mx-auto">
+        Real results from real projects. See the quality of work we deliver.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-16 sm:py-20 bg-surface">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      {projects.length === 0 ? (
+        <p class="text-center text-text-muted text-lg">Projects coming soon. Check back later!</p>
+      ) : (
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {projects.map((project) => (
+            <div class="group rounded-xl border border-border bg-surface overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              {project.data.image && (
+                <div class="overflow-hidden aspect-video">
+                  <img
+                    src={project.data.image}
+                    alt={project.data.title}
+                    class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+              <div class="p-6">
+                <h2 class="text-xl font-semibold text-text">{project.data.title}</h2>
+                <p class="mt-2 text-text-muted">{project.data.description}</p>
+                {project.data.tags.length > 0 && (
+                  <div class="mt-4 flex flex-wrap gap-2">
+                    {project.data.tags.map((tag) => (
+                      <span class="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {(project.data.beforeImage && project.data.afterImage) && (
+                  <div class="mt-4 grid grid-cols-2 gap-3">
+                    <div>
+                      <p class="text-xs font-medium text-text-muted mb-1">Before</p>
+                      <img
+                        src={project.data.beforeImage}
+                        alt={`${project.data.title} - Before`}
+                        class="rounded-lg w-full aspect-video object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div>
+                      <p class="text-xs font-medium text-text-muted mb-1">After</p>
+                      <img
+                        src={project.data.afterImage}
+                        alt={`${project.data.title} - After`}
+                        class="rounded-lg w-full aspect-video object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <CTABanner />
+</BaseLayout>

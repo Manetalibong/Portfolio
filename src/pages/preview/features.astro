@@ -1,0 +1,294 @@
+---
+import PreviewLayout from "../../layouts/PreviewLayout.astro";
+import FeaturesGrid from "../../../_section-library/features/FeaturesGrid.astro";
+import FeaturesAlternating from "../../../_section-library/features/FeaturesAlternating.astro";
+import FeaturesWithImage from "../../../_section-library/features/FeaturesWithImage.astro";
+import FeaturesLinkedCards from "../../../_section-library/features/FeaturesLinkedCards.astro";
+import ServicesShowcase from "../../../_section-library/features/ServicesShowcase.astro";
+import ServicesImageStrip from "../../../_section-library/features/ServicesImageStrip.astro";
+import ServicesGridDark from "../../../_section-library/features/ServicesGridDark.astro";
+import ServicesGridBold from "../../../_section-library/features/ServicesGridBold.astro";
+import PricingTable from "../../../_section-library/features/PricingTable.astro";
+import ServicesWithPhoto from "../../../_section-library/features/ServicesWithPhoto.astro";
+import ServicesHoverGrid from "../../../_section-library/features/ServicesHoverGrid.astro";
+import ServicesOverlayCards from "../../../_section-library/features/ServicesOverlayCards.astro";
+import ServicesEditorial from "../../../_section-library/features/ServicesEditorial.astro";
+import ServicesPopular from "../../../_section-library/features/ServicesPopular.astro";
+import ServicesCenterImage from "../../../_section-library/features/ServicesCenterImage.astro";
+
+const img = (n: string) => `/images/Preview/${n}`;
+---
+
+<PreviewLayout title="Features">
+  <div class="space-y-16 py-10">
+    <!-- FeaturesGrid -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/features/FeaturesGrid.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">FeaturesGrid</h2>
+        <p class="text-gray-500 text-sm">6-card icon grid. Good for "Why Choose Us" sections.</p>
+      </div>
+      <FeaturesGrid />
+    </div>
+
+    <!-- FeaturesAlternating -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/features/FeaturesAlternating.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">FeaturesAlternating</h2>
+        <p class="text-gray-500 text-sm">Left-right alternating rows with image + bullets. Great for service breakdowns.</p>
+      </div>
+      <FeaturesAlternating features={[
+        {
+          title: "Expert Diagnostics",
+          description: "Our certified technicians use the latest tools to diagnose issues fast.",
+          bullets: ["Licensed & insured", "Same-day appointments", "Transparent pricing"],
+          image: img("hvac sample (4).jpg"),
+        },
+        {
+          title: "Quality Installation",
+          description: "We install top-rated equipment with industry-leading warranties.",
+          bullets: ["Top-brand equipment", "10-year warranty", "Clean job sites"],
+          image: img("hvac sample (5).jpg"),
+        },
+        {
+          title: "Ongoing Maintenance",
+          description: "Keep your systems running at peak performance year-round.",
+          bullets: ["Annual tune-ups", "Priority scheduling", "Discounted repairs"],
+          image: img("hvac sample (6).jpg"),
+        },
+      ]} />
+    </div>
+
+    <!-- FeaturesWithImage -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/features/FeaturesWithImage.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">FeaturesWithImage</h2>
+        <p class="text-gray-500 text-sm">Image on one side, checklist of features on the other.</p>
+      </div>
+      <FeaturesWithImage image={img("hvac sample (7).jpg")} />
+    </div>
+
+    <!-- FeaturesLinkedCards -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/features/FeaturesLinkedCards.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">FeaturesLinkedCards</h2>
+        <p class="text-gray-500 text-sm">Dark-background card bar that links out to related pages. Great on service pages for cross-linking sub-topics.</p>
+      </div>
+      <FeaturesLinkedCards />
+    </div>
+
+    <!-- ServicesShowcase -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/features/ServicesShowcase.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ServicesShowcase</h2>
+        <p class="text-gray-500 text-sm">Split header + 4-column image card grid with service links. Great for homepage service overview.</p>
+      </div>
+      <ServicesShowcase services={[
+        { title: "Emergency Repairs", description: "Fast, reliable emergency service when you need it most.", image: img("hvac sample (4).jpg"), href: "/services" },
+        { title: "New Installations", description: "Professional installation with industry-leading warranties.", image: img("hvac sample (5).jpg"), href: "/services" },
+        { title: "Maintenance Plans", description: "Keep systems running at peak performance year-round.", image: img("hvac sample (6).jpg"), href: "/services" },
+        { title: "Diagnostics", description: "Thorough assessments using the latest tools.", image: img("hvac sample (7).jpg"), href: "/services" },
+      ]} />
+    </div>
+
+    <!-- ServicesImageStrip -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/features/ServicesImageStrip.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ServicesImageStrip</h2>
+        <p class="text-gray-500 text-sm">Split header + edge-to-edge image tiles with overlaid titles. High visual impact.</p>
+      </div>
+      <ServicesImageStrip services={[
+        { title: "Emergency Repairs", image: img("hvac sample (8).jpg"), href: "/services" },
+        { title: "New Installations", image: img("hvac sample (9).jpg"), href: "/services" },
+        { title: "Maintenance", image: img("hvac sample (10).jpg"), href: "/services" },
+        { title: "Inspections", image: img("hvac sample (11).jpg"), href: "/services" },
+        { title: "Replacements", image: img("hvac sample (12).jpg"), href: "/services" },
+      ]} />
+    </div>
+
+    <!-- ServicesGridDark -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/features/ServicesGridDark.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ServicesGridDark</h2>
+        <p class="text-gray-500 text-sm">Dark background, 3-column cards with image + icon badge + description. Premium look.</p>
+      </div>
+      <ServicesGridDark services={[
+        { title: "Emergency Repairs", description: "Fast, reliable emergency service ensuring your home stays safe and comfortable.", image: img("hvac sample (13).jpg"), href: "/services", icon: "wrench" },
+        { title: "New Installations", description: "Professional installation of top-rated equipment with quality craftsmanship.", image: img("hvac sample (14).jpg"), href: "/services", icon: "settings" },
+        { title: "Maintenance Plans", description: "Keep your systems running at peak performance with regular tune-ups.", image: img("hvac sample (15).jpg"), href: "/services", icon: "shield-check" },
+        { title: "System Upgrades", description: "Upgrade to modern, energy-efficient systems with expert installation.", image: img("hvac sample (16).jpg"), href: "/services", icon: "zap" },
+        { title: "Inspections", description: "Thorough inspections using the latest diagnostic tools.", image: img("hvac sample (17).jpg"), href: "/services", icon: "search" },
+        { title: "Custom Solutions", description: "Tailored solutions designed for your property's unique needs.", image: img("hvac sample (3).jpg"), href: "/services", icon: "star" },
+      ]} />
+    </div>
+
+    <!-- ServicesGridBold -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/features/ServicesGridBold.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ServicesGridBold</h2>
+        <p class="text-gray-500 text-sm">Dark primary background, two-tone heading, 4-column icon cards with descriptions and colored links. No images needed.</p>
+      </div>
+      <ServicesGridBold />
+    </div>
+
+    <!-- ServicesWithPhoto -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/features/ServicesWithPhoto.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ServicesWithPhoto</h2>
+        <p class="text-gray-500 text-sm">Large photo overlapping into a row of 3 service cards. Editorial layout with icons on tinted cards.</p>
+      </div>
+      <ServicesWithPhoto
+        imageSrc={img("hvac sample (2).jpg")}
+        services={[
+          { icon: "home", title: "Residential Service", description: "Complete home solutions to keep your property safe, comfortable, and running smoothly." },
+          { icon: "tool", title: "Commercial Service", description: "Professional services for offices, retail spaces, and commercial properties of all sizes." },
+          { icon: "shield-check", title: "Preventive Maintenance", description: "Scheduled maintenance plans to prevent costly breakdowns and extend equipment life." },
+        ]}
+      />
+    </div>
+
+    <!-- ServicesHoverGrid -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/features/ServicesHoverGrid.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ServicesHoverGrid</h2>
+        <p class="text-gray-500 text-sm">3x2 grid with hover effect — cards reveal descriptions on hover. One card starts featured. Optional decorative side images. Cream background.</p>
+      </div>
+      <ServicesHoverGrid />
+    </div>
+
+    <!-- ServicesOverlayCards (torn cutout) -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/features/ServicesOverlayCards.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ServicesOverlayCards — Torn</h2>
+        <p class="text-gray-500 text-sm">Full-width bg image with grunge SVG cutout at top, heading overlay, image-based service cards overlapping the bottom edge. Play button optional.</p>
+      </div>
+      <ServicesOverlayCards
+        cutoutType="torn"
+        services={[
+          { image: img("service1.jpg"), title: "Residential", href: "#" },
+          { image: img("service2.jpg"), title: "Commercial", href: "#" },
+          { image: img("service3.jpg"), title: "Emergency", href: "#" },
+          { image: img("about.jpg"), title: "Inspections", href: "#" },
+          { image: img("hero.jpg"), title: "Maintenance", href: "#" },
+        ]}
+      />
+    </div>
+
+    <!-- ServicesOverlayCards (rough cutout + video) -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/features/ServicesOverlayCards.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ServicesOverlayCards — Rough + Video</h2>
+        <p class="text-gray-500 text-sm">Same section with rough cutout type and a video play button.</p>
+      </div>
+      <ServicesOverlayCards
+        cutoutType="rough"
+        videoUrl="https://www.youtube.com/watch?v=example"
+        heading={"Quality Work\nGuaranteed"}
+        services={[
+          { image: img("service1.jpg"), title: "Plumbing", href: "#" },
+          { image: img("about.jpg"), title: "Drain Cleaning", href: "#" },
+          { image: img("service3.jpg"), title: "Water Heaters", href: "#" },
+          { image: img("service2.jpg"), title: "Gas Lines", href: "#" },
+          { image: img("hero.jpg"), title: "Sewer Repair", href: "#" },
+        ]}
+      />
+    </div>
+
+    <!-- ServicesEditorial -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/features/ServicesEditorial.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ServicesEditorial</h2>
+        <p class="text-gray-500 text-sm">Heading left + description right, then a row of 4 tall image cards with staggered heights and arrow links. Clean editorial feel.</p>
+      </div>
+      <ServicesEditorial
+        services={[
+          { image: img("service1.jpg"), title: "Residential", href: "#" },
+          { image: img("service2.jpg"), title: "Commercial", href: "#" },
+          { image: img("service3.jpg"), title: "Repairs", href: "#" },
+          { image: img("about.jpg"), title: "Maintenance", href: "#" },
+        ]}
+      />
+    </div>
+
+    <!-- ServicesPopular -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/features/ServicesPopular.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ServicesPopular</h2>
+        <p class="text-gray-500 text-sm">Heading left + description right, 4 rounded image cards with title/tagline overlay. One card taller for visual variety.</p>
+      </div>
+      <ServicesPopular
+        services={[
+          { image: img("hvac sample (4).jpg"), title: "Residential Service", tagline: "Complete home solutions", href: "#" },
+          { image: img("hvac sample (5).jpg"), title: "Commercial Service", tagline: "Professional-grade work", href: "#" },
+          { image: img("hvac sample (6).jpg"), title: "Preventive Maintenance", tagline: "Keep systems running", href: "#" },
+          { image: img("hvac sample (7).jpg"), title: "Emergency Repairs", tagline: "Fast response times", href: "#" },
+        ]}
+      />
+    </div>
+
+    <!-- ServicesCenterImage -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/features/ServicesCenterImage.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">ServicesCenterImage</h2>
+        <p class="text-gray-500 text-sm">3 services per side flanking a center image. Left text right-aligned, right text left-aligned. Icons, CTA button below.</p>
+      </div>
+      <ServicesCenterImage centerImage={img("hvac sample (3).jpg")} />
+    </div>
+
+    <!-- PricingTable (3 columns) -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/features/PricingTable.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">PricingTable — 3 Plans</h2>
+        <p class="text-gray-500 text-sm">Feature checklist on the left, pricing cards on the right. Middle card highlighted as featured.</p>
+      </div>
+      <PricingTable />
+    </div>
+
+    <!-- PricingTable (2 columns) -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/features/PricingTable.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">PricingTable — 2 Plans</h2>
+        <p class="text-gray-500 text-sm">Same component with columns=2 and two plan options.</p>
+      </div>
+      <PricingTable
+        columns={2}
+        heading="Simple, Transparent Pricing"
+        plans={[
+          {
+            name: "One-Time Service",
+            price: "$79",
+            period: "/visit",
+            description: "Single service call with full diagnostics. Includes labor for standard repairs. Parts billed separately at cost.",
+            ctaLabel: "Schedule Now",
+            ctaHref: "/contact",
+          },
+          {
+            name: "Annual Plan",
+            price: "$199",
+            period: "/year",
+            description: "Two scheduled maintenance visits per year, priority scheduling, 15% off all repairs, and 24/7 emergency support.",
+            featured: true,
+            ctaLabel: "Get Started",
+            ctaHref: "/contact",
+          },
+        ]}
+      />
+    </div>
+  </div>
+</PreviewLayout>

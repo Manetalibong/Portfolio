@@ -1,0 +1,96 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CTABanner from "../components/CTABanner.astro";
+import { siteConfig } from "../config/siteConfig";
+---
+
+<BaseLayout
+  title={`About Us | ${siteConfig.businessName}`}
+  description={`Learn about ${siteConfig.businessName}, a trusted service provider in ${siteConfig.serviceArea}. Dedicated to quality workmanship and customer satisfaction.`}
+>
+  <!-- Page Header -->
+  <section class="bg-primary py-16 sm:py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl sm:text-5xl font-bold text-white">About Us</h1>
+      <p class="mt-4 text-lg text-white/80 max-w-2xl mx-auto">
+        Get to know the team behind {siteConfig.businessName}.
+      </p>
+    </div>
+  </section>
+
+  <!-- Story -->
+  <section class="py-16 sm:py-20 bg-surface">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="text-3xl sm:text-4xl font-bold text-text">Our Story</h2>
+          <p class="mt-6 text-text-muted leading-relaxed">
+            {siteConfig.businessName} was founded with a simple mission: to provide honest,
+            reliable service to homeowners in {siteConfig.serviceArea}. What started as a
+            small operation has grown into one of the area's most trusted service providers.
+          </p>
+          <p class="mt-4 text-text-muted leading-relaxed">
+            We believe in doing the job right the first time, treating every customer's home
+            like our own, and providing transparent pricing with no hidden surprises. Our team
+            of licensed professionals brings years of experience and a commitment to excellence
+            to every job.
+          </p>
+        </div>
+        <div class="relative">
+          <img
+            src="/images/about-team.jpg"
+            alt={`${siteConfig.businessName} team`}
+            class="rounded-xl shadow-lg w-full aspect-[4/3] object-cover"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="py-16 sm:py-20 bg-surface-alt">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <h2 class="text-3xl sm:text-4xl font-bold text-text">Our Values</h2>
+        <p class="mt-4 text-lg text-text-muted">The principles that guide everything we do.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {[
+          {
+            title: "Integrity",
+            desc: "Honest assessments, fair pricing, and transparent communication every time.",
+            icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
+          },
+          {
+            title: "Quality",
+            desc: "We never cut corners. Every job is done right, backed by our satisfaction guarantee.",
+            icon: "M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z",
+          },
+          {
+            title: "Reliability",
+            desc: "We show up on time, finish on schedule, and stand behind our work.",
+            icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z",
+          },
+          {
+            title: "Community",
+            desc: "We're local, we're invested, and we care about the communities we serve.",
+            icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z",
+          },
+        ].map((value) => (
+          <div class="text-center p-6 rounded-xl bg-surface shadow-sm border border-border">
+            <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+              <svg class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d={value.icon} />
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-text">{value.title}</h3>
+            <p class="mt-2 text-sm text-text-muted">{value.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTABanner />
+</BaseLayout>

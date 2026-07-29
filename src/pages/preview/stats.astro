@@ -1,0 +1,29 @@
+---
+import PreviewLayout from "../../layouts/PreviewLayout.astro";
+import StatsBar from "../../../_section-library/stats/StatsBar.astro";
+import StatsGrid from "../../../_section-library/stats/StatsGrid.astro";
+---
+
+<PreviewLayout title="Stats">
+  <div class="space-y-16 py-10">
+    <!-- StatsBar -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/stats/StatsBar.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">StatsBar</h2>
+        <p class="text-gray-500 text-sm">Horizontal stat bar. Works great as a divider between sections.</p>
+      </div>
+      <StatsBar />
+    </div>
+
+    <!-- StatsGrid -->
+    <div>
+      <div class="mx-auto max-w-7xl px-4 mb-4">
+        <span class="text-xs font-mono bg-gray-200 text-gray-600 px-2 py-1 rounded">_section-library/stats/StatsGrid.astro</span>
+        <h2 class="text-2xl font-bold text-gray-900 mt-2">StatsGrid</h2>
+        <p class="text-gray-500 text-sm">Card-style stats in a grid. More visual weight for standalone use.</p>
+      </div>
+      <StatsGrid />
+    </div>
+  </div>
+</PreviewLayout>

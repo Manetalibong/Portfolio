@@ -1,0 +1,112 @@
+---
+/*
+  VALUES PILLARS
+  "Why choose us" / core values section with:
+  - Two-tone centered heading (line 1 dark, line 2 secondary + italic)
+  - Description paragraph
+  - 4 value pillar cards with icons, titles, descriptions
+  - Decorative tree-line silhouette along the bottom for visual interest
+  
+  Light/cream background. Feels premium and unique.
+  
+  Props:
+  - headingLine1, headingLine2: two-line heading
+  - description: paragraph below heading
+  - values: array of { icon, title, description }
+  - showSilhouette: toggle the decorative bottom silhouette (default true)
+  - silhouetteType: "trees" | "cityscape" | "roofline" | "tools" | "waves" | "mountains"
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+import Icon from "../../src/components/Icon.astro";
+import Silhouette from "../../src/components/Silhouette.astro";
+
+interface ValueItem {
+  icon?: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  headingLine1?: string;
+  headingLine2?: string;
+  description?: string;
+  values?: ValueItem[];
+  showSilhouette?: boolean;
+  silhouetteType?: "trees" | "cityscape" | "roofline" | "tools" | "waves" | "mountains";
+}
+
+const defaultValues: ValueItem[] = [
+  {
+    icon: "zap",
+    title: "Speed",
+    description: "We respect your time, working with precision to solve your problems fast, keeping your schedule on track.",
+  },
+  {
+    icon: "users",
+    title: "Ownership",
+    description: "We hold ourselves accountable on every project. Learning from every experience, we always improve our craft.",
+  },
+  {
+    icon: "star",
+    title: "Legendary Service",
+    description: "We create unforgettable customer experiences. Fair, honest, transparent — that's the standard on every call.",
+  },
+  {
+    icon: "search",
+    title: "Transparency",
+    description: "We speak with clarity, honesty, and integrity. In challenging moments, that's when our character shines.",
+  },
+];
+
+const {
+  headingLine1 = "We Don't Just Fix.",
+  headingLine2 = "We Empower.",
+  description = `${siteConfig.businessName} is committed to blending legendary service, cutting-edge technology, and a customer experience that truly stands out. We're more than just contractors — we're the protectors of your home.`,
+  values = defaultValues,
+  showSilhouette = true,
+  silhouetteType = siteConfig.silhouette,
+} = Astro.props;
+---
+
+<section class="relative bg-surface-alt overflow-hidden">
+  <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 pb-28 sm:pb-36">
+    <!-- Two-tone heading -->
+    <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold uppercase leading-tight">
+        <span class="text-text block">{headingLine1}</span>
+        <span class="text-secondary italic block">{headingLine2}</span>
+      </h2>
+      {description && (
+        <p class="mt-5 text-text-muted leading-relaxed text-sm sm:text-base">
+          {description}
+        </p>
+      )}
+    </div>
+
+    <!-- Value cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+      {values.map((v) => (
+        <div class="text-center group">
+          {v.icon && (
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4 group-hover:bg-primary/20 transition-colors">
+              <Icon name={v.icon} class="h-7 w-7 text-primary" />
+            </div>
+          )}
+          <h3 class="text-lg font-bold text-text mb-2 underline decoration-secondary decoration-2 underline-offset-4">
+            {v.title}
+          </h3>
+          <p class="text-sm text-text-muted leading-relaxed">
+            {v.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Decorative silhouette -->
+  {showSilhouette && (
+    <div class="absolute bottom-0 left-0 right-0">
+      <Silhouette type={silhouetteType} />
+    </div>
+  )}
+</section>

@@ -1,0 +1,188 @@
+---
+/*
+  FAQ — SPLIT IMAGE
+  Eyebrow + heading top-left, then a two-column layout: accordion FAQ
+  on the left with card-style rows on a cream/tinted background, and
+  a tall image on the right that overlaps above the accordion area.
+  First item starts expanded. Chevron toggles on click.
+
+  Props:
+  - eyebrow, heading: top header
+  - imageSrc, imageAlt: right-side image
+  - items: array of { question, answer }
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  items?: FaqItem[];
+}
+
+const {
+  eyebrow = "Frequently Asked Questions",
+  heading = "Frequently Asked\nQuestions",
+  imageSrc = "/images/Preview/about.jpg",
+  imageAlt = `${siteConfig.businessName}`,
+  items = [
+    {
+      question: `What does ${siteConfig.businessName} do?`,
+      answer: `We provide comprehensive services including repairs, installations, maintenance plans, and emergency response. Our licensed team handles residential and commercial projects of all sizes.`,
+    },
+    {
+      question: "Why is regular maintenance important?",
+      answer: "Routine maintenance prevents costly breakdowns, extends equipment life, and keeps everything running safely and efficiently. Our plans are affordable and tailored to your property.",
+    },
+    {
+      question: "How can your team help improve my property?",
+      answer: "We start with a thorough assessment, provide upfront recommendations, and deliver professional workmanship using quality materials — all backed by our satisfaction guarantee.",
+    },
+    {
+      question: "What areas do you serve?",
+      answer: `We proudly serve ${siteConfig.serviceArea} and surrounding communities. Contact us to confirm availability in your area.`,
+    },
+    {
+      question: "What qualifications and certifications do you hold?",
+      answer: "Our technicians are fully licensed, insured, and continuously trained on the latest industry standards and equipment. We carry all required state and local certifications.",
+    },
+  ],
+} = Astro.props;
+
+const headingLines = heading.split("\n");
+const faqId = `faq-split-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<section class="bg-surface py-16 sm:py-24 overflow-hidden">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    {/* Header */}
+    <div class="mb-10 lg:mb-12 max-w-lg">
+      {eyebrow && (
+        <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">{eyebrow}</p>
+      )}
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-text leading-tight">
+        {headingLines.map((line) => (
+          <span class="block">{line}</span>
+        ))}
+      </h2>
+    </div>
+
+    {/* Two-column: FAQ + Image */}
+    <div class="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 lg:gap-12 items-start">
+      {/* Accordion on tinted background */}
+      <div class="rounded-2xl bg-surface-alt p-4 sm:p-6" data-faq-group={faqId}>
+        {items.map((item, i) => (
+          <div
+            class:list={[
+              "faq-item rounded-xl transition-colors",
+              i === 0 ? "bg-white shadow-sm" : "hover:bg-white/60",
+            ]}
+            data-faq-index={i}
+          >
+            <button
+              type="button"
+              class="faq-trigger flex items-center justify-between w-full px-5 py-4 text-left gap-4 group"
+              aria-expanded={i === 0 ? "true" : "false"}
+            >
+              <span class:list={[
+                "faq-label text-sm sm:text-base font-bold leading-snug transition-colors",
+                i === 0 ? "text-secondary" : "text-text group-hover:text-secondary",
+              ]}>
+                {item.question}
+              </span>
+              <span class="shrink-0">
+                <svg
+                  class:list={[
+                    "faq-chevron h-5 w-5 text-secondary transition-transform duration-300",
+                    i === 0 && "rotate-180",
+                  ]}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </span>
+            </button>
+            <div
+              class:list={[
+                "faq-content overflow-hidden transition-all duration-300",
+                i === 0 ? "max-h-96" : "max-h-0",
+              ]}
+            >
+              <p class="text-sm text-text-muted leading-relaxed px-5 pb-4">{item.answer}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Image — pulls up slightly on desktop to overlap into heading area */}
+      <div class="lg:-mt-32">
+        <div class="rounded-2xl overflow-hidden shadow-xl">
+          <img
+            src={imageSrc}
+            alt={imageAlt}
+            class="w-full aspect-[3/4] sm:aspect-[4/5] object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll("[data-faq-group]").forEach((group) => {
+    const items = group.querySelectorAll(".faq-item");
+
+    items.forEach((item) => {
+      const trigger = item.querySelector(".faq-trigger");
+      if (!trigger) return;
+
+      trigger.addEventListener("click", () => {
+        const isOpen = trigger.getAttribute("aria-expanded") === "true";
+
+        items.forEach((other) => {
+          const ot = other.querySelector(".faq-trigger");
+          const oc = other.querySelector(".faq-content") as HTMLElement;
+          const oa = other.querySelector(".faq-chevron");
+          const ol = other.querySelector(".faq-label");
+          if (!ot || !oc || !oa) return;
+
+          ot.setAttribute("aria-expanded", "false");
+          oc.style.maxHeight = "0";
+          oa.classList.remove("rotate-180");
+          other.classList.remove("bg-white", "shadow-sm");
+          other.classList.add("hover:bg-white/60");
+          ol?.classList.remove("text-secondary");
+          ol?.classList.add("text-text");
+        });
+
+        if (!isOpen) {
+          const content = item.querySelector(".faq-content") as HTMLElement;
+          const arrow = item.querySelector(".faq-chevron");
+          const label = trigger.querySelector(".faq-label");
+          if (!content || !arrow) return;
+
+          trigger.setAttribute("aria-expanded", "true");
+          content.style.maxHeight = content.scrollHeight + "px";
+          arrow.classList.add("rotate-180");
+          item.classList.add("bg-white", "shadow-sm");
+          item.classList.remove("hover:bg-white/60");
+          label?.classList.remove("text-text");
+          label?.classList.add("text-secondary");
+        }
+      });
+    });
+  });
+</script>

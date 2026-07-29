@@ -1,0 +1,149 @@
+---
+/*
+  WHY CHOOSE US — CENTER
+  Centered header (eyebrow + heading) above a 3-column layout:
+  3 value points on the left (right-aligned), a center image with
+  a decorative circular gradient behind it, and 3 value points on the
+  right (left-aligned). Each value has a circular icon badge.
+
+  Similar to ServicesCenterImage but styled as an about/trust section
+  with a softer, more decorative aesthetic.
+
+  Props:
+  - eyebrow, heading: centered header
+  - centerImage, centerImageAlt: center image
+  - leftValues, rightValues: arrays of { icon, title, description }
+*/
+import { siteConfig } from "../../src/config/siteConfig";
+import Icon from "../../src/components/Icon.astro";
+
+interface ValueItem {
+  icon?: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  centerImage?: string;
+  centerImageAlt?: string;
+  leftValues?: ValueItem[];
+  rightValues?: ValueItem[];
+}
+
+const {
+  eyebrow = "Why Choose Us",
+  heading = `Discover the ${siteConfig.businessName} Difference`,
+  centerImage = "/images/Preview/service1.jpg",
+  centerImageAlt = `${siteConfig.businessName}`,
+  leftValues = [
+    { icon: "truck", title: "Fast Response", description: "Quick arrival times so you're never left waiting when you need us most." },
+    { icon: "clock", title: "24/7 Availability", description: "Round-the-clock emergency support for urgent situations, any day of the year." },
+    { icon: "refresh", title: "Satisfaction Guarantee", description: "If you're not happy with our work, we'll make it right — no questions asked." },
+  ],
+  rightValues = [
+    { icon: "tag", title: "Transparent Pricing", description: "Upfront quotes with no hidden fees. You'll know exactly what you're paying before we start." },
+    { icon: "shield-check", title: "Licensed & Insured", description: "Fully certified professionals you can trust with your property and peace of mind." },
+    { icon: "star", title: "5-Star Rated", description: "Hundreds of satisfied customers have rated us 5 stars for quality and reliability." },
+  ],
+} = Astro.props;
+---
+
+<section class="bg-surface py-16 sm:py-24 overflow-hidden">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    {/* Header */}
+    <div class="text-center max-w-2xl mx-auto mb-14 lg:mb-16">
+      {eyebrow && (
+        <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">{eyebrow}</p>
+      )}
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-text leading-tight">{heading}</h2>
+    </div>
+
+    {/* Desktop: 3-column layout */}
+    <div class="hidden lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-x-10 xl:gap-x-14 lg:items-center">
+      {/* Left values — right-aligned */}
+      <div class="space-y-8">
+        {leftValues.map((value) => (
+          <div class="flex items-start gap-4 flex-row-reverse text-right">
+            <div class="shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-secondary/10 ring-1 ring-secondary/20">
+              <Icon name={value.icon || "check-circle"} class="h-5 w-5 text-secondary" strokeWidth={1.5} />
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-text mb-1">{value.title}</h3>
+              <p class="text-sm text-text-muted leading-relaxed">{value.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Center image with decorative circle */}
+      <div class="relative flex items-center justify-center">
+        {/* Gradient circle background */}
+        <div class="absolute w-64 h-64 xl:w-72 xl:h-72 rounded-full bg-gradient-to-br from-secondary/20 via-primary/10 to-secondary/5" aria-hidden="true"></div>
+
+        {/* Small accent circle */}
+        <div class="absolute -top-4 -left-4 w-8 h-8 rounded-full bg-secondary/15" aria-hidden="true"></div>
+        <div class="absolute -bottom-2 -right-6 w-6 h-6 rounded-full bg-primary/15" aria-hidden="true"></div>
+
+        {/* Image */}
+        <div class="relative z-10 w-52 xl:w-60 rounded-2xl overflow-hidden shadow-xl">
+          <img
+            src={centerImage}
+            alt={centerImageAlt}
+            class="w-full aspect-[3/4] object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+
+      {/* Right values — left-aligned */}
+      <div class="space-y-8">
+        {rightValues.map((value) => (
+          <div class="flex items-start gap-4">
+            <div class="shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-secondary/10 ring-1 ring-secondary/20">
+              <Icon name={value.icon || "check-circle"} class="h-5 w-5 text-secondary" strokeWidth={1.5} />
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-text mb-1">{value.title}</h3>
+              <p class="text-sm text-text-muted leading-relaxed">{value.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* Mobile/tablet layout */}
+    <div class="lg:hidden">
+      {/* Center image */}
+      <div class="relative flex items-center justify-center mb-10">
+        <div class="absolute w-52 h-52 sm:w-60 sm:h-60 rounded-full bg-gradient-to-br from-secondary/20 via-primary/10 to-secondary/5" aria-hidden="true"></div>
+        <div class="relative z-10 w-44 sm:w-52 rounded-2xl overflow-hidden shadow-xl">
+          <img
+            src={centerImage}
+            alt={centerImageAlt}
+            class="w-full aspect-[3/4] object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+
+      {/* Values grid */}
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {[...leftValues, ...rightValues].map((value) => (
+          <div class="flex items-start gap-4">
+            <div class="shrink-0 flex items-center justify-center w-11 h-11 rounded-full bg-secondary/10 ring-1 ring-secondary/20">
+              <Icon name={value.icon || "check-circle"} class="h-5 w-5 text-secondary" strokeWidth={1.5} />
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-text mb-1">{value.title}</h3>
+              <p class="text-sm text-text-muted leading-relaxed">{value.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
