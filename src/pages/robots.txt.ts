@@ -1,12 +1,15 @@
 import type { APIRoute } from "astro";
-import { siteConfig } from "../config/siteConfig";
+import { withBase } from "../config/paths";
 
-export const GET: APIRoute = () => {
-  const origin = siteConfig.domain.replace(/\/$/, "");
+export const GET: APIRoute = ({ site }) => {
+  const origin = (site?.origin || "https://manetalibong.github.io").replace(/\/$/, "");
+  const sitemap = `${origin}${withBase("/sitemap-index.xml")}`;
+
   const body = `User-agent: *
 Allow: /
+Disallow: ${withBase("/preview/")}
 
-Sitemap: ${origin}/sitemap-index.xml
+Sitemap: ${sitemap}
 `;
 
   return new Response(body, {

@@ -11,6 +11,7 @@ const posts = (await getCollection("blog")).sort(
 <BaseLayout
   title={`Blog | ${siteConfig.businessName}`}
   description={`Tips, guides, and news from ${siteConfig.businessName}. Stay informed about home maintenance, industry trends, and more.`}
+  noindex={true}
 >
   <section class="bg-primary py-16 sm:py-20">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">

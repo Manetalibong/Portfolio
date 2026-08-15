@@ -1,3 +1,7 @@
+# Mane Talibong Portfolio
+
+Live site: https://manetalibong.github.io/Portfolio/
+
 # Astro Starter — Home Service Websites
 
 A reusable Astro starter template for building fast, SEO-optimized websites for home service contractors (plumbers, HVAC, roofers, electricians, etc).

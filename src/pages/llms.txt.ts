@@ -1,33 +1,29 @@
 import type { APIRoute } from "astro";
 import { siteConfig } from "../config/siteConfig";
+import { withBase } from "../config/paths";
 
-/**
- * llms.txt — machine-readable site summary for AI agents (llmstxt.org).
- * Generated from siteConfig so each client site stays accurate.
- */
-export const GET: APIRoute = () => {
-  const origin = siteConfig.domain.replace(/\/$/, "");
-  const { businessName, tagline, serviceArea, phone, email } = siteConfig;
+export const GET: APIRoute = ({ site }) => {
+  const origin = (site?.origin || siteConfig.domain).replace(/\/$/, "");
+  const home = `${origin}${withBase("/")}`;
+  const { businessName, tagline, phone, email } = siteConfig;
 
   const body = `# ${businessName}
 
-> ${tagline}. Professional home services in ${serviceArea}.
+> ${tagline}. Web developer, graphic designer, and SEO specialist based in Butuan City.
 
 Contact: ${phone} | ${email}
-Site: ${origin}/
+Site: ${home}
 
 ## Main pages
 
-- [Home](${origin}/)
-- [Services](${origin}/services/)
-- [Service Areas](${origin}/service-areas/)
-- [About](${origin}/about/)
-- [Contact](${origin}/contact/)
-- [Blog](${origin}/blog/)
+- [Home](${home})
+- [Services](${origin}${withBase("/services/")})
+- [About](${origin}${withBase("/about/")})
+- [Contact](${origin}${withBase("/contact/")})
 
 ## Optional
 
-- [Sitemap](${origin}/sitemap-index.xml)
+- [Sitemap](${origin}${withBase("/sitemap-index.xml")})
 `;
 
   return new Response(body, {

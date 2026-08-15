@@ -26,6 +26,7 @@ const services = (await getCollection("services")).sort(
   title={metaTitle || `${siteConfig.businessName} in ${city}, ${state}`}
   description={metaDescription || description}
   image={image}
+  noindex={true}
 >
   <section class="bg-primary py-16 sm:py-20">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

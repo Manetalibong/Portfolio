@@ -10,7 +10,7 @@ export const siteConfig = {
     zip: "",
   },
   serviceArea: "Remote & Worldwide",
-  domain: "https://manetalibong.com",
+  domain: "https://manetalibong.github.io",
   socialLinks: {
     facebook: "https://www.facebook.com/AkosiManNicx",
     instagram: "https://www.instagram.com/mane_talibong/",
