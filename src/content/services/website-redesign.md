@@ -28,13 +28,13 @@ Common signs: hard-to-read text, slow load times, dated colors, no clear call to
 
 The work is more than a new coat of paint. I rework layout, page priorities, and conversion paths so visitors can request a quote, call, or buy without hunting.
 
-I also improve mobile layouts, image handling, and page speed. Content gets cleaned up so titles, headings, and key pages support [search engine optimization](/services/search-engine-optimization/) instead of fighting it.
+I also improve mobile layouts, image handling, and page speed. Content gets cleaned up so titles, headings, and key pages support [search engine optimization](../search-engine-optimization/) instead of fighting it.
 
 ## How the process works
 
 I review the current site, what still works, and what is holding you back. Then we decide what to keep, what to rewrite, and what to rebuild.
 
-You get a modern structure that still feels like your business, not a random template. If you stay on WordPress, I can rebuild on [Elementor or Divi](/services/wordpress-development/) so you can keep editing after launch.
+You get a modern structure that still feels like your business, not a random template. If you stay on WordPress, I can rebuild on [Elementor or Divi](../wordpress-development/) so you can keep editing after launch.
 
 ## What stays in place
 
@@ -42,4 +42,4 @@ We protect URLs and important content where we can so you do not throw away sear
 
 ## Related services
 
-If the brand itself is inconsistent, start or combine with [graphic and brand design](/services/graphic-brand-design/). After launch, [website maintenance](/services/website-maintenance/) keeps the new site from sliding back into neglect.
+If the brand itself is inconsistent, start or combine with [graphic and brand design](../graphic-brand-design/). After launch, [website maintenance](../website-maintenance/) keeps the new site from sliding back into neglect.

@@ -28,20 +28,20 @@ Typical clients include local service businesses, growing companies, and owners 
 
 Every project starts with how people actually use the site on a phone. Pages are structured for scanning: a clear offer, proof, services, and a path to contact.
 
-You get a responsive layout, conversion-focused page structure, and a content setup you can maintain. I also build with search in mind so titles, headings, and page structure support [local SEO](/services/local-seo/) and broader visibility later.
+You get a responsive layout, conversion-focused page structure, and a content setup you can maintain. I also build with search in mind so titles, headings, and page structure support [local SEO](../local-seo/) and broader visibility later.
 
 ## How the process works
 
 I start by learning the business, the customer, and the action you want visitors to take. Then I map pages and priorities before design and development.
 
-After launch, we can keep going with [website maintenance](/services/website-maintenance/), SEO, or [digital marketing](/services/digital-marketing/) so the site keeps producing results.
+After launch, we can keep going with [website maintenance](../website-maintenance/), SEO, or [digital marketing](../digital-marketing/) so the site keeps producing results.
 
 ## Tools and approach
 
-Builds can be custom HTML, CSS, and JavaScript, or a managed [WordPress](/services/wordpress-development/) setup with Elementor or Divi when you want to edit pages yourself.
+Builds can be custom HTML, CSS, and JavaScript, or a managed [WordPress](../wordpress-development/) setup with Elementor or Divi when you want to edit pages yourself.
 
 The choice depends on how you want to update content, whether you need e-commerce, and how the site should grow.
 
 ## Related work
 
-If your current site looks dated or is hard to use on mobile, a [website redesign](/services/website-redesign/) may be a better starting point than a full rebuild from nothing.
+If your current site looks dated or is hard to use on mobile, a [website redesign](../website-redesign/) may be a better starting point than a full rebuild from nothing.

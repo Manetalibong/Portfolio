@@ -1,5 +1,6 @@
 ---
 import Icon from "./Icon.astro";
+import { withBase } from "../config/paths";
 
 interface Props {
   title: string;
@@ -13,7 +14,7 @@ const { title, description, slug, icon, image } = Astro.props;
 ---
 
 <a
-  href={`/services/${slug}/`}
+  href={withBase(`/services/${slug}/`)}
   class="group block rounded-2xl border border-border bg-surface p-6 hover:border-secondary/40 transition-all duration-200"
 >
   {image && (

@@ -38,10 +38,10 @@ Then I design hierarchy: headline, supporting points, social proof, and the form
 
 ## After the page launches
 
-We can review what people do on the page and tighten headlines, form fields, or button placement through [digital marketing](/services/digital-marketing/) and conversion work.
+We can review what people do on the page and tighten headlines, form fields, or button placement through [digital marketing](../digital-marketing/) and conversion work.
 
-If the rest of your site does not match the new page, a [website redesign](/services/website-redesign/) or a full [website build](/services/website-design-development/) may be the next step.
+If the rest of your site does not match the new page, a [website redesign](../website-redesign/) or a full [website build](../website-design-development/) may be the next step.
 
 ## Related services
 
-Landing pages pair well with [graphic and brand design](/services/graphic-brand-design/) for ads and creative, and with [WordPress development](/services/wordpress-development/) when you want to edit the page yourself later.
+Landing pages pair well with [graphic and brand design](../graphic-brand-design/) for ads and creative, and with [WordPress development](../wordpress-development/) when you want to edit the page yourself later.

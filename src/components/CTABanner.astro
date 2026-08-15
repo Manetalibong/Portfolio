@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from "../config/siteConfig";
+import { withBase } from "../config/paths";
 
 interface Props {
   title?: string;
@@ -21,7 +22,7 @@ const {
       </div>
       <div class="flex flex-col sm:flex-row gap-4 shrink-0">
         <a
-          href="/contact/"
+          href={withBase("/contact/")}
           class="inline-flex items-center justify-center rounded-lg bg-white px-6 py-3.5 text-base font-semibold text-primary shadow-lg hover:bg-gray-100 transition-colors"
         >
           Start a Project

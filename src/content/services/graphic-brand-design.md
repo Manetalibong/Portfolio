@@ -34,7 +34,7 @@ I also design social posts, banners, covers, ads, brochures, flyers, business ca
 
 I start with how you want the business to feel and where the assets will be used. A logo that only looks good on a poster can fail as a favicon or profile photo.
 
-Then I design, revise, and deliver files you can actually use online and in print. Website projects can take those assets straight into [website design and development](/services/website-design-development/).
+Then I design, revise, and deliver files you can actually use online and in print. Website projects can take those assets straight into [website design and development](../website-design-development/).
 
 ## Tools
 
@@ -42,4 +42,4 @@ I work in Adobe Photoshop, Lightroom, and Canva depending on the job. The output
 
 ## Related services
 
-Campaign graphics land harder when they sit on a dedicated [landing page](/services/landing-page-design/). Ongoing posts and ads can roll into [digital marketing](/services/digital-marketing/) support.
+Campaign graphics land harder when they sit on a dedicated [landing page](../landing-page-design/). Ongoing posts and ads can roll into [digital marketing](../digital-marketing/) support.

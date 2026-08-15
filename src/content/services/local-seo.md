@@ -40,8 +40,8 @@ Then we fix the gaps: profile setup, keyword focus, service and area pages where
 
 It is not a overnight ranking guarantee. It is structured work on the assets Google already uses to decide who to show for local intent.
 
-Results depend on competition, review activity, and how well the website supports the profile. Pairing local SEO with a strong [website](/services/website-design-development/) makes the click after the search more likely to convert.
+Results depend on competition, review activity, and how well the website supports the profile. Pairing local SEO with a strong [website](../website-design-development/) makes the click after the search more likely to convert.
 
 ## Related services
 
-For broader rankings beyond your city, see [search engine optimization](/services/search-engine-optimization/). For ongoing listing, content, and campaign help, add [digital marketing](/services/digital-marketing/).
+For broader rankings beyond your city, see [search engine optimization](../search-engine-optimization/). For ongoing listing, content, and campaign help, add [digital marketing](../digital-marketing/).

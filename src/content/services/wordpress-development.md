@@ -38,10 +38,10 @@ Before launch, I check mobile layout, performance, and the basics of on-page SEO
 
 ## After launch
 
-WordPress needs updates. Plugins, themes, and core software should stay current. Pair this with [website maintenance](/services/website-maintenance/) for backups, security checks, and content changes.
+WordPress needs updates. Plugins, themes, and core software should stay current. Pair this with [website maintenance](../website-maintenance/) for backups, security checks, and content changes.
 
-If you also need ads or campaign pages, I can build [landing pages](/services/landing-page-design/) that match the rest of the WordPress site.
+If you also need ads or campaign pages, I can build [landing pages](../landing-page-design/) that match the rest of the WordPress site.
 
 ## Related services
 
-Starting from a blank brand? Combine WordPress with [website design and development](/services/website-design-development/) and [graphic and brand design](/services/graphic-brand-design/) so the visuals and the CMS match.
+Starting from a blank brand? Combine WordPress with [website design and development](../website-design-development/) and [graphic and brand design](../graphic-brand-design/) so the visuals and the CMS match.

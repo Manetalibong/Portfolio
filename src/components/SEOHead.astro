@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from "../config/siteConfig";
+import { withBase } from "../config/paths";
 
 interface Props {
   title?: string;
@@ -27,25 +28,26 @@ function buildCanonical(override?: string): string {
     return `${u.origin}${path}`;
   }
 
-  const base = siteConfig.domain.replace(/\/$/, "");
+  const origin = (Astro.site?.origin || siteConfig.domain).replace(/\/$/, "");
   let path = Astro.url.pathname;
   if (!path.endsWith("/")) path += "/";
-  return `${base}${path}`;
+  return `${origin}${path}`;
 }
 
 const canonicalUrl = buildCanonical(Astro.props.canonicalUrl);
 
+const origin = (Astro.site?.origin || siteConfig.domain).replace(/\/$/, "");
 const fullImageUrl = image.startsWith("http")
   ? image
-  : new URL(image, siteConfig.domain).toString();
+  : new URL(withBase(image), `${origin}/`).toString();
 ---
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="icon" href="/favicon.ico" sizes="any" />
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="icon" href={withBase("/favicon.ico")} sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href={withBase("/favicon-32x32.png")} />
+<link rel="apple-touch-icon" sizes="180x180" href={withBase("/apple-touch-icon.png")} />
+<link rel="sitemap" href={withBase("/sitemap-index.xml")} />
 <meta name="generator" content={Astro.generator} />
 
 <meta

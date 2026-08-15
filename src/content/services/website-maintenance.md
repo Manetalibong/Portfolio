@@ -20,7 +20,7 @@ I provide ongoing website maintenance so your site stays updated, backed up, sec
 
 ## Who this is for
 
-Maintenance is for anyone with a live site, especially [WordPress](/services/wordpress-development/) installs that depend on themes and plugins.
+Maintenance is for anyone with a live site, especially [WordPress](../wordpress-development/) installs that depend on themes and plugins.
 
 It is also useful if you want small content edits, new photos, or seasonal updates without starting a new project every time.
 
@@ -38,8 +38,8 @@ I keep the site healthy in the background and handle the edits you send. That ke
 
 ## Why it matters
 
-Outdated software is a common way sites get hacked or slowed down. A maintained site is safer, faster, and easier to improve with [SEO](/services/search-engine-optimization/) or new [landing pages](/services/landing-page-design/).
+Outdated software is a common way sites get hacked or slowed down. A maintained site is safer, faster, and easier to improve with [SEO](../search-engine-optimization/) or new [landing pages](../landing-page-design/).
 
 ## Related services
 
-If the site itself is the problem, maintenance will not fix a weak layout. That is a [redesign](/services/website-redesign/) or a new [website build](/services/website-design-development/). Maintenance is what keeps a good site from decaying.
+If the site itself is the problem, maintenance will not fix a weak layout. That is a [redesign](../website-redesign/) or a new [website build](../website-design-development/). Maintenance is what keeps a good site from decaying.

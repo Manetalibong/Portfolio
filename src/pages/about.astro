@@ -5,6 +5,7 @@ import Icon from "../components/Icon.astro";
 import ProcessSteps from "../../_section-library/content/ProcessSteps.astro";
 import CTASplit from "../../_section-library/cta/CTASplit.astro";
 import { siteConfig } from "../config/siteConfig";
+import { withBase } from "../config/paths";
 ---
 
 <BaseLayout
@@ -27,7 +28,7 @@ import { siteConfig } from "../config/siteConfig";
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <div class="relative">
           <img
-            src="/images/about/mane-portrait.jpg"
+            src={withBase("/images/about/mane-portrait.jpg")}
             alt="Mane Talibong, web developer, designer, and filmmaker"
             class="w-full rounded-3xl object-cover object-center aspect-[3/4] sm:aspect-[4/5]"
             loading="eager"
@@ -72,7 +73,7 @@ import { siteConfig } from "../config/siteConfig";
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
         <figure class="order-1 lg:order-2 lg:sticky lg:top-28">
           <img
-            src="/images/about/twg-pecit.png"
+            src={withBase("/images/about/twg-pecit.png")}
             alt="Mane Talibong with The Watch Guild team at PECIT, holding awards at a recognition event in Butuan City"
             class="w-full rounded-3xl"
             loading="lazy"
@@ -143,7 +144,7 @@ import { siteConfig } from "../config/siteConfig";
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
         <article class="bg-surface rounded-2xl overflow-hidden">
           <img
-            src="/images/about/filmmaking.jpg"
+            src={withBase("/images/about/filmmaking.jpg")}
             alt="On-location filmmaking and photography production"
             class="w-full aspect-[4/3] object-cover"
             loading="lazy"
@@ -162,7 +163,7 @@ import { siteConfig } from "../config/siteConfig";
 
         <article class="bg-surface rounded-2xl overflow-hidden">
           <img
-            src="/images/about/editor-in-chief.jpg"
+            src={withBase("/images/about/editor-in-chief.jpg")}
             alt="Mane Talibong as Editor in Chief"
             class="w-full aspect-[4/3] object-cover object-top"
             loading="lazy"
@@ -181,7 +182,7 @@ import { siteConfig } from "../config/siteConfig";
 
         <article class="bg-surface rounded-2xl overflow-hidden">
           <img
-            src="/images/about/mane-portrait.jpg"
+            src={withBase("/images/about/mane-portrait.jpg")}
             alt="Filmmaking and camera work"
             class="w-full aspect-[4/3] object-cover object-[center_20%]"
             loading="lazy"
@@ -257,10 +258,10 @@ import { siteConfig } from "../config/siteConfig";
   <CTASplit
     headline="Have a project in mind?"
     subtitle="Website, redesign, branding, photography, or film. Tell me what you need and we'll map the next step."
-    imageSrc="/images/about/editor-in-chief.jpg"
+    imageSrc={withBase("/images/about/editor-in-chief.jpg")}
     imageAlt="Mane Talibong in the studio"
     estimateLabel="Let's Work Together"
-    estimateHref="/contact/"
+    estimateHref={withBase("/contact/")}
     callLabel={`Call ${siteConfig.phone}`}
   />
 </BaseLayout>

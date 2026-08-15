@@ -1,6 +1,7 @@
 ---
 import { siteConfig } from "../config/siteConfig";
 import { mainNav, footerNav } from "../config/navigation";
+import { withBase } from "../config/paths";
 
 const year = new Date().getFullYear();
 const { socialLinks, address } = siteConfig;
@@ -11,7 +12,7 @@ const { socialLinks, address } = siteConfig;
   <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
       <div class="lg:col-span-1">
-        <a href="/" class="inline-flex items-center gap-2 mb-4 group">
+        <a href={withBase("/")} class="inline-flex items-center gap-2 mb-4 group">
           <span class="flex h-9 w-9 items-center justify-center rounded-full bg-secondary text-primary font-heading text-sm font-extrabold">
             MT
           </span>
@@ -51,7 +52,7 @@ const { socialLinks, address } = siteConfig;
         <ul class="space-y-2">
           {mainNav.map((item) => (
             <li>
-              <a href={item.href} class="text-sm hover:text-secondary transition-colors">{item.label}</a>
+              <a href={withBase(item.href)} class="text-sm hover:text-secondary transition-colors">{item.label}</a>
             </li>
           ))}
         </ul>
@@ -88,7 +89,7 @@ const { socialLinks, address } = siteConfig;
           {footerNav.map((item) => (
             <li>
               <a
-                href={item.href}
+                href={withBase(item.href)}
                 class="text-sm hover:text-secondary transition-colors"
                 target={item.href.startsWith("http") ? "_blank" : undefined}
                 rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}

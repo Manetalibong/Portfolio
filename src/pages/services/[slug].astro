@@ -5,6 +5,7 @@ import CTABanner from "../../components/CTABanner.astro";
 import Icon from "../../components/Icon.astro";
 import { siteConfig } from "../../config/siteConfig";
 import { getCollection, render } from "astro:content";
+import { withBase } from "../../config/paths";
 
 export async function getStaticPaths() {
   const services = await getCollection("services");
@@ -87,7 +88,7 @@ const relatedServices = (await getCollection("services"))
                 Tell me about your project and I'll follow up with a clear next step.
               </p>
               <a
-                href="/contact/"
+              href={withBase("/contact/")}
                 class="block w-full text-center rounded-lg bg-secondary px-4 py-2.5 text-sm font-semibold text-primary hover:bg-secondary-light transition-colors"
               >
                 Start a Project
@@ -106,7 +107,7 @@ const relatedServices = (await getCollection("services"))
                 {relatedServices.map((item) => (
                   <li>
                     <a
-                      href={`/services/${item.id}/`}
+                      href={withBase(`/services/${item.id}/`)}
                       class="flex items-center justify-between gap-3 rounded-lg px-2 py-2 text-sm font-medium text-text hover:bg-surface hover:text-primary transition-colors"
                     >
                       <span>{item.data.title}</span>

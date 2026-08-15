@@ -4,6 +4,7 @@
 */
 import { siteConfig } from "../config/siteConfig";
 import { mainNav } from "../config/navigation";
+import { withBase } from "../config/paths";
 
 interface Props {
   ctaLabel?: string;
@@ -16,13 +17,15 @@ const {
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
+const homeHref = withBase("/");
+const ctaUrl = withBase(ctaHref);
 ---
 
 <header class="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8 pt-4">
   <div class="mx-auto max-w-6xl">
     <div class="flex items-center justify-between h-14 sm:h-16 px-5 sm:px-6 rounded-full bg-primary/95 backdrop-blur-md shadow-lg ring-1 ring-white/10">
       <!-- Text wordmark logo -->
-      <a href="/" class="flex items-center gap-2 shrink-0 group">
+      <a href={homeHref} class="flex items-center gap-2 shrink-0 group">
         <span class="flex h-8 w-8 items-center justify-center rounded-full bg-secondary text-primary font-heading text-sm font-extrabold">
           MT
         </span>
@@ -33,25 +36,29 @@ const currentPath = Astro.url.pathname;
 
       <!-- Desktop Nav -->
       <nav class="hidden lg:flex items-center gap-0.5">
-        {mainNav.map((item) => (
+        {mainNav.map((item) => {
+          const href = withBase(item.href);
+          const isActive = currentPath === href || (item.href !== "/" && currentPath.startsWith(href));
+          return (
           <a
-            href={item.href}
+            href={href}
             class:list={[
               "px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors",
-              currentPath === item.href || (item.href !== "/" && currentPath.startsWith(item.href))
+              isActive
                 ? "text-secondary"
                 : "text-white/70 hover:text-white",
             ]}
           >
             {item.label}
           </a>
-        ))}
+          );
+        })}
       </nav>
 
       <!-- CTA + Mobile Toggle -->
       <div class="flex items-center gap-3">
         <a
-          href={ctaHref}
+          href={ctaUrl}
           class="hidden sm:inline-flex items-center rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white hover:bg-secondary hover:text-primary hover:border-secondary transition-all"
         >
           {ctaLabel}
@@ -76,22 +83,26 @@ const currentPath = Astro.url.pathname;
     <!-- Mobile Nav -->
     <div id="mobile-menu" class="hidden lg:hidden mt-2 rounded-2xl bg-primary/95 backdrop-blur-md shadow-lg ring-1 ring-white/10 overflow-hidden">
       <nav class="px-4 py-4 space-y-1">
-        {mainNav.map((item) => (
+        {mainNav.map((item) => {
+          const href = withBase(item.href);
+          const isActive = currentPath === href || (item.href !== "/" && currentPath.startsWith(href));
+          return (
           <a
-            href={item.href}
+            href={href}
             class:list={[
               "block px-4 py-2.5 rounded-xl text-base font-medium transition-colors",
-              currentPath === item.href || (item.href !== "/" && currentPath.startsWith(item.href))
+              isActive
                 ? "text-secondary bg-white/5"
                 : "text-white/70 hover:text-white hover:bg-white/5",
             ]}
           >
             {item.label}
           </a>
-        ))}
+          );
+        })}
         <div class="pt-2">
           <a
-            href={ctaHref}
+            href={ctaUrl}
             class="block text-center rounded-xl bg-secondary px-4 py-3 text-base font-semibold text-primary hover:bg-secondary-light transition-colors"
           >
             {ctaLabel}

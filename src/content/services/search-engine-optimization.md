@@ -22,7 +22,7 @@ I improve visibility with keyword research, on-page work, technical fixes, and c
 
 SEO is useful if you already have a website and want search traffic that is not fully dependent on ads. It also helps new sites that were built without titles, headings, or structure in mind.
 
-If most of your demand is nearby and map-based, start with [local SEO](/services/local-seo/). If you want category, service, or informational rankings as well, this broader SEO work fills the gap.
+If most of your demand is nearby and map-based, start with [local SEO](../local-seo/). If you want category, service, or informational rankings as well, this broader SEO work fills the gap.
 
 ## What you get
 
@@ -38,8 +38,8 @@ Then I implement on-page changes, technical fixes, and content improvements you 
 
 ## Content and conversion
 
-Ranking is only useful if the page converts. SEO work stays tied to clear offers and calls to action, which is why it pairs naturally with [website design](/services/website-design-development/) and [landing page design](/services/landing-page-design/).
+Ranking is only useful if the page converts. SEO work stays tied to clear offers and calls to action, which is why it pairs naturally with [website design](../website-design-development/) and [landing page design](../landing-page-design/).
 
 ## Related services
 
-Google Business Profile and map visibility live under [local SEO](/services/local-seo/). Campaigns, social, and conversion testing sit with [digital marketing](/services/digital-marketing/).
+Google Business Profile and map visibility live under [local SEO](../local-seo/). Campaigns, social, and conversion testing sit with [digital marketing](../digital-marketing/).

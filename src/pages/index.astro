@@ -11,6 +11,7 @@ import ProcessSteps from "../../_section-library/content/ProcessSteps.astro";
 import FAQAccordion from "../../_section-library/faq/FAQAccordion.astro";
 import { siteConfig } from "../config/siteConfig";
 import { getCollection } from "astro:content";
+import { withBase } from "../config/paths";
 
 const services = (await getCollection("services")).sort(
   (a, b) => a.data.order - b.data.order,
@@ -35,7 +36,7 @@ const mockupProjects = fs
     const title = file.replace(/\.png$/i, "");
     return {
       title,
-      src: `/images/work/${slugifyTitle(title)}.png`,
+      src: withBase(`/images/work/${slugifyTitle(title)}.png`),
     };
   })
   .sort((a, b) => a.title.localeCompare(b.title));
@@ -74,7 +75,7 @@ const mockupRowTwo = mockupProjects.filter((_, i) => i % 2 === 1);
           </p>
           <div class="animate-fade-up animate-fade-up-delay-3 mt-8 flex flex-wrap items-center gap-4">
             <a
-              href="/contact/"
+              href={withBase("/contact/")}
               class="inline-flex items-center gap-2 rounded-full bg-secondary px-7 py-3.5 text-sm font-bold text-primary shadow-lg shadow-secondary/25 hover:bg-secondary-light transition-colors"
             >
               Get More Leads
@@ -147,13 +148,13 @@ const mockupRowTwo = mockupProjects.filter((_, i) => i % 2 === 1);
       icon: s.data.icon || "check-circle",
       title: s.data.title,
       description: s.data.description,
-      href: `/services/${s.id}/`,
+      href: withBase(`/services/${s.id}/`),
     }))}
   />
 
   <div class="bg-surface-alt -mt-6">
     <div class="pb-10 text-center">
-      <a href="/services/" class="inline-flex items-center gap-2 text-primary font-semibold hover:text-secondary transition-colors">
+      <a href={withBase("/services/")} class="inline-flex items-center gap-2 text-primary font-semibold hover:text-secondary transition-colors">
         View all services
         <Icon name="arrow-right" class="h-4 w-4" />
       </a>
@@ -367,7 +368,7 @@ const mockupRowTwo = mockupProjects.filter((_, i) => i % 2 === 1);
       { icon: "zap", title: "Optimize & Grow", description: "SEO, performance, mobile, and ongoing marketing support." },
     ]}
     ctaLabel="Start Your Project"
-    ctaHref="/contact/"
+    ctaHref={withBase("/contact/")}
   />
 
   <!-- ========== VIDEO TESTIMONIAL ========== -->
@@ -443,7 +444,7 @@ const mockupRowTwo = mockupProjects.filter((_, i) => i % 2 === 1);
             ))}
           </ul>
           <a
-            href="/about/"
+            href={withBase("/about/")}
             class="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-bold text-white hover:bg-primary-light transition-colors"
           >
             More About Me
@@ -453,7 +454,7 @@ const mockupRowTwo = mockupProjects.filter((_, i) => i % 2 === 1);
 
         <div class="relative">
           <img
-            src="/images/about/mane-portrait.jpg"
+            src={withBase("/images/about/mane-portrait.jpg")}
             alt="Mane Talibong"
             class="w-full rounded-[2rem] object-cover object-center aspect-[4/5] max-h-[34rem]"
             loading="lazy"

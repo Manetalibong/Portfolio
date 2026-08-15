@@ -9,6 +9,7 @@
   Supports optional breadcrumb navigation.
 */
 import { siteConfig } from "../config/siteConfig";
+import { withBase } from "../config/paths";
 
 interface Props {
   title: string;
@@ -29,7 +30,7 @@ const {
   {backgroundImage && (
     <div class="absolute inset-0 z-0">
       <img
-        src={backgroundImage}
+        src={withBase(backgroundImage)}
         alt=""
         class="h-full w-full object-cover opacity-20"
         loading="eager"
@@ -46,7 +47,7 @@ const {
           <>
             {i > 0 && <span class="mx-2">/</span>}
             {crumb.href ? (
-              <a href={crumb.href} class="hover:text-white transition-colors">{crumb.label}</a>
+              <a href={withBase(crumb.href)} class="hover:text-white transition-colors">{crumb.label}</a>
             ) : (
               <span class="text-white">{crumb.label}</span>
             )}

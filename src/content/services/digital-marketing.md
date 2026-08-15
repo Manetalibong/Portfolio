@@ -34,7 +34,7 @@ That can include tightening headlines, forms, and page flow so more visitors bec
 
 I look at the full path: how someone finds you, what they see first, and what you ask them to do. Strategy comes before a pile of random posts.
 
-Then we pick the work that will move the goal. Sometimes that is content. Sometimes it is a better [landing page](/services/landing-page-design/). Sometimes it is cleaning up listings and profile consistency.
+Then we pick the work that will move the goal. Sometimes that is content. Sometimes it is a better [landing page](../landing-page-design/). Sometimes it is cleaning up listings and profile consistency.
 
 ## What this is not
 
@@ -42,4 +42,4 @@ I am not a media-buying agency that only runs ads. The focus is the assets and s
 
 ## Related services
 
-Visibility in search is handled through [SEO](/services/search-engine-optimization/) and [local SEO](/services/local-seo/). Visuals come from [graphic and brand design](/services/graphic-brand-design/).
+Visibility in search is handled through [SEO](../search-engine-optimization/) and [local SEO](../local-seo/). Visuals come from [graphic and brand design](../graphic-brand-design/).
