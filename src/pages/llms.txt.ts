@@ -24,7 +24,7 @@ Site: ${home}
 
 ## Optional
 
-- [Sitemap](${origin}${withBase("/sitemap-index.xml")})
+- [Sitemap](${origin}${withBase("/sitemap.xml")})
 `;
 
   return new Response(body, {

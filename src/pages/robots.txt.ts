@@ -3,7 +3,7 @@ import { withBase } from "../config/paths";
 
 export const GET: APIRoute = ({ site }) => {
   const origin = (site?.origin || "https://manetalibong.github.io").replace(/\/$/, "");
-  const sitemap = `${origin}${withBase("/sitemap-index.xml")}`;
+  const sitemap = `${origin}${withBase("/sitemap.xml")}`;
 
   const body = `User-agent: *
 Allow: /
