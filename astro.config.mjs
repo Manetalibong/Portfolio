@@ -15,7 +15,7 @@ export default defineConfig({
       entryLimit: 1000,
       filter: (page) => {
         const path = new URL(page).pathname;
-        const blocked = ["/preview", "/blog", "/service-areas", "/our-work"];
+        const blocked = ["/preview", "/service-areas", "/our-work"];
         return !blocked.some((segment) => path.includes(segment));
       },
     }),

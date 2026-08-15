@@ -19,6 +19,7 @@ Site: ${home}
 - [Home](${home})
 - [Services](${origin}${withBase("/services/")})
 - [About](${origin}${withBase("/about/")})
+- [Blog](${origin}${withBase("/blog/")})
 - [Contact](${origin}${withBase("/contact/")})
 
 ## Optional
