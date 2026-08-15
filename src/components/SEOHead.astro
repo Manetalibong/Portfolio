@@ -12,8 +12,8 @@ interface Props {
 
 const {
   title = `${siteConfig.businessName} | ${siteConfig.tagline}`,
-  description = `${siteConfig.businessName} provides professional services in ${siteConfig.serviceArea}. Call ${siteConfig.phone} for a free estimate.`,
-  image = siteConfig.logo,
+  description = `${siteConfig.businessName} provides professional web design, development, SEO, and digital marketing services. Call ${siteConfig.phone} to start your project.`,
+  image = siteConfig.logo || "/favicon.svg",
   type = "website",
   noindex = false,
 } = Astro.props;
@@ -71,7 +71,7 @@ const fullImageUrl = image.startsWith("http")
 <meta name="twitter:card" content="summary_large_image" />
 
 <!-- Geo / Local -->
-<meta name="geo.region" content={`US-${siteConfig.address.state}`} />
+<meta name="geo.region" content="PH" />
 <meta name="geo.placename" content={siteConfig.address.city} />
 
 {siteConfig.gtmId && (

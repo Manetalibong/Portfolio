@@ -1,26 +1,83 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/* Self-hosted fonts — Space Grotesk (display) + Manrope (body) */
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("/webfonts/space-grotesk-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("/webfonts/space-grotesk-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("/webfonts/space-grotesk-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Manrope";
+  src: url("/webfonts/manrope-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Manrope";
+  src: url("/webfonts/manrope-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Manrope";
+  src: url("/webfonts/manrope-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Manrope";
+  src: url("/webfonts/manrope-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
-  /* Brand colors — change these three values to re-theme the entire site */
-  --color-primary: #1E40AF;
-  --color-primary-light: #3B82F6;
-  --color-primary-dark: #1E3A8A;
-  --color-secondary: #F59E0B;
-  --color-secondary-light: #FBBF24;
-  --color-accent: #10B981;
-  --color-accent-light: #34D399;
+  /* Brand palette — dark ink + sky cyan */
+  --color-primary: #0B1220;
+  --color-primary-light: #1E3A5F;
+  --color-primary-dark: #060A12;
+  --color-secondary: #38BDF8;
+  --color-secondary-light: #7DD3FC;
+  --color-accent: #F59E0B;
+  --color-accent-light: #FBBF24;
 
   /* Neutrals */
-  --color-surface: #FFFFFF;
-  --color-surface-alt: #F9FAFB;
-  --color-border: #E5E7EB;
-  --color-text: #111827;
-  --color-text-muted: #6B7280;
+  --color-surface: #F7FAFC;
+  --color-surface-alt: #EEF3F8;
+  --color-border: #D6E0EA;
+  --color-text: #0F172A;
+  --color-text-muted: #5B6B7C;
 
-  /* Fonts — system stack by default (fast, no network). Override per client with self-hosted faces. */
-  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-heading: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /* Fonts */
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
 }
 
 html {
@@ -33,13 +90,14 @@ body {
   background-color: var(--color-surface);
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
 /*
   Background patterns — Hero Patterns style (heropatterns.com).
   Add a class to any section for subtle texture. Uses ::before pseudo-elements.
   Works on light and dark backgrounds. Content needs `relative z-10`.
-
-  Light backgrounds: use as-is (patterns use %23888 grey).
-  Dark backgrounds: swap to the -light variant or override opacity.
 */
 
 .pattern-dots { position: relative; }
@@ -75,7 +133,7 @@ body {
 .pattern-circuit::before {
   content: ""; position: absolute; inset: 0; pointer-events: none;
   opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='304' height='304' viewBox='0 0 304 304'%3E%3Cpath fill='%23888' fill-opacity='1' d='M44.1 224a5 5 0 1 1 0 2H0v-2h44.1zm160 48a5 5 0 1 1 0 2H82v-2h122.1zm57.8-46a5 5 0 1 1 0-2H googl304v2h-42.1zm0-16a5 5 0 1 1 0-2H304v2h-42.1zm-36.3-10a5 5 0 1 1-2 0V196h2v20.1zM182 186v-2h20.1a5 5 0 1 1 0 2H182zm-26-2a5 5 0 1 1 0 2h-64v-2h64zm-106 0a5 5 0 1 1 0 2H6v-2h44.1zm0-16a5 5 0 1 1 0 2H6v-2h44.1z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='304' height='304' viewBox='0 0 304 304'%3E%3Cpath fill='%23888' fill-opacity='1' d='M44.1 224a5 5 0 1 1 0 2H0v-2h44.1zm160 48a5 5 0 1 1 0 2H82v-2h122.1zm57.8-46a5 5 0 1 1 0-2H304v2h-42.1zm0-16a5 5 0 1 1 0-2H304v2h-42.1zm-36.3-10a5 5 0 1 1-2 0V196h2v20.1zM182 186v-2h20.1a5 5 0 1 1 0 2H182zm-26-2a5 5 0 1 1 0 2h-64v-2h64zm-106 0a5 5 0 1 1 0 2H6v-2h44.1zm0-16a5 5 0 1 1 0 2H6v-2h44.1z'/%3E%3C/svg%3E");
   background-size: 304px 304px;
 }
 
@@ -125,4 +183,50 @@ body {
   opacity: 0.3;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");
   background-size: 200px 200px;
+}
+
+/* Homepage motion helpers */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes marquee-project {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.7s ease-out both;
+}
+
+.animate-fade-up-delay-1 { animation-delay: 0.12s; }
+.animate-fade-up-delay-2 { animation-delay: 0.24s; }
+.animate-fade-up-delay-3 { animation-delay: 0.36s; }
+
+.animate-float {
+  animation: float-soft 6s ease-in-out infinite;
+}
+
+.project-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee-project 180s linear infinite;
+}
+
+.project-marquee:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-float,
+  .project-marquee {
+    animation: none;
+  }
 }

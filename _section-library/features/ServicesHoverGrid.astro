@@ -20,6 +20,7 @@ interface ServiceItem {
   icon?: string;
   title: string;
   description?: string;
+  href?: string;
 }
 
 interface Props {
@@ -77,8 +78,16 @@ const {
 
       <!-- Service cards grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl mx-auto">
-        {services.map((service) => (
-          <div class="group relative rounded-xl p-6 text-center bg-transparent border border-transparent hover:bg-secondary/8 hover:border-secondary/20 hover:shadow-sm transition-all duration-300 cursor-default">
+        {services.map((service) => {
+          const Tag = service.href ? "a" : "div";
+          return (
+          <Tag
+            href={service.href}
+            class:list={[
+              "group relative rounded-xl p-6 text-center bg-transparent border border-transparent hover:bg-secondary/8 hover:border-secondary/20 hover:shadow-sm transition-all duration-300",
+              service.href ? "cursor-pointer no-underline" : "cursor-default",
+            ]}
+          >
             {/* Top accent bar — grows on hover */}
             <div class="absolute top-0 left-1/2 -translate-x-1/2 h-1 w-0 group-hover:w-10 rounded-b bg-secondary transition-all duration-300" aria-hidden="true"></div>
 
@@ -98,8 +107,9 @@ const {
                 </p>
               </div>
             </div>
-          </div>
-        ))}
+          </Tag>
+          );
+        })}
       </div>
     </div>
   </div>

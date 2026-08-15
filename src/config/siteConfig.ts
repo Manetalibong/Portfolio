@@ -1,24 +1,26 @@
 export const siteConfig = {
-  businessName: "Acme Plumbing",
-  tagline: "Your Trusted Local Plumber",
-  phone: "(555) 123-4567",
-  email: "info@acmeplumbing.com",
+  businessName: "Mane Talibong",
+  tagline: "Websites That Convert",
+  phone: "+63 985 101 7055",
+  email: "talibongmane4@gmail.com",
   address: {
-    street: "123 Main St",
-    city: "Houston",
-    state: "TX",
-    zip: "77001",
+    street: "Butuan City",
+    city: "Butuan City",
+    state: "PH",
+    zip: "",
   },
-  serviceArea: "Houston, TX",
-  domain: "https://example.com",
+  serviceArea: "Remote & Worldwide",
+  domain: "https://manetalibong.com",
   socialLinks: {
-    facebook: "",
-    instagram: "",
+    facebook: "https://www.facebook.com/AkosiManNicx",
+    instagram: "https://www.instagram.com/mane_talibong/",
     google: "",
-    youtube: "",
+    youtube: "https://youtu.be/TazMLieOr0g",
+    linkedin: "https://ph.linkedin.com/in/mane-talibong-5289232b8",
+    portfolio: "https://sites.google.com/view/talibong-mane/portfolio/website-developed",
   },
-  formEndpoint: "https://app.galaxygrowthmedia.com/api/leads",
-  logo: "/images/logo.png",
+  formEndpoint: "",
+  logo: "",
   gtmId: "",
   googleMapsEmbed: "",
 
@@ -34,6 +36,6 @@ export const siteConfig = {
     silhouette: decorative bottom-edge SVG for value/content sections.
       Options: "trees" | "cityscape" | "roofline" | "tools" | "waves" | "mountains"
   */
-  pattern: "pattern-diamonds",
+  pattern: "pattern-circuit",
   silhouette: "cityscape" as const,
 };

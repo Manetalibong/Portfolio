@@ -1,4 +1,6 @@
 ---
+import Icon from "./Icon.astro";
+
 interface Props {
   title: string;
   description: string;
@@ -11,8 +13,8 @@ const { title, description, slug, icon, image } = Astro.props;
 ---
 
 <a
-  href={`/services/${slug}`}
-  class="group block rounded-xl border border-border bg-surface p-6 shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-200"
+  href={`/services/${slug}/`}
+  class="group block rounded-2xl border border-border bg-surface p-6 hover:border-secondary/40 transition-all duration-200"
 >
   {image && (
     <div class="mb-4 overflow-hidden rounded-lg aspect-video">
@@ -25,13 +27,15 @@ const { title, description, slug, icon, image } = Astro.props;
     </div>
   )}
   {icon && !image && (
-    <div class="mb-4 text-4xl">{icon}</div>
+    <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+      <Icon name={icon} class="h-6 w-6 text-primary" />
+    </div>
   )}
-  <h3 class="text-lg font-semibold text-text group-hover:text-primary transition-colors">
+  <h3 class="font-heading text-lg font-bold text-text group-hover:text-primary transition-colors">
     {title}
   </h3>
   <p class="mt-2 text-sm text-text-muted line-clamp-3">{description}</p>
-  <span class="mt-4 inline-flex items-center text-sm font-medium text-primary">
+  <span class="mt-4 inline-flex items-center text-sm font-semibold text-primary">
     Learn more
     <svg class="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />

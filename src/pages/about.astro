@@ -1,96 +1,266 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import CTABanner from "../components/CTABanner.astro";
+import PageHeader from "../components/PageHeader.astro";
+import Icon from "../components/Icon.astro";
+import ProcessSteps from "../../_section-library/content/ProcessSteps.astro";
+import CTASplit from "../../_section-library/cta/CTASplit.astro";
 import { siteConfig } from "../config/siteConfig";
 ---
 
 <BaseLayout
-  title={`About Us | ${siteConfig.businessName}`}
-  description={`Learn about ${siteConfig.businessName}, a trusted service provider in ${siteConfig.serviceArea}. Dedicated to quality workmanship and customer satisfaction.`}
+  title={`About Mane Talibong | Web Developer, Designer & Creative`}
+  description="I'm Mane Talibong. I taught myself web development, started working at 18, and later returned to PECIT as a BSIS student and Editor in Chief of The Watch Guild. I build websites, photograph events, and help businesses grow online."
 >
-  <!-- Page Header -->
-  <section class="bg-primary py-16 sm:py-20">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-      <h1 class="text-4xl sm:text-5xl font-bold text-white">About Us</h1>
-      <p class="mt-4 text-lg text-white/80 max-w-2xl mx-auto">
-        Get to know the team behind {siteConfig.businessName}.
-      </p>
-    </div>
-  </section>
+  <PageHeader
+    title="About Me"
+    subtitle="A web developer, designer, and student from Butuan City. This is the path that got me here."
+    backgroundImage="/images/about/filmmaking.jpg"
+    breadcrumbs={[
+      { label: "Home", href: "/" },
+      { label: "About" },
+    ]}
+  />
 
-  <!-- Story -->
-  <section class="py-16 sm:py-20 bg-surface">
+  <!-- Intro -->
+  <section class="bg-surface py-16 sm:py-24">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <div>
-          <h2 class="text-3xl sm:text-4xl font-bold text-text">Our Story</h2>
-          <p class="mt-6 text-text-muted leading-relaxed">
-            {siteConfig.businessName} was founded with a simple mission: to provide honest,
-            reliable service to homeowners in {siteConfig.serviceArea}. What started as a
-            small operation has grown into one of the area's most trusted service providers.
-          </p>
-          <p class="mt-4 text-text-muted leading-relaxed">
-            We believe in doing the job right the first time, treating every customer's home
-            like our own, and providing transparent pricing with no hidden surprises. Our team
-            of licensed professionals brings years of experience and a commitment to excellence
-            to every job.
-          </p>
-        </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <div class="relative">
           <img
-            src="/images/about-team.jpg"
-            alt={`${siteConfig.businessName} team`}
-            class="rounded-xl shadow-lg w-full aspect-[4/3] object-cover"
-            loading="lazy"
+            src="/images/about/mane-portrait.jpg"
+            alt="Mane Talibong, web developer, designer, and filmmaker"
+            class="w-full rounded-3xl object-cover object-center aspect-[3/4] sm:aspect-[4/5]"
+            loading="eager"
+            decoding="async"
           />
+        </div>
+        <div>
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">Mane Talibong</p>
+          <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-text">
+            Creative Online. Hands-On Locally.
+          </h2>
+          <p class="mt-5 text-text-muted leading-relaxed">
+            I'm a web developer and graphic designer with 3+ years of experience creating websites and digital experiences for businesses.
+          </p>
+          <p class="mt-4 text-text-muted leading-relaxed">
+            My work combines development, design, SEO, and digital marketing so sites look professional and are built around business goals. I help local businesses get found, look established online, and turn visitors into leads.
+          </p>
+          <p class="mt-4 text-text-muted leading-relaxed">
+            Aside from client work, I photograph weddings and events, served as Editor in Chief of The Watch Guild at PECIT, and work in filmmaking with local clients.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            {[
+              "Web Development",
+              "Graphic Design",
+              "Event Photography",
+              "The Watch Guild",
+              "Filmmaking",
+            ].map((tag) => (
+              <span class="rounded-full border border-border bg-surface-alt px-4 py-2 text-sm font-semibold text-text">
+                {tag}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Values -->
-  <section class="py-16 sm:py-20 bg-surface-alt">
+  <!-- Journey -->
+  <section class="bg-surface-alt py-16 sm:py-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+        <figure class="order-1 lg:order-2 lg:sticky lg:top-28">
+          <img
+            src="/images/about/twg-pecit.png"
+            alt="Mane Talibong with The Watch Guild team at PECIT, holding awards at a recognition event in Butuan City"
+            class="w-full rounded-3xl"
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption class="mt-4 text-sm text-text-muted">
+            With The Watch Guild family at a recognition event in Butuan City.
+          </figcaption>
+        </figure>
+
+        <div class="order-2 lg:order-1">
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">The Journey</p>
+          <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-text">
+            For The Version Of Me Who Felt Lost
+          </h2>
+          <div class="mt-5 space-y-4 text-text-muted leading-relaxed">
+            <p>
+              My journey hasn't been simple, but it's something I'm proud of. Everything started when I found myself stuck and confused about where to go after graduation. I knew college wouldn't be easy, not only academically, but also financially.
+            </p>
+            <p>
+              I first enrolled in PECIT in 2022. I made the difficult decision to drop out because I didn't want to become a financial burden to my parents. After that I tried a different path. I took the entrance exam at CSU and failed on my first attempt.
+            </p>
+            <p>
+              Instead of doing nothing, I studied programming at home out of curiosity. I even developed my first website using only my phone. Soon after, a friend invited me to work. There I met mentors and friends who helped me grow. I worked as a web developer and designer, my dream job, and at just 18 years old, while others were thinking about where to hang out, I was already working night shifts and earning what I once only dreamed about.
+            </p>
+            <p>
+              Despite earning well, something still felt missing.
+            </p>
+            <p>
+              In 2023 I tried again and took the CSU entrance exam with only one hour of review, and I passed. Balancing daytime studies and nighttime work was incredibly tough. Eventually I chose to pause school again to focus on work, since I was already earning more than what many could in a day.
+            </p>
+            <p>
+              Later I became a lead web designer, SEO specialist, and lead digital marketer at an international startup based in Texas. Even then I barely slept eight hours. My parents encouraged me to study again, and in 2024 I decided to start another chapter. I re-enrolled in PECIT as a first-year BSIS student. Thankfully they offered flexible hours for working students like me.
+            </p>
+            <p>
+              I met amazing people and found a family in TWG who supported my growth. I also discovered new passions like photography, which opened doors to sideline work covering weddings and events.
+            </p>
+            <p>
+              It wasn't always easy. Being a student, working nights, and serving as Editor in Chief all at once was exhausting. But it was worth it. Every stress and challenge shaped me.
+            </p>
+          </div>
+          <blockquote class="mt-8 rounded-2xl border border-secondary/25 bg-surface p-6 sm:p-8">
+            <p class="font-heading text-lg sm:text-xl font-bold text-text leading-snug">
+              Today I dedicate this journey to my younger self: the one who once felt lost, who questioned his future, who doubted his worth, and who thought he would never afford the life he dreamed of.
+            </p>
+            <p class="mt-4 text-text-muted leading-relaxed">
+              That younger version of me, who once felt small, is now part of the 1% of his dreams: buying the things he wants, paying his own tuition, and helping his parents.
+            </p>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Creative work beyond websites -->
+  <section class="bg-surface-alt py-16 sm:py-24 border-t border-border">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-12">
+        <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">More Of What I Do</p>
+        <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-text">
+          Storytelling Beyond The Browser
+        </h2>
+        <p class="mt-4 text-text-muted leading-relaxed">
+          Digital work is the core of my practice. Photography, editorial leadership, and film keep the same focus: clear stories, strong visuals, and work that connects with real people.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+        <article class="bg-surface rounded-2xl overflow-hidden">
+          <img
+            src="/images/about/filmmaking.jpg"
+            alt="On-location filmmaking and photography production"
+            class="w-full aspect-[4/3] object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="p-6">
+            <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-secondary/15">
+              <Icon name="eye" class="h-5 w-5 text-primary" />
+            </div>
+            <h3 class="font-heading text-xl font-bold text-text">Event Photography</h3>
+            <p class="mt-2 text-sm text-text-muted leading-relaxed">
+              Photography started as a new passion at PECIT. It opened doors to covering weddings and events locally, capturing moments people actually want to keep.
+            </p>
+          </div>
+        </article>
+
+        <article class="bg-surface rounded-2xl overflow-hidden">
+          <img
+            src="/images/about/editor-in-chief.jpg"
+            alt="Mane Talibong as Editor in Chief"
+            class="w-full aspect-[4/3] object-cover object-top"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="p-6">
+            <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-secondary/15">
+              <Icon name="clipboard" class="h-5 w-5 text-primary" />
+            </div>
+            <h3 class="font-heading text-xl font-bold text-text">Editor in Chief, TWG</h3>
+            <p class="mt-2 text-sm text-text-muted leading-relaxed">
+              I served as Editor in Chief of The Watch Guild, PECIT's student publication. The team became a family that supported my growth while I studied and worked nights.
+            </p>
+          </div>
+        </article>
+
+        <article class="bg-surface rounded-2xl overflow-hidden">
+          <img
+            src="/images/about/mane-portrait.jpg"
+            alt="Filmmaking and camera work"
+            class="w-full aspect-[4/3] object-cover object-[center_20%]"
+            loading="lazy"
+            decoding="async"
+          />
+          <div class="p-6">
+            <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-secondary/15">
+              <Icon name="zap" class="h-5 w-5 text-primary" />
+            </div>
+            <h3 class="font-heading text-xl font-bold text-text">Filmmaking</h3>
+            <p class="mt-2 text-sm text-text-muted leading-relaxed">
+              I actively make films and compete with local clients, covering production from shoot planning to a finished visual story.
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <ProcessSteps
+    eyebrow="My Approach"
+    heading="How I Work With Businesses"
+    description="Every website project follows a simple path focused on usability, visibility, and conversions."
+    columns={4}
+    steps={[
+      { icon: "users", title: "Understand", description: "I learn about the business, audience, competitors, and goals." },
+      { icon: "clipboard", title: "Plan", description: "A clear structure and strategy focused on usability and conversions." },
+      { icon: "settings", title: "Build", description: "A responsive, fast, professional website tailored to the business." },
+      { icon: "zap", title: "Optimize & Grow", description: "SEO, performance, mobile, and ongoing marketing support." },
+    ]}
+  />
+
+  <!-- Skills -->
+  <section class="bg-surface py-16 sm:py-24">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="text-center max-w-2xl mx-auto mb-12">
-        <h2 class="text-3xl sm:text-4xl font-bold text-text">Our Values</h2>
-        <p class="mt-4 text-lg text-text-muted">The principles that guide everything we do.</p>
+        <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">Skills</p>
+        <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-text">What I Bring To A Project</h2>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
         {[
           {
-            title: "Integrity",
-            desc: "Honest assessments, fair pricing, and transparent communication every time.",
-            icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
+            title: "Web Development",
+            items: ["HTML, CSS, JavaScript, PHP", "WordPress, Elementor, Divi", "WooCommerce and Shopify", "Responsive design and performance"],
           },
           {
-            title: "Quality",
-            desc: "We never cut corners. Every job is done right, backed by our satisfaction guarantee.",
-            icon: "M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z",
+            title: "Design",
+            items: ["Graphic and brand design", "UI and landing pages", "Social media graphics", "Photoshop, Lightroom, Canva"],
           },
           {
-            title: "Reliability",
-            desc: "We show up on time, finish on schedule, and stand behind our work.",
-            icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z",
+            title: "SEO & Creative",
+            items: ["Local SEO and GBP optimization", "Content and conversion work", "Event photography", "Editorial leadership and film"],
           },
-          {
-            title: "Community",
-            desc: "We're local, we're invested, and we care about the communities we serve.",
-            icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z",
-          },
-        ].map((value) => (
-          <div class="text-center p-6 rounded-xl bg-surface shadow-sm border border-border">
-            <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-              <svg class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d={value.icon} />
-              </svg>
-            </div>
-            <h3 class="text-lg font-semibold text-text">{value.title}</h3>
-            <p class="mt-2 text-sm text-text-muted">{value.desc}</p>
+        ].map((group) => (
+          <div class="rounded-2xl border border-border bg-surface-alt p-7">
+            <h3 class="font-heading text-xl font-bold text-text mb-4">{group.title}</h3>
+            <ul class="space-y-3">
+              {group.items.map((item) => (
+                <li class="flex items-start gap-3 text-sm text-text-muted">
+                  <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-secondary/15">
+                    <Icon name="check" class="h-3 w-3 text-primary" />
+                  </span>
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <CTABanner />
+  <CTASplit
+    headline="Have a project in mind?"
+    subtitle="Website, redesign, branding, photography, or film. Tell me what you need and we'll map the next step."
+    imageSrc="/images/about/editor-in-chief.jpg"
+    imageAlt="Mane Talibong in the studio"
+    estimateLabel="Let's Work Together"
+    estimateHref="/contact/"
+    callLabel={`Call ${siteConfig.phone}`}
+  />
 </BaseLayout>

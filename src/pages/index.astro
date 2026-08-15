@@ -1,132 +1,579 @@
 ---
+import fs from "node:fs";
+import path from "node:path";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Hero from "../components/Hero.astro";
-import ServiceCard from "../components/ServiceCard.astro";
-import AreaCard from "../components/AreaCard.astro";
-import CTABanner from "../components/CTABanner.astro";
+import Icon from "../components/Icon.astro";
+import SectionDivider from "../components/SectionDivider.astro";
+import LeadForm from "../components/LeadForm.astro";
+import StatsBar from "../../_section-library/stats/StatsBar.astro";
+import ServicesHoverGrid from "../../_section-library/features/ServicesHoverGrid.astro";
+import ProcessSteps from "../../_section-library/content/ProcessSteps.astro";
+import FAQAccordion from "../../_section-library/faq/FAQAccordion.astro";
 import { siteConfig } from "../config/siteConfig";
 import { getCollection } from "astro:content";
 
 const services = (await getCollection("services")).sort(
   (a, b) => a.data.order - b.data.order,
 );
-const serviceAreas = await getCollection("serviceAreas");
+
+function slugifyTitle(stem: string) {
+  return stem
+    .replace(/\(2\)/g, "")
+    .replace(/[’']/g, "")
+    .replace(/&/g, "and")
+    .replace(/[^a-zA-Z0-9]+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "")
+    .toLowerCase();
+}
+
+const mockupDir = path.join(process.cwd(), "public", "images", "Mockup");
+const mockupProjects = fs
+  .readdirSync(mockupDir)
+  .filter((file) => file.toLowerCase().endsWith(".png") && !file.includes("(2)"))
+  .map((file) => {
+    const title = file.replace(/\.png$/i, "");
+    return {
+      title,
+      src: `/images/work/${slugifyTitle(title)}.png`,
+    };
+  })
+  .sort((a, b) => a.title.localeCompare(b.title));
+
+const projectNameMarquee = mockupProjects.map((project) => project.title);
+const mockupRowOne = mockupProjects.filter((_, i) => i % 2 === 0);
+const mockupRowTwo = mockupProjects.filter((_, i) => i % 2 === 1);
 ---
 
-<BaseLayout>
-  <Hero
-    title={`Trusted ${siteConfig.tagline.split(" ").slice(-1)[0]} in ${siteConfig.serviceArea}`}
-    subtitle={`${siteConfig.businessName} delivers reliable, professional service you can count on. Serving ${siteConfig.serviceArea} and surrounding areas.`}
+<BaseLayout
+  title={`${siteConfig.businessName} | Web Developer, Designer & SEO Specialist`}
+  description="I build professional, high-converting websites for businesses that want to attract more customers, improve online visibility, and grow. 3+ years experience in web development, design, SEO, and digital marketing."
+  schema="LocalBusiness"
+>
+  <!-- ========== HERO ========== -->
+  <section class="relative min-h-[100svh] flex items-center overflow-hidden bg-primary">
+    <div class="absolute inset-0" aria-hidden="true">
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_15%_20%,rgba(56,189,248,0.22),transparent_48%),radial-gradient(ellipse_at_85%_15%,rgba(245,158,11,0.12),transparent_42%),radial-gradient(ellipse_at_70%_85%,rgba(30,58,95,0.55),transparent_50%)]"></div>
+      <div class={`absolute inset-0 ${siteConfig.pattern} opacity-50`}></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-primary/55"></div>
+    </div>
+
+    <div class="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 pt-32 pb-16 sm:pb-20">
+      <div class="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-10 items-center">
+        <div>
+          <p class="animate-fade-up font-heading text-secondary text-sm sm:text-base font-bold uppercase tracking-[0.2em] mb-4">
+            {siteConfig.businessName} · Websites That Grow Businesses
+          </p>
+          <h1 class="animate-fade-up animate-fade-up-delay-1 font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-[4.25rem] font-bold text-white tracking-tight leading-[1.05] max-w-2xl">
+            More Leads.
+            <span class="text-secondary"> Stronger Visibility.</span>
+            A Brand Clients Trust.
+          </h1>
+          <p class="animate-fade-up animate-fade-up-delay-2 mt-6 max-w-xl text-base sm:text-lg text-white/70 leading-relaxed">
+            I build conversion-focused websites that help businesses look professional, rank better locally, and turn visitors into inquiries.
+          </p>
+          <div class="animate-fade-up animate-fade-up-delay-3 mt-8 flex flex-wrap items-center gap-4">
+            <a
+              href="/contact/"
+              class="inline-flex items-center gap-2 rounded-full bg-secondary px-7 py-3.5 text-sm font-bold text-primary shadow-lg shadow-secondary/25 hover:bg-secondary-light transition-colors"
+            >
+              Get More Leads
+              <Icon name="arrow-right" class="h-4 w-4" />
+            </a>
+            <a
+              href="#work"
+              class="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/5 px-7 py-3.5 text-sm font-bold text-white hover:bg-white hover:text-primary transition-all"
+            >
+              See Proven Work
+            </a>
+          </div>
+        </div>
+
+        <!-- Results panel instead of website mockups -->
+        <div class="animate-fade-up animate-fade-up-delay-2 animate-float">
+          <div class="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md p-6 sm:p-8 shadow-2xl shadow-black/30">
+            <p class="text-xs font-bold uppercase tracking-[0.18em] text-secondary mb-5">Results You Can Expect</p>
+            <ul class="space-y-4">
+              {[
+                { icon: "target", title: "More qualified leads", text: "Clear CTAs and fast quote paths that push visitors to call or inquire." },
+                { icon: "search", title: "Stronger local visibility", text: "SEO-aware structure that helps customers find you when they search." },
+                { icon: "shield-check", title: "Professional brand trust", text: "Polished design that makes first-time visitors feel confident hiring you." },
+                { icon: "zap", title: "A site that works for you", text: "Built for mobile, speed, and conversions so your website becomes a sales tool." },
+              ].map((item) => (
+                <li class="flex gap-4 rounded-2xl border border-white/10 bg-primary/40 p-4">
+                  <span class="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary/15">
+                    <Icon name={item.icon} class="h-5 w-5 text-secondary" />
+                  </span>
+                  <div>
+                    <p class="font-heading text-base font-bold text-white">{item.title}</p>
+                    <p class="mt-1 text-sm text-white/60 leading-relaxed">{item.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <StatsBar
+    stats={[
+      { value: "Leads", label: "More Inquiries" },
+      { value: "SEO", label: "Stronger Visibility" },
+      { value: "Trust", label: "Professional Brand" },
+      { value: "35+", label: "Websites Delivered" },
+    ]}
   />
 
-  <!-- Services Section -->
-  <section class="py-16 sm:py-20 bg-surface">
+  <!-- Project name marquee -->
+  <section class="bg-primary-dark border-y border-white/5 overflow-hidden py-4" aria-label="Past project names">
+    <div class="project-marquee gap-10 items-center">
+      {[...projectNameMarquee, ...projectNameMarquee].map((name) => (
+        <span class="font-heading text-sm sm:text-base font-bold uppercase tracking-[0.18em] text-white/35 whitespace-nowrap">
+          {name}
+          <span class="ml-10 text-secondary/50">◆</span>
+        </span>
+      ))}
+    </div>
+  </section>
+
+  <!-- ========== SERVICES ========== -->
+  <ServicesHoverGrid
+    eyebrow="What I Offer"
+    heading="Services Built Around Business Results"
+    description="From first design to ongoing growth, I help businesses look professional online and turn website visitors into real opportunities."
+    services={services.slice(0, 6).map((s) => ({
+      icon: s.data.icon || "check-circle",
+      title: s.data.title,
+      description: s.data.description,
+      href: `/services/${s.id}/`,
+    }))}
+  />
+
+  <div class="bg-surface-alt -mt-6">
+    <div class="pb-10 text-center">
+      <a href="/services/" class="inline-flex items-center gap-2 text-primary font-semibold hover:text-secondary transition-colors">
+        View all services
+        <Icon name="arrow-right" class="h-4 w-4" />
+      </a>
+    </div>
+    <SectionDivider type="wave" color="text-surface" />
+  </div>
+
+  <!-- ========== FEATURED WORK SHOWCASE ========== -->
+  <section id="work" class="bg-surface pt-12 pb-16 sm:pt-16 sm:pb-24 overflow-hidden">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-2xl mx-auto mb-12">
-        <h2 class="text-3xl sm:text-4xl font-bold text-text">Our Services</h2>
-        <p class="mt-4 text-lg text-text-muted">
-          From routine maintenance to emergency repairs, we offer a full range of professional services.
-        </p>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {services.map((service) => (
-          <ServiceCard
-            title={service.data.title}
-            description={service.data.description}
-            slug={service.id}
-            icon={service.data.icon}
-            image={service.data.image}
-          />
-        ))}
-      </div>
-      <div class="text-center mt-10">
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
+        <div class="max-w-2xl">
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">Featured Work</p>
+          <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-text">
+            Website Mockups From Real Client Projects
+          </h2>
+          <p class="mt-4 text-text-muted leading-relaxed">
+            A live-moving showcase of sites I have designed. These are stills. Visit my Google Sites portfolio to click through the live websites.
+          </p>
+        </div>
         <a
-          href="/services"
-          class="inline-flex items-center text-primary font-semibold hover:text-primary-dark transition-colors"
+          href={siteConfig.socialLinks.portfolio}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-bold text-white hover:bg-primary-light transition-colors shrink-0"
         >
-          View all services
-          <svg class="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
+          View Live Websites
+          <Icon name="arrow-right" class="h-4 w-4" />
+        </a>
+      </div>
+    </div>
+
+    <div class="work-showcase" aria-label="Autoplaying website mockup showcase">
+      <div class="work-showcase-track work-showcase-pause">
+        <div class="work-showcase-inner" style="--work-speed: 140s;">
+          {[...mockupRowOne, ...mockupRowOne].map((project) => (
+            <a
+              href={siteConfig.socialLinks.portfolio}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="work-showcase-card group"
+            >
+              <img src={project.src} alt={`${project.title} website mockup`} loading="lazy" decoding="async" />
+              <span class="work-showcase-title">{project.title}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div class="work-showcase-track work-showcase-pause work-showcase-reverse mt-4 sm:mt-5">
+        <div class="work-showcase-inner" style="--work-speed: 170s;">
+          {[...mockupRowTwo, ...mockupRowTwo].map((project) => (
+            <a
+              href={siteConfig.socialLinks.portfolio}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="work-showcase-card group"
+            >
+              <img src={project.src} alt={`${project.title} website mockup`} loading="lazy" decoding="async" />
+              <span class="work-showcase-title">{project.title}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mt-10 rounded-2xl border border-secondary/30 bg-secondary/10 px-6 py-6 sm:px-8 text-center">
+        <p class="font-heading text-xl sm:text-2xl font-bold text-text">Want to see these sites live?</p>
+        <p class="mt-2 text-text-muted max-w-2xl mx-auto">
+          This showcase displays mockups. Open my Google Sites portfolio to browse the actual websites and client work.
+        </p>
+        <a
+          href={siteConfig.socialLinks.portfolio}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-5 inline-flex items-center gap-2 rounded-full bg-secondary px-7 py-3.5 text-sm font-bold text-primary hover:bg-secondary-light transition-colors"
+        >
+          Browse Live Sites on Google Sites
+          <Icon name="arrow-right" class="h-4 w-4" />
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Why Choose Us -->
-  <section class="py-16 sm:py-20 bg-surface-alt">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-2xl mx-auto mb-12">
-        <h2 class="text-3xl sm:text-4xl font-bold text-text">Why Choose {siteConfig.businessName}?</h2>
-        <p class="mt-4 text-lg text-text-muted">
-          We're committed to providing the highest quality service at competitive prices.
-        </p>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="text-center p-6">
-          <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
-            <svg class="h-7 w-7 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-            </svg>
-          </div>
-          <h3 class="text-lg font-semibold text-text">Licensed & Insured</h3>
-          <p class="mt-2 text-text-muted">Fully licensed, bonded, and insured for your peace of mind.</p>
-        </div>
-        <div class="text-center p-6">
-          <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
-            <svg class="h-7 w-7 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <h3 class="text-lg font-semibold text-text">Fast Response</h3>
-          <p class="mt-2 text-text-muted">Same-day service available. We know emergencies don't wait.</p>
-        </div>
-        <div class="text-center p-6">
-          <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
-            <svg class="h-7 w-7 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
-          </div>
-          <h3 class="text-lg font-semibold text-text">Upfront Pricing</h3>
-          <p class="mt-2 text-text-muted">No hidden fees. We provide clear estimates before any work begins.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <style>
+    .work-showcase-track {
+      width: 100%;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+      mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+    }
 
-  <!-- Service Areas -->
-  <section class="py-16 sm:py-20 bg-surface">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-2xl mx-auto mb-12">
-        <h2 class="text-3xl sm:text-4xl font-bold text-text">Areas We Serve</h2>
-        <p class="mt-4 text-lg text-text-muted">
-          Proudly serving communities across {siteConfig.serviceArea} and the surrounding metro area.
+    .work-showcase-inner {
+      display: flex;
+      gap: 1.25rem;
+      width: max-content;
+      animation: work-showcase-scroll var(--work-speed, 90s) linear infinite;
+    }
+
+    .work-showcase-reverse .work-showcase-inner {
+      animation-direction: reverse;
+    }
+
+    .work-showcase-pause:hover .work-showcase-inner {
+      animation-play-state: paused;
+    }
+
+    .work-showcase-card {
+      flex: 0 0 auto;
+      width: calc((100vw - 2.5rem) / 2.15);
+      display: flex;
+      flex-direction: column;
+      overflow: visible;
+      border-radius: 0;
+      border: none;
+      background: transparent;
+      text-decoration: none;
+      box-shadow: none;
+    }
+
+    @media (min-width: 768px) {
+      .work-showcase-card {
+        width: calc((100vw - 3.5rem) / 3.15);
+      }
+    }
+
+    @media (min-width: 1100px) {
+      .work-showcase-card {
+        width: calc((min(100vw, 80rem) - 4rem) / 4.15);
+      }
+    }
+
+    .work-showcase-card img {
+      aspect-ratio: 16 / 11;
+      width: 92%;
+      margin: 0 auto;
+      object-fit: contain;
+      background: transparent;
+    }
+
+    .work-showcase-title {
+      display: block;
+      padding: 0.6rem 0.5rem 0;
+      font-family: var(--font-heading);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--color-text);
+      line-height: 1.25;
+      text-align: center;
+      background: transparent;
+    }
+
+    .work-showcase-card:hover {
+      box-shadow: none;
+    }
+
+    @keyframes work-showcase-scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .work-showcase-inner {
+        animation-play-state: paused;
+      }
+    }
+  </style>
+
+  <!-- ========== WHY WORK WITH ME ========== -->
+  <section class={`relative overflow-hidden bg-primary py-16 sm:py-24 ${siteConfig.pattern}`}>
+    <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-12">
+        <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">Why Work With Me</p>
+        <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-white">
+          Design Plus Development Plus Growth
+        </h2>
+        <p class="mt-4 text-white/65 leading-relaxed">
+          I combine development, design, SEO, and digital marketing so your website is not just attractive. It is built to support real business goals.
         </p>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {serviceAreas.map((area) => (
-          <AreaCard
-            city={area.data.city}
-            state={area.data.state}
-            slug={area.id}
-            description={area.data.description}
-            image={area.data.image}
-          />
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[
+          { icon: "target", title: "Conversion Focused", text: "Layouts and CTAs designed to generate inquiries, calls, and customers." },
+          { icon: "search", title: "SEO Aware Builds", text: "Clean structure, on-page SEO, and local visibility support from the start." },
+          { icon: "eye", title: "Brand-Ready Design", text: "Visual polish that helps local and growing businesses look established." },
+          { icon: "zap", title: "Full Stack Support", text: "From WordPress builds to graphics and ongoing marketing help." },
+        ].map((item) => (
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm hover:border-secondary/40 transition-colors">
+            <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-secondary/15">
+              <Icon name={item.icon} class="h-5 w-5 text-secondary" />
+            </div>
+            <h3 class="font-heading text-lg font-bold text-white mb-2">{item.title}</h3>
+            <p class="text-sm text-white/60 leading-relaxed">{item.text}</p>
+          </div>
         ))}
       </div>
-      <div class="text-center mt-10">
-        <a
-          href="/service-areas"
-          class="inline-flex items-center text-primary font-semibold hover:text-primary-dark transition-colors"
-        >
-          View all service areas
-          <svg class="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-        </a>
+    </div>
+  </section>
+
+  <!-- ========== PROCESS ========== -->
+  <ProcessSteps
+    eyebrow="My Approach"
+    heading="A Clear Process From Idea to Growth"
+    description="Every project follows a simple path focused on usability, visibility, and conversions."
+    columns={4}
+    steps={[
+      { icon: "users", title: "Understand", description: "I learn about the business, audience, competitors, and goals." },
+      { icon: "clipboard", title: "Plan", description: "A clear structure and strategy focused on usability and conversions." },
+      { icon: "settings", title: "Build", description: "A responsive, fast, professional website tailored to the business." },
+      { icon: "zap", title: "Optimize & Grow", description: "SEO, performance, mobile, and ongoing marketing support." },
+    ]}
+    ctaLabel="Start Your Project"
+    ctaHref="/contact/"
+  />
+
+  <!-- ========== VIDEO TESTIMONIAL ========== -->
+  <section class="bg-surface-alt py-16 sm:py-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+        <div>
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">Client Testimonial</p>
+          <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-text">
+            Watch What Clients Say About Working With Me
+          </h2>
+          <p class="mt-4 text-text-muted leading-relaxed">
+            Hear directly from David Martirosian, Founder of Galaxy Growth Media, about previous client work and collaboration.
+          </p>
+          <div class="mt-8 rounded-2xl border border-border bg-surface p-6">
+            <div class="flex gap-0.5 mb-3" aria-hidden="true">
+              {Array.from({ length: 5 }).map(() => (
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5 text-accent">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              ))}
+            </div>
+            <p class="font-heading text-xl font-bold text-text">David Martirosian</p>
+            <p class="text-sm text-text-muted mt-1">Founder, Galaxy Growth Media</p>
+          </div>
+        </div>
+        <div class="relative overflow-hidden rounded-2xl border border-border bg-primary shadow-2xl shadow-primary/20 aspect-video">
+          <iframe
+            class="absolute inset-0 h-full w-full"
+            src="https://www.youtube.com/embed/TazMLieOr0g"
+            title="Client testimonial from David Martirosian, Founder of Galaxy Growth Media"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        </div>
       </div>
     </div>
   </section>
 
-  <CTABanner />
+  <!-- ========== ABOUT ========== -->
+  <section class="bg-surface py-16 sm:py-24 overflow-hidden">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div>
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">About Me</p>
+          <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-text">
+            Web Developer & Designer Focused On Results
+          </h2>
+          <p class="mt-5 text-text-muted leading-relaxed">
+            I'm a web developer and graphic designer with 3+ years of experience creating websites and digital experiences for businesses.
+          </p>
+          <p class="mt-4 text-text-muted leading-relaxed">
+            My work combines development, design, SEO, and digital marketing to create websites that are visually strong and built with business goals in mind. I started by teaching myself to code on my phone after leaving school, then built a career at 18 while choosing, later, to go back and finish my degree.
+          </p>
+          <p class="mt-4 text-text-muted leading-relaxed">
+            I specialize in helping local businesses establish a professional online presence and turn visitors into leads.
+          </p>
+          <ul class="mt-8 space-y-3">
+            {[
+              "High-converting website design and development",
+              "Event photography for local shoots",
+              "Editor in Chief, The Watch Guild at PECIT",
+              "Filmmaking with local clients",
+            ].map((item) => (
+              <li class="flex items-start gap-3 text-text">
+                <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-secondary/15">
+                  <Icon name="check" class="h-3.5 w-3.5 text-primary" />
+                </span>
+                <span class="text-sm sm:text-base">{item}</span>
+              </li>
+            ))}
+          </ul>
+          <a
+            href="/about/"
+            class="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-bold text-white hover:bg-primary-light transition-colors"
+          >
+            More About Me
+            <Icon name="arrow-right" class="h-4 w-4" />
+          </a>
+        </div>
+
+        <div class="relative">
+          <img
+            src="/images/about/mane-portrait.jpg"
+            alt="Mane Talibong"
+            class="w-full rounded-[2rem] object-cover object-center aspect-[4/5] max-h-[34rem]"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== TOOLS / TECH ========== -->
+  <section class="bg-surface-alt py-14 sm:py-16 border-y border-border">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <p class="text-center text-sm font-bold uppercase tracking-wider text-secondary mb-8">Tools & Platforms</p>
+      <div class="flex flex-wrap justify-center gap-3 sm:gap-4">
+        {[
+          "WordPress",
+          "Elementor",
+          "Divi",
+          "WooCommerce",
+          "Shopify",
+          "HTML / CSS / JS",
+          "PHP",
+          "Local SEO",
+          "Google Business Profile",
+          "Photoshop",
+          "Canva",
+          "Analytics",
+        ].map((tool) => (
+          <span class="rounded-full border border-border bg-surface px-4 py-2 text-sm font-semibold text-text-muted">
+            {tool}
+          </span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FAQ ========== -->
+  <FAQAccordion
+    heading="Frequently Asked Questions"
+    items={[
+      {
+        question: "What kinds of websites do you build?",
+        answer: "I specialize in business websites, WordPress sites, landing pages, redesigns, and ecommerce foundations. A lot of my work is for local service businesses that need a professional site that generates leads.",
+      },
+      {
+        question: "Do you also help with SEO and marketing?",
+        answer: "Yes. Beyond design and development, I offer local SEO, on-page SEO, Google Business Profile optimization, content support, and digital marketing assistance so your website can attract and convert visitors.",
+      },
+      {
+        question: "Can you redesign an existing website?",
+        answer: "Absolutely. I modernize outdated sites with improved design, mobile usability, faster performance, and clearer conversion paths while preserving what already works for your business.",
+      },
+      {
+        question: "Where are you based, and who do you work with?",
+        answer: "I'm based in Butuan City, Philippines, and I work remotely with clients. Many projects I have completed serve businesses that need a strong local online presence.",
+      },
+      {
+        question: "How do we get started?",
+        answer: "Share a few details about your business, goals, and timeline through the contact form. I'll review your project and follow up so we can map the best next step.",
+      },
+    ]}
+  />
+
+  <!-- ========== FINAL CTA + CONTACT ========== -->
+  <section id="contact" class={`relative overflow-hidden bg-primary py-16 sm:py-24 ${siteConfig.pattern}`}>
+    <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+        <div>
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">Let's Work Together</p>
+          <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight">
+            Ready for a Website That Delivers Results?
+          </h2>
+          <p class="mt-5 text-lg text-white/70 leading-relaxed">
+            Have a website project, redesign, branding need, or digital marketing goal? Tell me about your project and let's build something that attracts customers and grows your business.
+          </p>
+          <div class="mt-8 space-y-4">
+            <a href={`mailto:${siteConfig.email}`} class="flex items-center gap-3 text-white hover:text-secondary transition-colors">
+              <span class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
+                <Icon name="mail" class="h-5 w-5 text-secondary" />
+              </span>
+              <span class="font-medium break-all">{siteConfig.email}</span>
+            </a>
+            <a href={`tel:${siteConfig.phone.replace(/\D/g, "")}`} class="flex items-center gap-3 text-white hover:text-secondary transition-colors">
+              <span class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
+                <Icon name="phone" class="h-5 w-5 text-secondary" />
+              </span>
+              <span class="font-medium">{siteConfig.phone}</span>
+            </a>
+            <p class="flex items-center gap-3 text-white/80">
+              <span class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
+                <Icon name="map-pin" class="h-5 w-5 text-secondary" />
+              </span>
+              <span class="font-medium">Butuan City, Philippines · Remote available</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-white/10 bg-white p-6 sm:p-8 shadow-2xl">
+          <h3 class="font-heading text-xl font-bold text-text mb-2">Tell Me About Your Project</h3>
+          <p class="text-sm text-text-muted mb-6">Share a few details and I'll get back to you soon.</p>
+          <LeadForm
+            formId="home-contact-form"
+            variant="full"
+            submitLabel="Send Project Details"
+            messagePlaceholder="Tell me about your business, goals, timeline, and anything else that matters..."
+          >
+            <option slot="service-options" value="Website Design & Development">Website Design & Development</option>
+            <option slot="service-options" value="WordPress Development">WordPress Development</option>
+            <option slot="service-options" value="Landing Page Design">Landing Page Design</option>
+            <option slot="service-options" value="Website Redesign">Website Redesign</option>
+            <option slot="service-options" value="Local SEO">Local SEO</option>
+            <option slot="service-options" value="Search Engine Optimization">Search Engine Optimization</option>
+            <option slot="service-options" value="Graphic & Brand Design">Graphic & Brand Design</option>
+            <option slot="service-options" value="Digital Marketing">Digital Marketing</option>
+            <option slot="service-options" value="Website Maintenance">Website Maintenance</option>
+            <option slot="service-options" value="Not Sure Yet">Not Sure Yet</option>
+          </LeadForm>
+        </div>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

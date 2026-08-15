@@ -33,7 +33,11 @@ const { address, businessName, phone, email, domain, socialLinks, logo, tagline,
   siteConfig;
 
 const origin = domain.replace(/\/$/, "");
-const logoUrl = logo.startsWith("http") ? logo : `${origin}${logo}`;
+const logoUrl = !logo
+  ? undefined
+  : logo.startsWith("http")
+    ? logo
+    : `${origin}${logo}`;
 
 function pageUrl(pathname: string): string {
   let path = pathname || "/";
@@ -53,28 +57,33 @@ const sameAs = [
   socialLinks.instagram,
   socialLinks.youtube,
   socialLinks.google,
+  socialLinks.linkedin,
+  socialLinks.portfolio,
 ].filter(Boolean);
 
 const localBusiness: Record<string, unknown> = {
-  "@type": "LocalBusiness",
+  "@type": "ProfessionalService",
   "@id": businessId,
   name: businessName,
   description: tagline,
   url: `${origin}/`,
   telephone: phone,
   email,
-  image: logoUrl,
-  logo: logoUrl,
   address: {
     "@type": "PostalAddress",
     streetAddress: address.street,
     addressLocality: address.city,
     addressRegion: address.state,
     postalCode: address.zip,
-    addressCountry: "US",
+    addressCountry: "PH",
   },
   areaServed: serviceArea,
 };
+
+if (logoUrl) {
+  localBusiness.image = logoUrl;
+  localBusiness.logo = logoUrl;
+}
 
 if (sameAs.length) localBusiness.sameAs = sameAs;
 

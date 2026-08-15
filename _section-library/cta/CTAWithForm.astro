@@ -27,9 +27,7 @@ const {
   submitLabel = "Request a callback",
 } = Astro.props;
 
-const endpoint = siteConfig.formEndpoint;
-const businessName = siteConfig.businessName;
-const siteDomain = siteConfig.domain;
+const contactEmail = siteConfig.email;
 ---
 
 <section class="bg-surface px-4 py-14 sm:px-6 lg:px-8 lg:py-20" aria-labelledby="cta-form-heading">
@@ -107,53 +105,38 @@ const siteDomain = siteConfig.domain;
   </div>
 </section>
 
-<script is:inline define:vars={{ formId, endpoint, businessName, siteDomain }}>
+<script is:inline define:vars={{ formId, contactEmail }}>
   (function () {
     const form = document.getElementById(formId);
     if (!form || !(form instanceof HTMLFormElement)) return;
     const statusEl = document.getElementById(formId + "-status");
 
-    form.addEventListener("submit", async function (e) {
+    form.addEventListener("submit", function (e) {
       e.preventDefault();
-      const btn = form.querySelector('button[type="submit"]');
-      if (btn instanceof HTMLButtonElement) btn.disabled = true;
-      if (statusEl) {
-        statusEl.classList.remove("hidden", "text-accent", "text-red-600");
-        statusEl.textContent = "Sending…";
-        statusEl.classList.add("text-text-muted");
-      }
-
       const fd = new FormData(form);
-      const payload = {
-        source: "cta-inline-form",
-        businessName: businessName,
-        site: siteDomain,
-        name: String(fd.get("name") || "").trim(),
-        phone: String(fd.get("phone") || "").trim(),
-        message: String(fd.get("message") || "").trim(),
-      };
-
-      try {
-        const res = await fetch(endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify(payload),
-        });
-        if (!res.ok) throw new Error("Request failed");
-        if (statusEl) {
-          statusEl.textContent = "Thanks—we’ll be in touch shortly.";
-          statusEl.classList.remove("text-text-muted", "text-red-600");
-          statusEl.classList.add("text-accent");
-        }
-        form.reset();
-      } catch {
-        if (statusEl) {
-          statusEl.textContent = "Something went wrong. Please call us or try again.";
-          statusEl.classList.remove("text-text-muted", "text-accent");
-          statusEl.classList.add("text-red-600");
-        }
-      } finally {
-        if (btn instanceof HTMLButtonElement) btn.disabled = false;
+      const name = String(fd.get("name") || "").trim();
+      const phone = String(fd.get("phone") || "").trim();
+      const message = String(fd.get("message") || "").trim();
+      const lines = [
+        name && "Name: " + name,
+        phone && "Phone: " + phone,
+        message && "Message: " + message,
+      ].filter(Boolean);
+      const mailto =
+        "mailto:" +
+        contactEmail +
+        "?subject=" +
+        encodeURIComponent("New inquiry from " + (name || "your website")) +
+        "&body=" +
+        encodeURIComponent(lines.join("\n"));
+      window.location.href = mailto;
+      if (statusEl) {
+        statusEl.classList.remove("hidden", "text-red-600", "text-text-muted");
+        statusEl.classList.add("text-accent");
+        statusEl.innerHTML =
+          'Your email app should open. If it does not, <a class="underline font-semibold" href="' +
+          mailto +
+          '">email me here</a>.';
       }
     });
   })();
