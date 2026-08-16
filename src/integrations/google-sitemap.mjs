@@ -66,8 +66,8 @@ async function contentLastmods(rootDir) {
 export function googleSitemap() {
   /** @type {{ origin: string, base: string, rootDir: string }} */
   let site = {
-    origin: "https://manetalibong.github.io",
-    base: "/Portfolio/",
+    origin: "https://manetalibong.com",
+    base: "/",
     rootDir: process.cwd(),
   };
 

@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 import { withBase } from "../config/paths";
 
 export const GET: APIRoute = ({ site }) => {
-  const origin = (site?.origin || "https://manetalibong.github.io").replace(/\/$/, "");
+  const origin = (site?.origin || "https://manetalibong.com").replace(/\/$/, "");
   const sitemap = `${origin}${withBase("/sitemap.xml")}`;
 
   const body = `User-agent: *

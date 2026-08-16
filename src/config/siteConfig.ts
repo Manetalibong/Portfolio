@@ -10,7 +10,7 @@ export const siteConfig = {
     zip: "",
   },
   serviceArea: "Butuan City, Agusan del Norte, and the Caraga Region",
-  domain: "https://manetalibong.github.io",
+  domain: "https://manetalibong.com",
   socialLinks: {
     facebook: "https://www.facebook.com/AkosiManNicx",
     instagram: "https://www.instagram.com/mane_talibong/",

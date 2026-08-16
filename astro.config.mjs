@@ -4,8 +4,8 @@ import tailwindcss from "@tailwindcss/vite";
 import { googleSitemap } from "./src/integrations/google-sitemap.mjs";
 
 export default defineConfig({
-  site: "https://manetalibong.github.io",
-  base: "/Portfolio/",
+  site: "https://manetalibong.com",
+  base: "/",
   trailingSlash: "always",
   vite: {
     plugins: [tailwindcss()],
