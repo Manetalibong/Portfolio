@@ -4,7 +4,9 @@
 */
 import { siteConfig } from "../config/siteConfig";
 import { mainNav } from "../config/navigation";
+import { localAreaGroups } from "../config/localSeoNav";
 import { withBase } from "../config/paths";
+import { getCollection } from "astro:content";
 
 interface Props {
   ctaLabel?: string;
@@ -19,6 +21,13 @@ const {
 const currentPath = Astro.url.pathname;
 const homeHref = withBase("/");
 const ctaUrl = withBase(ctaHref);
+const services = (await getCollection("services")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const areaPaths = localAreaGroups.flatMap((group) =>
+  group.items.map((item) => withBase(item.href)),
+);
 ---
 
 <header class="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8 pt-4">
@@ -38,19 +47,97 @@ const ctaUrl = withBase(ctaHref);
       <nav class="hidden lg:flex items-center gap-0.5">
         {mainNav.map((item) => {
           const href = withBase(item.href);
-          const isActive = currentPath === href || (item.href !== "/" && currentPath.startsWith(href));
+          const isAreaItem = item.dropdown === "areas";
+          const isServiceItem = item.dropdown === "services";
+          const isActive = isAreaItem
+            ? areaPaths.some((path) => currentPath === path || currentPath.startsWith(path))
+            : isServiceItem
+              ? currentPath === href || currentPath.startsWith(withBase("/services/"))
+              : currentPath === href || (item.href !== "/" && currentPath.startsWith(href));
+
+          if (!item.dropdown) {
+            return (
+              <a
+                href={href}
+                class:list={[
+                  "px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors",
+                  isActive ? "text-secondary" : "text-white/70 hover:text-white",
+                ]}
+              >
+                {item.label}
+              </a>
+            );
+          }
+
           return (
-          <a
-            href={href}
-            class:list={[
-              "px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors",
-              isActive
-                ? "text-secondary"
-                : "text-white/70 hover:text-white",
-            ]}
-          >
-            {item.label}
-          </a>
+            <div class="relative group">
+              <a
+                href={href}
+                class:list={[
+                  "inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors",
+                  isActive ? "text-secondary" : "text-white/70 hover:text-white group-hover:text-white",
+                ]}
+                aria-haspopup="true"
+              >
+                {item.label}
+                <svg class="h-3.5 w-3.5 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </a>
+
+              {isServiceItem && (
+                <div class="invisible opacity-0 translate-y-1 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-0 transition-all duration-150 absolute left-0 top-full pt-3 z-50">
+                  <div class="w-72 rounded-2xl bg-primary/95 backdrop-blur-md shadow-xl ring-1 ring-white/10 p-3">
+                    <a
+                      href={withBase("/services/")}
+                      class="block rounded-xl px-3 py-2 text-sm font-semibold text-secondary hover:bg-white/5"
+                    >
+                      All services
+                    </a>
+                    <ul class="mt-1">
+                      {services.map((service) => (
+                        <li>
+                          <a
+                            href={withBase(`/services/${service.id}/`)}
+                            class="block rounded-xl px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-white/5"
+                          >
+                            {service.data.title}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
+
+              {isAreaItem && (
+                <div class="invisible opacity-0 translate-y-1 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-0 transition-all duration-150 absolute left-1/2 -translate-x-1/2 top-full pt-3 z-50">
+                  <div class="w-[36rem] max-w-[calc(100vw-2rem)] rounded-2xl bg-primary/95 backdrop-blur-md shadow-xl ring-1 ring-white/10 p-5">
+                    <div class="grid grid-cols-3 gap-5">
+                      {localAreaGroups.map((group) => (
+                        <div>
+                          <p class="px-2 mb-2 text-[11px] font-bold uppercase tracking-[0.16em] text-secondary">
+                            {group.heading}
+                          </p>
+                          <ul>
+                            {group.items.map((area) => (
+                              <li>
+                                <a
+                                  href={withBase(area.href)}
+                                  class="block rounded-lg px-2 py-1.5 text-sm text-white/70 hover:text-white hover:bg-white/5"
+                                >
+                                  {area.label}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           );
         })}
       </nav>
@@ -82,22 +169,77 @@ const ctaUrl = withBase(ctaHref);
 
     <!-- Mobile Nav -->
     <div id="mobile-menu" class="hidden lg:hidden mt-2 rounded-2xl bg-primary/95 backdrop-blur-md shadow-lg ring-1 ring-white/10 overflow-hidden">
-      <nav class="px-4 py-4 space-y-1">
+      <nav class="px-4 py-4 space-y-1 max-h-[calc(100svh-6rem)] overflow-y-auto">
         {mainNav.map((item) => {
           const href = withBase(item.href);
-          const isActive = currentPath === href || (item.href !== "/" && currentPath.startsWith(href));
+          const isAreaItem = item.dropdown === "areas";
+          const isServiceItem = item.dropdown === "services";
+          const isActive = isAreaItem
+            ? areaPaths.some((path) => currentPath === path || currentPath.startsWith(path))
+            : isServiceItem
+              ? currentPath === href || currentPath.startsWith(withBase("/services/"))
+              : currentPath === href || (item.href !== "/" && currentPath.startsWith(href));
+
+          if (!item.dropdown) {
+            return (
+              <a
+                href={href}
+                class:list={[
+                  "block px-4 py-2.5 rounded-xl text-base font-medium transition-colors",
+                  isActive ? "text-secondary bg-white/5" : "text-white/70 hover:text-white hover:bg-white/5",
+                ]}
+              >
+                {item.label}
+              </a>
+            );
+          }
+
           return (
-          <a
-            href={href}
-            class:list={[
-              "block px-4 py-2.5 rounded-xl text-base font-medium transition-colors",
-              isActive
-                ? "text-secondary bg-white/5"
-                : "text-white/70 hover:text-white hover:bg-white/5",
-            ]}
-          >
-            {item.label}
-          </a>
+            <div>
+              <button
+                type="button"
+                class:list={[
+                  "nav-accordion flex w-full items-center justify-between px-4 py-2.5 rounded-xl text-base font-medium transition-colors",
+                  isActive ? "text-secondary bg-white/5" : "text-white/70 hover:text-white hover:bg-white/5",
+                ]}
+                aria-expanded="false"
+              >
+                {item.label}
+                <svg class="h-4 w-4 accordion-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div class="nav-accordion-panel hidden pl-2 pb-2">
+                <a href={href} class="block px-4 py-2 text-sm font-semibold text-secondary">
+                  {isServiceItem ? "All services" : "All of Caraga"}
+                </a>
+                {isServiceItem &&
+                  services.map((service) => (
+                    <a
+                      href={withBase(`/services/${service.id}/`)}
+                      class="block px-4 py-2 text-sm text-white/70 hover:text-white"
+                    >
+                      {service.data.title}
+                    </a>
+                  ))}
+                {isAreaItem &&
+                  localAreaGroups.map((group) => (
+                    <div class="pt-2">
+                      <p class="px-4 pt-2 pb-1 text-[11px] font-bold uppercase tracking-[0.16em] text-secondary">
+                        {group.heading}
+                      </p>
+                      {group.items.map((area) => (
+                        <a
+                          href={withBase(area.href)}
+                          class="block px-4 py-2 text-sm text-white/70 hover:text-white"
+                        >
+                          {area.label}
+                        </a>
+                      ))}
+                    </div>
+                  ))}
+              </div>
+            </div>
           );
         })}
         <div class="pt-2">
@@ -124,5 +266,14 @@ const ctaUrl = withBase(ctaHref);
     btn.setAttribute("aria-expanded", String(isOpen));
     iconOpen?.classList.toggle("hidden", isOpen);
     iconClose?.classList.toggle("hidden", !isOpen);
+  });
+
+  menu?.querySelectorAll(".nav-accordion").forEach((toggle) => {
+    toggle.addEventListener("click", () => {
+      const panel = toggle.nextElementSibling;
+      const open = panel?.classList.toggle("hidden") === false;
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.querySelector(".accordion-chevron")?.classList.toggle("rotate-180", open);
+    });
   });
 </script>

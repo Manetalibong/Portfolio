@@ -1,8 +1,8 @@
 export const mainNav = [
-  { label: "Services", href: "/services/" },
+  { label: "Services", href: "/services/", dropdown: "services" as const },
+  { label: "Service Areas", href: "/web-design-development-caraga-region/", dropdown: "areas" as const },
   { label: "About", href: "/about/" },
   { label: "Blog", href: "/blog/" },
-  { label: "Contact", href: "/contact/" },
 ];
 
 export const footerNav = [

@@ -20,6 +20,9 @@ Site: ${home}
 - [Services](${origin}${withBase("/services/")})
 - [About](${origin}${withBase("/about/")})
 - [Blog](${origin}${withBase("/blog/")})
+- [Web Developer Butuan City](${origin}${withBase("/web-design-development-butuan-city/")})
+- [Caraga Region](${origin}${withBase("/web-design-development-caraga-region/")})
+- [Website Cost Guide](${origin}${withBase("/how-much-does-a-website-cost-philippines/")})
 - [Contact](${origin}${withBase("/contact/")})
 
 ## Optional

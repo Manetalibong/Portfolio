@@ -60,4 +60,21 @@ const portfolio = defineCollection({
   }),
 });
 
-export const collections = { services, serviceAreas, blog, portfolio };
+const localPages = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/localPages" }),
+  schema: z.object({
+    title: z.string(),
+    subtitle: z.string(),
+    metaTitle: z.string().max(70),
+    metaDescription: z.string().max(160),
+    pageType: z.enum(["core_service", "niche_service", "service_area", "informational_blog"]),
+    location: z.string(),
+    features: z.array(z.string()).default([]),
+    ctaTitle: z.string(),
+    ctaSubtitle: z.string(),
+    date: z.coerce.date(),
+    order: z.number().default(0),
+  }),
+});
+
+export const collections = { services, serviceAreas, blog, portfolio, localPages };

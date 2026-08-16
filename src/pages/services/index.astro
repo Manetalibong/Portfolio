@@ -5,6 +5,8 @@ import ServiceCard from "../../components/ServiceCard.astro";
 import CTABanner from "../../components/CTABanner.astro";
 import { siteConfig } from "../../config/siteConfig";
 import { getCollection } from "astro:content";
+import { withBase } from "../../config/paths";
+import { localCoreNav, localNicheNav } from "../../config/localSeoNav";
 
 const services = (await getCollection("services")).sort(
   (a, b) => a.data.order - b.data.order,
@@ -45,6 +47,36 @@ const services = (await getCollection("services")).sort(
             image={service.data.image}
           />
         ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 sm:py-20 bg-surface-alt">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-12">
+        <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">Butuan & Caraga</p>
+        <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-text">
+          Local pages for how people search
+        </h2>
+        <p class="mt-4 text-text-muted leading-relaxed">
+          Dedicated landings for web design in Butuan City, nearby towns, and niche sites such as LGU, school, and real estate.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {[...localCoreNav, ...localNicheNav].map((item) => (
+          <a
+            href={withBase(item.href)}
+            class="rounded-xl border border-border bg-surface px-5 py-4 text-sm font-semibold text-text hover:border-secondary/40 hover:text-primary transition-colors"
+          >
+            {item.label}
+          </a>
+        ))}
+        <a
+          href={withBase("/web-design-development-caraga-region/")}
+          class="rounded-xl border border-border bg-surface px-5 py-4 text-sm font-semibold text-text hover:border-secondary/40 hover:text-primary transition-colors"
+        >
+          All Caraga service areas
+        </a>
       </div>
     </div>
   </section>

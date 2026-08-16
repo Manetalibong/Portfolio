@@ -9,7 +9,7 @@ export const siteConfig = {
     state: "PH",
     zip: "",
   },
-  serviceArea: "Remote & Worldwide",
+  serviceArea: "Butuan City, Agusan del Norte, and the Caraga Region",
   domain: "https://manetalibong.github.io",
   socialLinks: {
     facebook: "https://www.facebook.com/AkosiManNicx",

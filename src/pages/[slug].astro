@@ -1,0 +1,156 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import CTABanner from "../components/CTABanner.astro";
+import Icon from "../components/Icon.astro";
+import { siteConfig } from "../config/siteConfig";
+import { withBase } from "../config/paths";
+import { getCollection, render } from "astro:content";
+import { localAreaNav, localCoreNav, localNicheNav } from "../config/localSeoNav";
+
+export async function getStaticPaths() {
+  const pages = await getCollection("localPages");
+  return pages.map((page) => ({
+    params: { slug: page.id },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+const { Content } = await render(page);
+const {
+  title,
+  subtitle,
+  metaTitle,
+  metaDescription,
+  pageType,
+  features,
+  ctaTitle,
+  ctaSubtitle,
+  date,
+} = page.data;
+
+const isArticle = pageType === "informational_blog";
+const isHub = page.id === "web-design-development-butuan-city";
+const isCaraga = page.id === "web-design-development-caraga-region";
+
+const parent =
+  isHub
+    ? { label: "Services", href: "/services/" }
+    : isCaraga
+      ? { label: "Butuan services", href: "/web-design-development-butuan-city/" }
+      : pageType === "service_area"
+        ? { label: "Caraga", href: "/web-design-development-caraga-region/" }
+        : isArticle
+          ? { label: "Blog", href: "/blog/" }
+          : { label: "Services", href: "/web-design-development-butuan-city/" };
+
+const relatedLinks = isHub
+  ? [...localCoreNav, ...localNicheNav, ...localAreaNav].filter((item) => item.href !== `/${page.id}/`)
+  : isCaraga
+    ? localAreaNav.filter((item) => item.href !== `/${page.id}/`)
+    : pageType === "service_area"
+      ? [
+          { label: "Web Developer Butuan City", href: "/web-design-development-butuan-city/" },
+          { label: "Caraga Region", href: "/web-design-development-caraga-region/" },
+          ...localAreaNav.filter((item) => item.href !== `/${page.id}/`).slice(0, 6),
+        ]
+      : [
+          { label: "Web Developer Butuan City", href: "/web-design-development-butuan-city/" },
+          ...localCoreNav.filter((item) => item.href !== `/${page.id}/`),
+        ];
+---
+
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  type={isArticle ? "article" : "website"}
+  schema={isArticle ? "Article" : "Service"}
+  serviceName={title}
+  serviceDescription={subtitle}
+  articleTitle={isArticle ? title : undefined}
+  articleDate={isArticle ? date.toISOString() : undefined}
+  articleAuthor={isArticle ? siteConfig.businessName : undefined}
+>
+  <PageHeader
+    title={title}
+    subtitle={subtitle}
+    breadcrumbs={[
+      { label: "Home", href: "/" },
+      { label: parent.label, href: parent.href },
+      { label: title },
+    ]}
+  />
+
+  <section class="py-16 sm:py-20 bg-surface">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div class="lg:col-span-2">
+          <div class="prose prose-lg max-w-none prose-headings:font-heading prose-headings:text-text prose-p:text-text-muted prose-li:text-text-muted prose-strong:text-text prose-a:text-primary">
+            <Content />
+          </div>
+        </div>
+
+        <aside class="lg:col-span-1">
+          <div class="lg:sticky lg:top-28 space-y-6">
+            {features.length > 0 && (
+              <div class="rounded-2xl border border-border bg-surface-alt p-6">
+                <h2 class="font-heading text-lg font-bold text-text mb-4">What's included</h2>
+                <ul class="space-y-3">
+                  {features.map((feature) => (
+                    <li class="flex items-start gap-3">
+                      <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-secondary/15">
+                        <Icon name="check" class="h-3 w-3 text-primary" />
+                      </span>
+                      <span class="text-sm text-text-muted">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <div class="rounded-2xl bg-primary p-6 text-white">
+              <h2 class="font-heading text-lg font-bold mb-2">Talk through your project</h2>
+              <p class="text-sm text-white/75 mb-4">
+                I am based in Butuan City and work with businesses across Caraga, in person or fully remote.
+              </p>
+              <a
+                href={withBase("/contact/")}
+                class="block w-full text-center rounded-lg bg-secondary px-4 py-2.5 text-sm font-semibold text-primary hover:bg-secondary-light transition-colors"
+              >
+                Get a free quote
+              </a>
+              <a
+                href={`mailto:${siteConfig.email}`}
+                class="block w-full text-center mt-3 rounded-lg border border-white/25 px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors"
+              >
+                Email {siteConfig.businessName}
+              </a>
+            </div>
+
+            <div class="rounded-2xl border border-border bg-surface-alt p-6">
+              <h2 class="font-heading text-lg font-bold text-text mb-4">
+                {isCaraga || pageType === "service_area" ? "Areas served" : "Related pages"}
+              </h2>
+              <ul class="space-y-2">
+                {relatedLinks.map((item) => (
+                  <li>
+                    <a
+                      href={withBase(item.href)}
+                      class="flex items-center justify-between gap-3 rounded-lg px-2 py-2 text-sm font-medium text-text hover:bg-surface hover:text-primary transition-colors"
+                    >
+                      <span>{item.label}</span>
+                      <Icon name="arrow-right" class="h-4 w-4 shrink-0 text-text-muted" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <CTABanner title={ctaTitle} subtitle={ctaSubtitle} />
+</BaseLayout>

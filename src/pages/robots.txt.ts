@@ -3,15 +3,13 @@ import { withBase } from "../config/paths";
 
 export const GET: APIRoute = ({ site }) => {
   const origin = (site?.origin || "https://manetalibong.github.io").replace(/\/$/, "");
-  const xmlSitemap = `${origin}${withBase("/sitemap.xml")}`;
-  const textSitemap = `${origin}${withBase("/sitemap.txt")}`;
+  const sitemap = `${origin}${withBase("/sitemap.xml")}`;
 
   const body = `User-agent: *
 Allow: /
 Disallow: ${withBase("/preview/")}
 
-Sitemap: ${xmlSitemap}
-Sitemap: ${textSitemap}
+Sitemap: ${sitemap}
 `;
 
   return new Response(body, {

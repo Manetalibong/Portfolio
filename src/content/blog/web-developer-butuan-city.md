@@ -100,4 +100,4 @@ If the answer to those is unclear, keep looking. A cheap site that Google never 
 
 If you searched for a **web developer in Butuan City**, a **website designer in Agusan del Norte**, or someone who can handle WordPress, SEO, and a simple business site, I can help.
 
-[Tell me about your project](../../contact/) and I will reply with a clear next step. You can also browse [website design and development](../../services/website-design-development/) if you want to see what a full build includes.
+[Tell me about your project](../../contact/) and I will reply with a clear next step. Start with the [web developer in Butuan City](../../web-design-development-butuan-city/) service hub, or browse [website design and development](../../services/website-design-development/) if you want to see what a full build includes.

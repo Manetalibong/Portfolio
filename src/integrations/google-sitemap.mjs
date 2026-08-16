@@ -37,22 +37,28 @@ function htmlFileToPagePath(dist, file) {
   return `/${rel}/`;
 }
 
-async function blogLastmods(rootDir) {
-  const dir = path.join(rootDir, "src/content/blog");
+async function contentLastmods(rootDir) {
   /** @type {Record<string, string>} */
   const dates = {};
-  try {
-    const files = (await readdir(dir)).filter((name) => name.endsWith(".md"));
-    for (const file of files) {
-      const raw = await readFile(path.join(dir, file), "utf8");
-      const match = raw.match(/^date:\s*['"]?(\d{4}-\d{2}-\d{2})/m);
-      if (!match) continue;
-      const slug = file.replace(/\.md$/, "");
-      dates[`/blog/${slug}/`] = match[1];
+
+  async function readDates(folder, toPath) {
+    const dir = path.join(rootDir, folder);
+    try {
+      const files = (await readdir(dir)).filter((name) => name.endsWith(".md"));
+      for (const file of files) {
+        const raw = await readFile(path.join(dir, file), "utf8");
+        const match = raw.match(/^date:\s*['"]?(\d{4}-\d{2}-\d{2})/m);
+        if (!match) continue;
+        const slug = file.replace(/\.md$/, "");
+        dates[toPath(slug)] = match[1];
+      }
+    } catch {
+      // Folder may not exist.
     }
-  } catch {
-    // No blog folder yet.
   }
+
+  await readDates("src/content/blog", (slug) => `/blog/${slug}/`);
+  await readDates("src/content/localPages", (slug) => `/${slug}/`);
   return dates;
 }
 
@@ -78,7 +84,7 @@ export function googleSitemap() {
       "astro:build:done": async ({ dir, logger }) => {
         const dist = fileURLToPath(dir);
         const htmlFiles = await walkIndexHtml(dist);
-        const lastmods = await blogLastmods(site.rootDir);
+        const lastmods = await contentLastmods(site.rootDir);
 
         const pages = htmlFiles
           .map((file) => htmlFileToPagePath(dist, file))
@@ -90,19 +96,19 @@ export function googleSitemap() {
           lastmod: lastmods[pagePath],
         }));
 
-        const xmlLines = [
+        const xmlParts = [
           '<?xml version="1.0" encoding="UTF-8"?>',
           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+          "",
         ];
         for (const url of urls) {
-          xmlLines.push("  <url>");
-          xmlLines.push(`    <loc>${escapeXml(url.loc)}</loc>`);
-          if (url.lastmod) xmlLines.push(`    <lastmod>${url.lastmod}</lastmod>`);
-          xmlLines.push("  </url>");
+          xmlParts.push("  <url>");
+          xmlParts.push(`    <loc>${escapeXml(url.loc)}</loc>`);
+          if (url.lastmod) xmlParts.push(`    <lastmod>${url.lastmod}</lastmod>`);
+          xmlParts.push("  </url>", "");
         }
-        xmlLines.push("</urlset>", "");
-
-        const xml = xmlLines.join("\n");
+        xmlParts.push("</urlset>", "");
+        const xml = xmlParts.join("\n");
         const txt = `${urls.map((url) => url.loc).join("\n")}\n`;
 
         await writeFile(path.join(dist, "sitemap.xml"), xml, "utf8");

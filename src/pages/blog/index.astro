@@ -25,6 +25,16 @@ const posts = (await getCollection("blog")).sort(
 
   <section class="py-16 sm:py-20 bg-surface">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <a
+        href={withBase("/how-much-does-a-website-cost-philippines/")}
+        class="mb-10 block rounded-2xl border border-secondary/30 bg-surface-alt p-6 sm:p-8 hover:border-secondary transition-colors"
+      >
+        <p class="text-xs font-bold uppercase tracking-wider text-secondary mb-2">Guide</p>
+        <h2 class="font-heading text-2xl font-bold text-text">How much does a website cost in the Philippines?</h2>
+        <p class="mt-2 text-text-muted max-w-2xl">
+          A 2026 breakdown of DIY builders, freelance quotes, and agency work, so you know what drives price before you hire.
+        </p>
+      </a>
       {posts.length === 0 ? (
         <p class="text-center text-text-muted text-lg">Blog posts coming soon.</p>
       ) : (

@@ -2,6 +2,7 @@
 import { siteConfig } from "../config/siteConfig";
 import { mainNav, footerNav } from "../config/navigation";
 import { withBase } from "../config/paths";
+import { localAreaNav } from "../config/localSeoNav";
 
 const year = new Date().getFullYear();
 const { socialLinks, address } = siteConfig;
@@ -55,6 +56,12 @@ const { socialLinks, address } = siteConfig;
               <a href={withBase(item.href)} class="text-sm hover:text-secondary transition-colors">{item.label}</a>
             </li>
           ))}
+          <li>
+            <a href={withBase("/web-design-development-butuan-city/")} class="text-sm hover:text-secondary transition-colors">Web Developer Butuan</a>
+          </li>
+          <li>
+            <a href={withBase("/how-much-does-a-website-cost-philippines/")} class="text-sm hover:text-secondary transition-colors">Website Cost Guide</a>
+          </li>
         </ul>
       </div>
 
@@ -84,7 +91,18 @@ const { socialLinks, address } = siteConfig;
       </div>
 
       <div>
-        <h3 class="text-white font-heading font-bold mb-4">Legal</h3>
+        <h3 class="text-white font-heading font-bold mb-4">Caraga</h3>
+        <ul class="space-y-2">
+          <li>
+            <a href={withBase("/web-design-development-caraga-region/")} class="text-sm hover:text-secondary transition-colors">All service areas</a>
+          </li>
+          {localAreaNav.slice(0, 6).map((item) => (
+            <li>
+              <a href={withBase(item.href)} class="text-sm hover:text-secondary transition-colors">{item.label}</a>
+            </li>
+          ))}
+        </ul>
+        <h3 class="text-white font-heading font-bold mb-4 mt-8">Legal</h3>
         <ul class="space-y-2">
           {footerNav.map((item) => (
             <li>
