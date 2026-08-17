@@ -6,7 +6,7 @@ import Icon from "../components/Icon.astro";
 import { siteConfig } from "../config/siteConfig";
 import { withBase } from "../config/paths";
 import { getCollection, render } from "astro:content";
-import { localAreaNav, localCoreNav, localNicheNav } from "../config/localSeoNav";
+import { localAreaNav, localCoreNav, localNicheNav, photoNav } from "../config/localSeoNav";
 
 export async function getStaticPaths() {
   const pages = await getCollection("localPages");
@@ -33,32 +33,48 @@ const {
 const isArticle = pageType === "informational_blog";
 const isHub = page.id === "web-design-development-butuan-city";
 const isCaraga = page.id === "web-design-development-caraga-region";
+const isPhotoHub = page.id === "photographer-butuan-city";
+const isPhoto = photoNav.some((item) => item.href === `/${page.id}/`);
+
+const isOutsideCaraga = [
+  "web-developer-cagayan-de-oro",
+  "web-developer-davao-city",
+  "web-developer-cebu-city",
+].includes(page.id);
 
 const parent =
-  isHub
+  isPhotoHub
     ? { label: "Services", href: "/services/" }
-    : isCaraga
-      ? { label: "Butuan services", href: "/web-design-development-butuan-city/" }
-      : pageType === "service_area"
-        ? { label: "Caraga", href: "/web-design-development-caraga-region/" }
-        : isArticle
-          ? { label: "Blog", href: "/blog/" }
-          : { label: "Services", href: "/web-design-development-butuan-city/" };
+    : isPhoto
+      ? { label: "Photography", href: "/photographer-butuan-city/" }
+      : isHub
+        ? { label: "Services", href: "/services/" }
+        : isCaraga
+          ? { label: "Butuan services", href: "/web-design-development-butuan-city/" }
+          : isOutsideCaraga
+            ? { label: "Butuan services", href: "/web-design-development-butuan-city/" }
+            : pageType === "service_area"
+              ? { label: "Caraga", href: "/web-design-development-caraga-region/" }
+              : isArticle
+                ? { label: "Blog", href: "/blog/" }
+                : { label: "Services", href: "/web-design-development-butuan-city/" };
 
-const relatedLinks = isHub
-  ? [...localCoreNav, ...localNicheNav, ...localAreaNav].filter((item) => item.href !== `/${page.id}/`)
-  : isCaraga
-    ? localAreaNav.filter((item) => item.href !== `/${page.id}/`)
-    : pageType === "service_area"
-      ? [
-          { label: "Web Developer Butuan City", href: "/web-design-development-butuan-city/" },
-          { label: "Caraga Region", href: "/web-design-development-caraga-region/" },
-          ...localAreaNav.filter((item) => item.href !== `/${page.id}/`).slice(0, 6),
-        ]
-      : [
-          { label: "Web Developer Butuan City", href: "/web-design-development-butuan-city/" },
-          ...localCoreNav.filter((item) => item.href !== `/${page.id}/`),
-        ];
+const relatedLinks = isPhoto
+  ? photoNav.filter((item) => item.href !== `/${page.id}/`)
+  : isHub
+    ? [...localCoreNav, ...localNicheNav, ...localAreaNav].filter((item) => item.href !== `/${page.id}/`)
+    : isCaraga
+      ? localAreaNav.filter((item) => item.href !== `/${page.id}/`)
+      : pageType === "service_area"
+        ? [
+            { label: "Web Developer Butuan City", href: "/web-design-development-butuan-city/" },
+            { label: "Caraga Region", href: "/web-design-development-caraga-region/" },
+            ...localAreaNav.filter((item) => item.href !== `/${page.id}/`).slice(0, 6),
+          ]
+        : [
+            { label: "Web Developer Butuan City", href: "/web-design-development-butuan-city/" },
+            ...localCoreNav.filter((item) => item.href !== `/${page.id}/`),
+          ];
 ---
 
 <BaseLayout
@@ -110,15 +126,19 @@ const relatedLinks = isHub
             )}
 
             <div class="rounded-2xl bg-primary p-6 text-white">
-              <h2 class="font-heading text-lg font-bold mb-2">Talk through your project</h2>
+              <h2 class="font-heading text-lg font-bold mb-2">
+                {isPhoto ? "Book a shoot" : "Talk through your project"}
+              </h2>
               <p class="text-sm text-white/75 mb-4">
-                I am based in Butuan City and work with businesses across Caraga, in person or fully remote.
+                {isPhoto
+                  ? "I am based in Butuan City and cover weddings, prenups, debuts, birthdays, and events across Caraga."
+                  : "I am based in Butuan City and work with businesses across Caraga, in person or fully remote."}
               </p>
               <a
                 href={withBase("/contact/")}
                 class="block w-full text-center rounded-lg bg-secondary px-4 py-2.5 text-sm font-semibold text-primary hover:bg-secondary-light transition-colors"
               >
-                Get a free quote
+                {isPhoto ? "Check availability" : "Get a free quote"}
               </a>
               <a
                 href={`mailto:${siteConfig.email}`}
@@ -130,7 +150,11 @@ const relatedLinks = isHub
 
             <div class="rounded-2xl border border-border bg-surface-alt p-6">
               <h2 class="font-heading text-lg font-bold text-text mb-4">
-                {isCaraga || pageType === "service_area" ? "Areas served" : "Related pages"}
+                {isPhoto
+                  ? "Photography services"
+                  : isCaraga || pageType === "service_area"
+                    ? "Areas served"
+                    : "Related pages"}
               </h2>
               <ul class="space-y-2">
                 {relatedLinks.map((item) => (

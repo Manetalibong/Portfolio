@@ -6,7 +6,7 @@ import CTABanner from "../../components/CTABanner.astro";
 import { siteConfig } from "../../config/siteConfig";
 import { getCollection } from "astro:content";
 import { withBase } from "../../config/paths";
-import { localCoreNav, localNicheNav } from "../../config/localSeoNav";
+import { localCoreNav, localNicheNav, photoNav } from "../../config/localSeoNav";
 
 const services = (await getCollection("services")).sort(
   (a, b) => a.data.order - b.data.order,
@@ -15,11 +15,11 @@ const services = (await getCollection("services")).sort(
 
 <BaseLayout
   title={`Services | ${siteConfig.businessName}`}
-  description="Website design, WordPress development, landing pages, SEO, graphic design, digital marketing, and website maintenance from Mane Talibong."
+  description="Website design, WordPress, SEO, and photography services in Butuan City. Wedding, debut, birthday, and event coverage from Mane Talibong."
 >
   <PageHeader
     title="Services"
-    subtitle="High-converting websites, design, SEO, and digital marketing built around your business goals."
+    subtitle="Websites, design, SEO, and local photography for Butuan City events."
     breadcrumbs={[
       { label: "Home", href: "/" },
       { label: "Services" },
@@ -54,6 +54,30 @@ const services = (await getCollection("services")).sort(
   <section class="py-16 sm:py-20 bg-surface-alt">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="max-w-2xl mb-12">
+        <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">Photography</p>
+        <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-text">
+          Local photography for Butuan City gigs
+        </h2>
+        <p class="mt-4 text-text-muted leading-relaxed">
+          Wedding, prenup, debut, birthday, and event coverage across Butuan City, Cabadbaran, Nasipit, and nearby Caraga towns.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {photoNav.map((item) => (
+          <a
+            href={withBase(item.href)}
+            class="rounded-xl border border-border bg-surface px-5 py-4 text-sm font-semibold text-text hover:border-secondary/40 hover:text-primary transition-colors"
+          >
+            {item.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 sm:py-20 bg-surface">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-12">
         <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">Butuan & Caraga</p>
         <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-text">
           Local pages for how people search
@@ -66,14 +90,14 @@ const services = (await getCollection("services")).sort(
         {[...localCoreNav, ...localNicheNav].map((item) => (
           <a
             href={withBase(item.href)}
-            class="rounded-xl border border-border bg-surface px-5 py-4 text-sm font-semibold text-text hover:border-secondary/40 hover:text-primary transition-colors"
+            class="rounded-xl border border-border bg-surface-alt px-5 py-4 text-sm font-semibold text-text hover:border-secondary/40 hover:text-primary transition-colors"
           >
             {item.label}
           </a>
         ))}
         <a
           href={withBase("/web-design-development-caraga-region/")}
-          class="rounded-xl border border-border bg-surface px-5 py-4 text-sm font-semibold text-text hover:border-secondary/40 hover:text-primary transition-colors"
+          class="rounded-xl border border-border bg-surface-alt px-5 py-4 text-sm font-semibold text-text hover:border-secondary/40 hover:text-primary transition-colors"
         >
           All Caraga service areas
         </a>
@@ -83,6 +107,6 @@ const services = (await getCollection("services")).sort(
 
   <CTABanner
     title="Have a project in mind?"
-    subtitle="Tell me about your website, redesign, branding, or SEO goal and we'll map the next step."
+    subtitle="Tell me about your website, redesign, branding, photography, or SEO goal and we'll map the next step."
   />
 </BaseLayout>

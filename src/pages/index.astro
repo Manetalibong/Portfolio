@@ -447,13 +447,21 @@ const mockupRowTwo = mockupProjects.filter((_, i) => i % 2 === 1);
               </li>
             ))}
           </ul>
-          <a
-            href={withBase("/about/")}
-            class="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-bold text-white hover:bg-primary-light transition-colors"
-          >
-            More About Me
-            <Icon name="arrow-right" class="h-4 w-4" />
-          </a>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a
+              href={withBase("/about/")}
+              class="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-bold text-white hover:bg-primary-light transition-colors"
+            >
+              More About Me
+              <Icon name="arrow-right" class="h-4 w-4" />
+            </a>
+            <a
+              href={withBase("/photographer-butuan-city/")}
+              class="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-bold text-text hover:border-secondary/40 hover:text-primary transition-colors"
+            >
+              Photography in Butuan
+            </a>
+          </div>
         </div>
 
         <div class="relative">

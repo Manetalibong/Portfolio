@@ -68,6 +68,8 @@ The same process also covers the rest of the Caraga Region. Towns nearby can mee
 
 Travel times on those pages are rough estimates for planning. Remote delivery is always an option.
 
+I also take fully remote projects in [Cagayan de Oro](../web-developer-cagayan-de-oro/), [Davao City](../web-developer-davao-city/), and [Cebu City](../web-developer-cebu-city/).
+
 ## How a project usually runs
 
 **Consult.** You tell me what the business does, who you serve, and whether you already have photos, a Facebook page, or an old site. I reply with a recommended page list and a quote.

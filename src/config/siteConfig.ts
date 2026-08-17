@@ -9,7 +9,7 @@ export const siteConfig = {
     state: "PH",
     zip: "",
   },
-  serviceArea: "Butuan City, Agusan del Norte, and the Caraga Region",
+  serviceArea: "Butuan City, Caraga, Cagayan de Oro, Davao City, and Cebu City",
   domain: "https://manetalibong.com",
   socialLinks: {
     facebook: "https://www.facebook.com/AkosiManNicx",

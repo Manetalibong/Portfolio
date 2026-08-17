@@ -1,5 +1,6 @@
 export const mainNav = [
   { label: "Services", href: "/services/", dropdown: "services" as const },
+  { label: "Photography", href: "/photographer-butuan-city/", dropdown: "photo" as const },
   { label: "Service Areas", href: "/web-design-development-caraga-region/", dropdown: "areas" as const },
   { label: "About", href: "/about/" },
   { label: "Blog", href: "/blog/" },
