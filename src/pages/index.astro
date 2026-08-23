@@ -9,6 +9,7 @@ import StatsBar from "../../_section-library/stats/StatsBar.astro";
 import ServicesHoverGrid from "../../_section-library/features/ServicesHoverGrid.astro";
 import ProcessSteps from "../../_section-library/content/ProcessSteps.astro";
 import FAQAccordion from "../../_section-library/faq/FAQAccordion.astro";
+import HeroResultsPanel from "../components/HeroResultsPanel.astro";
 import { siteConfig } from "../config/siteConfig";
 import { getCollection } from "astro:content";
 import { withBase } from "../config/paths";
@@ -48,71 +49,72 @@ const mockupRowTwo = mockupProjects.filter((_, i) => i % 2 === 1);
 
 <BaseLayout
   title={`${siteConfig.businessName} | Web Developer, Designer & SEO Specialist`}
-  description="I build professional, high-converting websites for businesses that want to attract more customers, improve online visibility, and grow. 3+ years experience in web development, design, SEO, and digital marketing."
+  description="Conversion-focused websites and local SEO from Mane Talibong. Get found in search, turn visitors into inquiries, and show a brand clients trust."
   schema="LocalBusiness"
 >
   <!-- ========== HERO ========== -->
   <section class="relative min-h-[100svh] flex items-center overflow-hidden bg-primary">
     <div class="absolute inset-0" aria-hidden="true">
-      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_15%_20%,rgba(56,189,248,0.22),transparent_48%),radial-gradient(ellipse_at_85%_15%,rgba(245,158,11,0.12),transparent_42%),radial-gradient(ellipse_at_70%_85%,rgba(30,58,95,0.55),transparent_50%)]"></div>
-      <div class={`absolute inset-0 ${siteConfig.pattern} opacity-50`}></div>
-      <div class="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-primary/55"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_15%_20%,rgba(56,189,248,0.22),transparent_48%),radial-gradient(ellipse_at_85%_15%,rgba(245,158,11,0.1),transparent_42%),radial-gradient(ellipse_at_70%_85%,rgba(30,58,95,0.5),transparent_50%)]"></div>
+      <div class={`absolute inset-0 ${siteConfig.pattern} opacity-45`}></div>
+      <div class="hero-sweep absolute inset-0 pointer-events-none opacity-60"></div>
     </div>
 
     <div class="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 pt-32 pb-16 sm:pb-20">
-      <div class="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-10 items-center">
+      <div class="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-16 items-center">
         <div>
-          <p class="animate-fade-up font-heading text-secondary text-sm sm:text-base font-bold uppercase tracking-[0.2em] mb-4">
-            {siteConfig.businessName} · Websites That Grow Businesses
+          <p class="animate-fade-up inline-flex items-center gap-2 rounded-full border border-secondary/35 bg-secondary/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-secondary mb-5">
+            <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+            Websites · Local SEO · Philippines
           </p>
-          <h1 class="animate-fade-up animate-fade-up-delay-1 font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-[4.25rem] font-bold text-white tracking-tight leading-[1.05] max-w-2xl">
-            More Leads.
-            <span class="text-secondary"> Stronger Visibility.</span>
-            A Brand Clients Trust.
+          <p class="animate-fade-up font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight text-white leading-[0.95]">
+            {siteConfig.businessName}
+          </p>
+          <h1 class="animate-fade-up animate-fade-up-delay-1 mt-5 sm:mt-6 font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-white/95 tracking-tight leading-tight max-w-xl">
+            Websites that actually
+            <span class="text-secondary"> grow </span>
+            your inquiries.
           </h1>
-          <p class="animate-fade-up animate-fade-up-delay-2 mt-6 max-w-xl text-base sm:text-lg text-white/70 leading-relaxed">
-            I build conversion-focused websites that help businesses look professional, rank better locally, and turn visitors into inquiries.
+          <p class="animate-fade-up animate-fade-up-delay-2 mt-5 max-w-lg text-base sm:text-lg text-white/70 leading-relaxed">
+            Get found in local search, look hire-ready on mobile, and turn visitors into calls and quote requests.
           </p>
-          <div class="animate-fade-up animate-fade-up-delay-3 mt-8 flex flex-wrap items-center gap-4">
+          <ul class="animate-fade-up animate-fade-up-delay-2 mt-6 flex flex-wrap gap-x-5 gap-y-2.5 text-sm font-semibold text-white/80">
+            {[
+              "Rank for local search",
+              "More calls and leads",
+              "Clear hire-ready brand",
+            ].map((item) => (
+              <li class="inline-flex items-center gap-2">
+                <span class="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-400/20 text-emerald-300">
+                  <Icon name="check" class="h-3 w-3" />
+                </span>
+                {item}
+              </li>
+            ))}
+          </ul>
+          <div class="animate-fade-up animate-fade-up-delay-3 mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
             <a
               href={withBase("/contact/")}
-              class="inline-flex items-center gap-2 rounded-full bg-secondary px-7 py-3.5 text-sm font-bold text-primary shadow-lg shadow-secondary/25 hover:bg-secondary-light transition-colors"
+              class="inline-flex items-center gap-2 rounded-full bg-secondary px-7 py-3.5 text-sm font-bold text-primary hover:bg-secondary-light transition-colors"
             >
               Get More Leads
               <Icon name="arrow-right" class="h-4 w-4" />
             </a>
             <a
-              href="#work"
-              class="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/5 px-7 py-3.5 text-sm font-bold text-white hover:bg-white hover:text-primary transition-all"
+              href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
+              class="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-7 py-3.5 text-sm font-bold text-white hover:bg-white hover:text-primary transition-all"
             >
-              See Proven Work
+              <Icon name="phone" class="h-4 w-4" />
+              {siteConfig.phone}
             </a>
           </div>
+          <p class="animate-fade-up animate-fade-up-delay-3 mt-7 text-sm text-white/50">
+            <span class="font-bold text-white/80">35+ businesses</span> hired me to build sites that convert.
+          </p>
         </div>
 
-        <!-- Results panel instead of website mockups -->
-        <div class="animate-fade-up animate-fade-up-delay-2 animate-float">
-          <div class="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md p-6 sm:p-8 shadow-2xl shadow-black/30">
-            <p class="text-xs font-bold uppercase tracking-[0.18em] text-secondary mb-5">Results You Can Expect</p>
-            <ul class="space-y-4">
-              {[
-                { icon: "target", title: "More qualified leads", text: "Clear CTAs and fast quote paths that push visitors to call or inquire." },
-                { icon: "search", title: "Stronger local visibility", text: "SEO-aware structure that helps customers find you when they search." },
-                { icon: "shield-check", title: "Professional brand trust", text: "Polished design that makes first-time visitors feel confident hiring you." },
-                { icon: "zap", title: "A site that works for you", text: "Built for mobile, speed, and conversions so your website becomes a sales tool." },
-              ].map((item) => (
-                <li class="flex gap-4 rounded-2xl border border-white/10 bg-primary/40 p-4">
-                  <span class="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary/15">
-                    <Icon name={item.icon} class="h-5 w-5 text-secondary" />
-                  </span>
-                  <div>
-                    <p class="font-heading text-base font-bold text-white">{item.title}</p>
-                    <p class="mt-1 text-sm text-white/60 leading-relaxed">{item.text}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div class="animate-fade-up animate-fade-up-delay-2 pt-6 lg:pt-2">
+          <HeroResultsPanel />
         </div>
       </div>
     </div>

@@ -48,7 +48,7 @@ Common worries I plan for:
 - **Security:** current WordPress and WooCommerce, backups, and no leftover demo data
 - **Trust:** real photos, a visible contact number, and pickup instructions for buyers in Butuan City
 
-If you also need Google visibility for the shop categories, we can layer [local SEO](../services/local-seo/) after the catalog is stable.
+If you also need Google visibility for the shop categories, we can layer [local SEO](../services/local-seo/) after the catalog is stable. For a clear look at **ecommerce website price in the Philippines** before you budget, read the [ecommerce price guide](../blog/ecommerce-website-price-philippines/).
 
 ## Who this is for
 

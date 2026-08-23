@@ -1,0 +1,685 @@
+---
+import fs from "node:fs";
+import path from "node:path";
+import PitchLayout from "../../layouts/PitchLayout.astro";
+import LeadForm from "../../components/LeadForm.astro";
+import Icon from "../../components/Icon.astro";
+import HeroResultsPanel from "../../components/HeroResultsPanel.astro";
+import { siteConfig } from "../../config/siteConfig";
+import { withBase } from "../../config/paths";
+
+function slugifyTitle(stem: string) {
+  return stem
+    .replace(/\(2\)/g, "")
+    .replace(/[’']/g, "")
+    .replace(/&/g, "and")
+    .replace(/[^a-zA-Z0-9]+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "")
+    .toLowerCase();
+}
+
+const mockupDir = path.join(process.cwd(), "public", "images", "Mockup");
+const mockupProjects = fs
+  .readdirSync(mockupDir)
+  .filter((file) => file.toLowerCase().endsWith(".png") && !file.includes("(2)"))
+  .map((file) => {
+    const title = file.replace(/\.png$/i, "");
+    return {
+      title,
+      src: withBase(`/images/work/${slugifyTitle(title)}.png`),
+    };
+  })
+  .sort((a, b) => a.title.localeCompare(b.title));
+
+const mockupRowOne = mockupProjects.filter((_, i) => i % 2 === 0);
+const mockupRowTwo = mockupProjects.filter((_, i) => i % 2 === 1);
+
+const problems = [
+  {
+    title: "Freelancers who disappear",
+    text: "You send a brief. They go quiet mid-project. You waste weeks hiring again.",
+  },
+  {
+    title: "Pretty templates that do not sell",
+    text: "The site looks fine in a screenshot. On mobile it is slow, unclear, and nobody converts.",
+  },
+  {
+    title: "Communication gaps",
+    text: "Broken English, vague updates, and revisions that miss the brief kill trust fast.",
+  },
+];
+
+const outcomes = [
+  {
+    icon: "zap",
+    title: "Reliable remote delivery",
+    text: "Clear updates, on-time milestones, and a builder who actually finishes the job.",
+  },
+  {
+    icon: "target",
+    title: "Conversion-focused builds",
+    text: "Homepages, landing pages, and WordPress sites designed to get inquiries, not just look nice.",
+  },
+  {
+    icon: "shield-check",
+    title: "Client-ready English",
+    text: "You can brief me like a US, AU, or EU teammate. I ask clarifying questions. I confirm scope.",
+  },
+  {
+    icon: "check-circle",
+    title: "One person who owns the work",
+    text: "Design, development, SEO basics, and launch from one hire. No handoff chaos.",
+  },
+];
+
+const skills = [
+  "Website design and development",
+  "WordPress builds and maintenance",
+  "Landing pages for ads and offers",
+  "Website redesigns",
+  "On-page SEO and technical basics",
+  "Graphic and brand design support",
+  "Ecommerce / WooCommerce",
+  "Ongoing updates and support",
+];
+
+const reasons = [
+  {
+    label: "Cheap bidder",
+    point: "Low rate. High risk. Template dumps, missed deadlines, and radio silence after payment.",
+  },
+  {
+    label: "Full agency",
+    point: "Strong output, but you pay for meetings, markup, and people you never talk to.",
+  },
+  {
+    label: "Hire Mane",
+    point: "Direct remote hire. Proven portfolio. Fluent English. Ships like a teammate, priced like a freelancer.",
+  },
+];
+
+const steps = [
+  {
+    n: "01",
+    title: "Message me your role or project",
+    text: "Full-time, part-time, or project-based. Tell me the tools, hours, and what success looks like.",
+  },
+  {
+    n: "02",
+    title: "Quick intro call or chat",
+    text: "We align on scope, timezone overlap, communication channel, and first deliverables.",
+  },
+  {
+    n: "03",
+    title: "I start shipping",
+    text: "Design, build, revise, launch. You get progress you can see, not vague status updates.",
+  },
+];
+
+const faqs = [
+  {
+    q: "Are you applying for remote international clients?",
+    a: "Yes. This page is for employers and agencies hiring through OnlineJobs.ph, Upwork-style workflows, or direct remote contracts. I am based in the Philippines and work fully online.",
+  },
+  {
+    q: "What time zones can you overlap with?",
+    a: "I can schedule overlap for US, Australia, UK, and EU mornings or evenings depending on the role. Tell me your preferred hours and we lock a workable window.",
+  },
+  {
+    q: "How is your English?",
+    a: "Client-ready. I write clear updates, ask good questions, and can join Zoom or Google Meet calls without an interpreter.",
+  },
+  {
+    q: "Can you work long-term, not only one project?",
+    a: "Yes. Many clients need ongoing web support: new pages, landing pages, WordPress updates, and design tweaks. I am open to retainer or full-time remote roles.",
+  },
+  {
+    q: "What tools do you use?",
+    a: "WordPress, HTML/CSS/JS, modern site stacks (including Astro), Figma or design handoff, Google Workspace, Slack, email, and Loom-style walkthroughs when useful.",
+  },
+];
+---
+
+<PitchLayout
+  title={`Hire ${siteConfig.businessName} | Remote Web Developer & Designer`}
+  description="Hire Mane Talibong remotely: web developer, designer, and WordPress specialist. 35+ websites shipped. Fluent English. Available for OnlineJobs.ph and international clients."
+>
+  <!-- HERO -->
+  <section class="relative overflow-hidden bg-primary text-white">
+    <div class="absolute inset-0" aria-hidden="true">
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_15%_20%,rgba(56,189,248,0.22),transparent_48%),radial-gradient(ellipse_at_90%_10%,rgba(245,158,11,0.12),transparent_40%)]"></div>
+      <div class={`absolute inset-0 ${siteConfig.pattern} opacity-40`}></div>
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 pt-16 pb-14 sm:pt-20 sm:pb-16">
+      <div class="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-14 items-center">
+        <div>
+          <p class="animate-fade-up inline-flex items-center gap-2 rounded-full border border-secondary/40 bg-secondary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-secondary">
+            <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+            Remote hire · Philippines · International clients
+          </p>
+          <h1 class="animate-fade-up animate-fade-up-delay-1 mt-5 font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.02]">
+            {siteConfig.businessName}
+          </h1>
+          <p class="animate-fade-up animate-fade-up-delay-1 mt-4 font-heading text-xl sm:text-2xl lg:text-[1.75rem] font-bold text-white leading-snug max-w-xl">
+            Remote web developer and designer who
+            <span class="text-secondary"> actually ships </span>
+            and communicates clearly.
+          </p>
+          <p class="animate-fade-up animate-fade-up-delay-2 mt-5 max-w-xl text-base sm:text-lg text-white/75 leading-relaxed">
+            Looking for a reliable OnlineJobs.ph hire for websites, WordPress, landing pages, redesigns, or ongoing web support? I am available for full-time, part-time, or project work with US, AU, UK, and EU teams.
+          </p>
+          <ul class="animate-fade-up animate-fade-up-delay-2 mt-6 flex flex-wrap gap-x-5 gap-y-2.5 text-sm font-semibold text-white/85">
+            {[
+              "Fluent English",
+              "35+ websites shipped",
+              "Timezone overlap ready",
+            ].map((item) => (
+              <li class="inline-flex items-center gap-2">
+                <span class="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-400/20 text-emerald-300">
+                  <Icon name="check" class="h-3 w-3" />
+                </span>
+                {item}
+              </li>
+            ))}
+          </ul>
+          <div class="animate-fade-up animate-fade-up-delay-3 mt-8 flex flex-wrap gap-3">
+            <a
+              href="#hire"
+              class="inline-flex items-center gap-2 rounded-full bg-secondary px-7 py-3.5 text-sm font-bold text-primary hover:bg-secondary-light transition-colors shadow-lg shadow-secondary/20"
+            >
+              Hire me remotely
+              <Icon name="arrow-right" class="h-4 w-4" />
+            </a>
+            <a
+              href="#showcase"
+              class="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-7 py-3.5 text-sm font-bold text-white hover:bg-white hover:text-primary transition-all"
+            >
+              View my work
+            </a>
+          </div>
+          <p class="animate-fade-up animate-fade-up-delay-3 mt-6 text-sm text-white/50">
+            OnlineJobs.ph · Direct remote · Slack / email / Zoom ready
+          </p>
+        </div>
+
+        <div class="animate-fade-up animate-fade-up-delay-2 pt-8 lg:pt-4">
+          <HeroResultsPanel variant="remote" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="border-y border-white/10 bg-primary-dark py-8">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+        {[
+          { value: "35+", label: "Websites shipped" },
+          { value: "3+ yrs", label: "Client experience" },
+          { value: "Fluent", label: "Business English" },
+          { value: "Remote", label: "US / AU / EU ready" },
+        ].map((stat) => (
+          <div>
+            <p class="font-heading text-2xl sm:text-3xl font-extrabold text-secondary">{stat.value}</p>
+            <p class="mt-1 text-xs sm:text-sm font-semibold uppercase tracking-wider text-white/50">{stat.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOWCASE -->
+  <section id="showcase" class="bg-surface pt-14 pb-16 sm:pt-16 sm:pb-20 overflow-hidden">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
+        <div class="max-w-2xl">
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">Portfolio proof</p>
+          <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-text">
+            Real client websites. Not sample templates.
+          </h2>
+          <p class="mt-4 text-text-muted leading-relaxed">
+            {mockupProjects.length}+ builds for service businesses and brands. Many of these are US trade and home-service sites. Scroll the wall, then open the live portfolio.
+          </p>
+        </div>
+        <a
+          href={siteConfig.socialLinks.portfolio}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-bold text-white hover:bg-primary-light transition-colors shrink-0"
+        >
+          Open live portfolio
+          <Icon name="arrow-right" class="h-4 w-4" />
+        </a>
+      </div>
+    </div>
+
+    <div class="work-showcase" aria-label="Website mockup showcase">
+      <div class="work-showcase-track work-showcase-pause">
+        <div class="work-showcase-inner" style="--work-speed: 120s;">
+          {[...mockupRowOne, ...mockupRowOne].map((project) => (
+            <a
+              href={siteConfig.socialLinks.portfolio}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="work-showcase-card group"
+            >
+              <img src={project.src} alt={`${project.title} website mockup`} loading="lazy" decoding="async" />
+              <span class="work-showcase-title">{project.title}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+      <div class="work-showcase-track work-showcase-pause work-showcase-reverse mt-4 sm:mt-5">
+        <div class="work-showcase-inner" style="--work-speed: 150s;">
+          {[...mockupRowTwo, ...mockupRowTwo].map((project) => (
+            <a
+              href={siteConfig.socialLinks.portfolio}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="work-showcase-card group"
+            >
+              <img src={project.src} alt={`${project.title} website mockup`} loading="lazy" decoding="async" />
+              <span class="work-showcase-title">{project.title}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 mt-10">
+      <div class="rounded-2xl border border-secondary/30 bg-secondary/10 px-6 py-8 sm:px-10 text-center">
+        <p class="font-heading text-xl sm:text-2xl font-bold text-text">
+          This is the quality standard your hire should match.
+        </p>
+        <p class="mt-2 text-text-muted max-w-xl mx-auto text-sm sm:text-base">
+          If you need someone who can produce this level of work remotely, message me. I am ready to start.
+        </p>
+        <a
+          href="#hire"
+          class="mt-6 inline-flex items-center gap-2 rounded-full bg-secondary px-7 py-3.5 text-sm font-bold text-primary hover:bg-secondary-light transition-colors"
+        >
+          Interview me for the role
+          <Icon name="arrow-right" class="h-4 w-4" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAIN -->
+  <section class="bg-surface-alt py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">Why remote hires fail</p>
+      <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-text max-w-2xl">
+        Most OnlineJobs applicants look cheap. Few look dependable.
+      </h2>
+      <p class="mt-4 max-w-2xl text-text-muted leading-relaxed">
+        You do not need another resume. You need someone who communicates, ships, and protects your brand.
+      </p>
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8">
+        {problems.map((item) => (
+          <div class="rounded-2xl border border-border bg-surface p-6">
+            <h3 class="font-heading text-lg font-bold text-text">{item.title}</h3>
+            <p class="mt-2 text-sm text-text-muted leading-relaxed">{item.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- OUTCOMES -->
+  <section class="bg-surface py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">What you get with me</p>
+      <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-text max-w-2xl">
+        A remote teammate, not a gamble.
+      </h2>
+      <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-8">
+        {outcomes.map((item) => (
+          <div class="flex gap-4">
+            <span class="mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+              <Icon name={item.icon} class="h-5 w-5 text-primary" />
+            </span>
+            <div>
+              <h3 class="font-heading text-lg font-bold text-text">{item.title}</h3>
+              <p class="mt-1 text-sm text-text-muted leading-relaxed">{item.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="bg-primary text-white py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">Skills for the role</p>
+      <h2 class="font-heading text-3xl sm:text-4xl font-extrabold max-w-2xl">
+        Web development, design, and support you can assign with confidence
+      </h2>
+      <ul class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {skills.map((skill) => (
+          <li class="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-white/90">
+            <Icon name="check" class="h-4 w-4 text-secondary shrink-0" />
+            {skill}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- MID CTA -->
+  <section class="bg-secondary py-12 sm:py-14">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+      <div class="max-w-xl">
+        <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-primary leading-tight">
+          Hiring on OnlineJobs.ph? Put me on your shortlist.
+        </h2>
+        <p class="mt-3 text-primary/75 text-sm sm:text-base">
+          Send the job description or project brief. I will reply with availability and how I would handle the first week.
+        </p>
+      </div>
+      <a
+        href="#hire"
+        class="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-bold text-white hover:bg-primary-light transition-colors"
+      >
+        Message me now
+        <Icon name="arrow-right" class="h-4 w-4" />
+      </a>
+    </div>
+  </section>
+
+  <!-- AUTHORITY -->
+  <section class="bg-primary-dark text-white py-16 sm:py-20 overflow-hidden">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-10 lg:gap-14 items-center">
+        <div class="relative">
+          <img
+            src={withBase("/images/about/mane-portrait.jpg")}
+            alt="Mane Talibong"
+            class="w-full rounded-[1.75rem] object-cover object-center aspect-[4/5] max-h-[28rem] ring-1 ring-white/10"
+            loading="lazy"
+          />
+        </div>
+        <div>
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">Who you are hiring</p>
+          <h2 class="font-heading text-3xl sm:text-4xl font-extrabold leading-tight">
+            Mane Talibong. Web developer and designer. Remote-ready.
+          </h2>
+          <p class="mt-5 text-white/75 leading-relaxed">
+            I taught myself to build, started client work at 18, and have shipped websites for businesses across industries. I work independently, take feedback well, and treat your deadlines like they are mine.
+          </p>
+          <ul class="mt-6 space-y-3 text-sm text-white/85">
+            <li class="flex gap-3">
+              <Icon name="check" class="h-5 w-5 text-secondary shrink-0" />
+              Based in the Philippines · fully remote
+            </li>
+            <li class="flex gap-3">
+              <Icon name="check" class="h-5 w-5 text-secondary shrink-0" />
+              Comfortable with US-facing brand standards
+            </li>
+            <li class="flex gap-3">
+              <Icon name="check" class="h-5 w-5 text-secondary shrink-0" />
+              Open to full-time, part-time, or project contracts
+            </li>
+          </ul>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a
+              href={siteConfig.socialLinks.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 rounded-full bg-secondary px-5 py-2.5 text-sm font-bold text-primary hover:bg-secondary-light transition-colors"
+            >
+              LinkedIn profile
+            </a>
+            <a
+              href={withBase("/about/")}
+              class="inline-flex items-center gap-2 rounded-full border border-white/25 px-5 py-2.5 text-sm font-bold text-white hover:bg-white/10 transition-colors"
+            >
+              Full background
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTRAST -->
+  <section class="bg-surface py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">Compare the hire</p>
+      <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-text max-w-2xl">
+        Cheap. Expensive. Or the right remote hire.
+      </h2>
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+        {reasons.map((item) => (
+          <div class:list={[
+            "rounded-2xl border p-6 sm:p-7",
+            item.label === "Hire Mane"
+              ? "border-secondary bg-primary text-white shadow-xl shadow-primary/20 scale-[1.02]"
+              : "border-border bg-surface-alt",
+          ]}>
+            <p class:list={[
+              "text-xs font-bold uppercase tracking-wider mb-3",
+              item.label === "Hire Mane" ? "text-secondary" : "text-text-muted",
+            ]}>
+              {item.label}
+            </p>
+            <p class:list={[
+              "text-sm leading-relaxed",
+              item.label === "Hire Mane" ? "text-white/85 font-medium" : "text-text-muted",
+            ]}>
+              {item.point}
+            </p>
+            {item.label === "Hire Mane" && (
+              <a
+                href="#hire"
+                class="mt-5 inline-flex items-center gap-2 text-sm font-bold text-secondary hover:text-secondary-light"
+              >
+                Choose this hire
+                <Icon name="arrow-right" class="h-4 w-4" />
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="bg-surface-alt py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">How onboarding works</p>
+      <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-text max-w-2xl">
+        Fast start. Clear communication. Visible progress.
+      </h2>
+      <ol class="mt-10 space-y-6">
+        {steps.map((step) => (
+          <li class="flex gap-5 sm:gap-6 rounded-2xl border border-border bg-surface p-5 sm:p-6">
+            <span class="font-heading text-2xl sm:text-3xl font-extrabold text-secondary tabular-nums">{step.n}</span>
+            <div>
+              <h3 class="font-heading text-xl font-bold text-text">{step.title}</h3>
+              <p class="mt-1 text-sm text-text-muted leading-relaxed">{step.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-surface py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">Employer FAQ</p>
+      <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-text mb-10">
+        Questions international clients usually ask
+      </h2>
+      <div class="space-y-6 max-w-3xl">
+        {faqs.map((item) => (
+          <div class="rounded-2xl border border-border bg-surface-alt p-6">
+            <h3 class="font-heading text-lg font-bold text-text">{item.q}</h3>
+            <p class="mt-2 text-sm text-text-muted leading-relaxed">{item.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / FORM -->
+  <section id="hire" class="bg-primary-dark text-white py-16 sm:py-24">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
+        <div>
+          <p class="text-sm font-bold uppercase tracking-wider text-secondary mb-3">Next step</p>
+          <h2 class="font-heading text-3xl sm:text-4xl font-extrabold leading-tight">
+            Send the job post or project brief. I will reply fast.
+          </h2>
+          <p class="mt-5 text-white/75 leading-relaxed">
+            Tell me if this is full-time, part-time, or project-based. Include tools, hours, and what you need done in week one. I will confirm fit, availability, and how I work.
+          </p>
+          <ul class="mt-6 space-y-3 text-sm text-white/80">
+            <li class="flex gap-3">
+              <Icon name="check" class="h-5 w-5 text-secondary shrink-0" />
+              Best for OnlineJobs.ph employers and remote agencies
+            </li>
+            <li class="flex gap-3">
+              <Icon name="check" class="h-5 w-5 text-secondary shrink-0" />
+              {siteConfig.email}
+            </li>
+            <li class="flex gap-3">
+              <Icon name="check" class="h-5 w-5 text-secondary shrink-0" />
+              WhatsApp / call: {siteConfig.phone}
+            </li>
+          </ul>
+          <div class="mt-8 flex flex-wrap gap-4 text-sm">
+            <a href={`mailto:${siteConfig.email}`} class="font-semibold text-secondary hover:text-secondary-light">
+              Email me directly
+            </a>
+            <a
+              href={siteConfig.socialLinks.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-semibold text-white/70 hover:text-white"
+            >
+              LinkedIn
+            </a>
+          </div>
+        </div>
+
+        <div class="rounded-2xl bg-surface p-6 sm:p-8 text-text shadow-2xl shadow-black/30">
+          <h3 class="font-heading text-xl font-bold text-text mb-1">Start the hire conversation</h3>
+          <p class="text-sm text-text-muted mb-6">
+            Opens your email app with the details ready. Mention OnlineJobs.ph if that is where you found me.
+          </p>
+          <LeadForm
+            formId="hire-landing-form"
+            variant="full"
+            submitLabel="Send my hiring brief"
+            messagePlaceholder="Role type (full-time / part-time / project), hours, tools, and what you need in the first 7 days..."
+            emailSubject="Remote hire inquiry from landing page"
+          >
+            <option slot="service-options" value="Full-time remote role">Full-time remote role</option>
+            <option slot="service-options" value="Part-time remote role">Part-time remote role</option>
+            <option slot="service-options" value="Website project">Website project</option>
+            <option slot="service-options" value="WordPress / ongoing support">WordPress / ongoing support</option>
+            <option slot="service-options" value="Landing pages">Landing pages</option>
+            <option slot="service-options" value="Design + development retainer">Design + development retainer</option>
+            <option slot="service-options" value="Not sure yet">Not sure yet</option>
+          </LeadForm>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="fixed bottom-0 inset-x-0 z-40 p-3 sm:hidden bg-primary/95 backdrop-blur-md border-t border-white/10">
+    <a
+      href="#hire"
+      class="flex w-full items-center justify-center gap-2 rounded-full bg-secondary px-5 py-3.5 text-sm font-bold text-primary"
+    >
+      Hire me remotely
+      <Icon name="arrow-right" class="h-4 w-4" />
+    </a>
+  </div>
+  <div class="h-20 sm:hidden" aria-hidden="true"></div>
+
+  <style>
+    .work-showcase-track {
+      width: 100%;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+      mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+    }
+
+    .work-showcase-inner {
+      display: flex;
+      gap: 1.25rem;
+      width: max-content;
+      animation: work-showcase-scroll var(--work-speed, 90s) linear infinite;
+    }
+
+    .work-showcase-reverse .work-showcase-inner {
+      animation-direction: reverse;
+    }
+
+    .work-showcase-pause:hover .work-showcase-inner {
+      animation-play-state: paused;
+    }
+
+    .work-showcase-card {
+      flex: 0 0 auto;
+      width: calc((100vw - 2.5rem) / 2.15);
+      display: flex;
+      flex-direction: column;
+      overflow: visible;
+      border-radius: 0;
+      border: none;
+      background: transparent;
+      text-decoration: none;
+      box-shadow: none;
+    }
+
+    @media (min-width: 768px) {
+      .work-showcase-card {
+        width: calc((100vw - 3.5rem) / 3.15);
+      }
+    }
+
+    @media (min-width: 1100px) {
+      .work-showcase-card {
+        width: calc((min(100vw, 72rem) - 4rem) / 4.15);
+      }
+    }
+
+    .work-showcase-card img {
+      aspect-ratio: 16 / 11;
+      width: 92%;
+      margin: 0 auto;
+      object-fit: contain;
+      background: transparent;
+    }
+
+    .work-showcase-title {
+      display: block;
+      padding: 0.6rem 0.5rem 0;
+      font-family: var(--font-heading);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--color-text);
+      line-height: 1.25;
+      text-align: center;
+      background: transparent;
+    }
+
+    @keyframes work-showcase-scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .work-showcase-inner {
+        animation: none;
+      }
+    }
+  </style>
+</PitchLayout>

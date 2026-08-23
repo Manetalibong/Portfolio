@@ -18,6 +18,7 @@ interface Props {
   showServiceDropdown?: boolean;
   submitLabel?: string;
   messagePlaceholder?: string;
+  emailSubject?: string;
 }
 
 const {
@@ -26,6 +27,7 @@ const {
   showServiceDropdown = true,
   submitLabel = "Submit",
   messagePlaceholder = "Tell me about your project...",
+  emailSubject = "New inquiry from your website",
 } = Astro.props;
 
 const isFull = variant === "full";
@@ -172,10 +174,10 @@ const contactEmail = siteConfig.email;
           class="w-full rounded-lg border border-border bg-surface px-3.5 py-2.5 text-sm text-text focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-colors"
         >
           <option value="">Select a range...</option>
-          <option value="Under $1,000">Under $1,000</option>
-          <option value="$1,000 to $3,000">$1,000 to $3,000</option>
-          <option value="$3,000 to $5,000">$3,000 to $5,000</option>
-          <option value="$5,000+">$5,000+</option>
+          <option value="Under ₱15,000">Under ₱15,000</option>
+          <option value="₱15,000 to ₱40,000">₱15,000 to ₱40,000</option>
+          <option value="₱40,000 to ₱80,000">₱40,000 to ₱80,000</option>
+          <option value="₱80,000+">₱80,000+</option>
           <option value="Not sure yet">Not sure yet</option>
         </select>
       </div>
@@ -208,13 +210,13 @@ const contactEmail = siteConfig.email;
 
   <button
     type="submit"
-    class="w-full rounded-lg bg-secondary px-6 py-3 text-base font-bold text-white shadow-sm hover:bg-secondary-light transition-colors focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:ring-offset-2"
+    class="w-full rounded-lg bg-secondary px-6 py-3 text-base font-bold text-primary shadow-sm hover:bg-secondary-light transition-colors focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:ring-offset-2"
   >
     {submitLabel}
   </button>
 </form>
 
-<script is:inline define:vars={{ formId, contactEmail }}>
+<script is:inline define:vars={{ formId, contactEmail, emailSubject }}>
   (function () {
     const form = document.getElementById(formId);
     if (!form || !(form instanceof HTMLFormElement)) return;
@@ -234,7 +236,7 @@ const contactEmail = siteConfig.email;
         data.message && "Project details: " + data.message,
       ].filter(Boolean);
 
-      const subject = encodeURIComponent("New inquiry from " + (name || "your website"));
+      const subject = encodeURIComponent(emailSubject + (name ? " - " + name : ""));
       const body = encodeURIComponent(lines.join("\n"));
       const mailto = "mailto:" + contactEmail + "?subject=" + subject + "&body=" + body;
 

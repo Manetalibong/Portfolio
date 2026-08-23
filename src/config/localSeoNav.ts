@@ -17,6 +17,8 @@ export const photoNav = [
 ];
 
 export const localNicheNav = [
+  { label: "Local SEO Philippines", href: "/local-seo-services-philippines/" },
+  { label: "Website Cost Guide (PH)", href: "/how-much-does-a-website-cost-philippines/" },
   { label: "LGU & Barangay Websites", href: "/lgu-barangay-website-development-philippines/" },
   { label: "School & Church Websites", href: "/school-church-website-design-philippines/" },
   { label: "Real Estate Websites", href: "/real-estate-website-development-philippines/" },

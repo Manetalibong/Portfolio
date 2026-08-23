@@ -43,3 +43,5 @@ Outdated software is a common way sites get hacked or slowed down. A maintained 
 ## Related services
 
 If the site itself is the problem, maintenance will not fix a weak layout. That is a [redesign](../website-redesign/) or a new [website build](../website-design-development/). Maintenance is what keeps a good site from decaying.
+
+For budget context across the Philippines, read [website maintenance cost in the Philippines](../../blog/website-maintenance-cost-philippines/).

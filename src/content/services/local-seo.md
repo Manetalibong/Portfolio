@@ -1,8 +1,8 @@
 ---
 title: Local SEO
-description: Get found by local customers searching for the services you offer in your area.
-metaTitle: Local SEO Services | Mane Talibong
-metaDescription: Local SEO and Google Business Profile optimization to help nearby customers find and choose your business.
+description: "Get found by local customers searching for the services you offer in your city or town across the Philippines."
+metaTitle: "Local SEO Services Philippines | Mane Talibong"
+metaDescription: "Local SEO services in the Philippines: Google Business Profile, Maps, and on-page local SEO for businesses that need nearby customers."
 icon: map-pin
 features:
   - Google Business Profile setup
@@ -14,9 +14,9 @@ features:
 order: 4
 ---
 
-When someone nearby searches for the service you offer, they should be able to find you. Local SEO is how you show up in those searches, on Google Maps, and on your Google Business Profile.
+When someone nearby searches for the service you offer, they should be able to find you. **Local SEO services in the Philippines** are how you show up in those searches, on Google Maps, and on your Google Business Profile.
 
-I help local and service-based businesses get found by the customers already looking in their area.
+I help local and service-based businesses across the country get found by customers already looking in their area. Full national overview: [Local SEO Services Philippines](../../local-seo-services-philippines/).
 
 ## Who this is for
 
@@ -36,6 +36,10 @@ First I review how you appear today: profile completeness, categories, photos, r
 
 Then we fix the gaps: profile setup, keyword focus, service and area pages where they help, and cleanup of inconsistent listings. The site and the profile should tell the same story.
 
+## Philippines-wide, remote from Butuan
+
+I am based in Butuan City and deliver this work remotely for clients in Caraga, Cebu, CDO, Davao, Metro Manila, and other Philippine cities when the business is real. You do not need a Manila agency retainer for GBP cleanup and local page structure.
+
 ## What local SEO is not
 
 It is not a overnight ranking guarantee. It is structured work on the assets Google already uses to decide who to show for local intent.
@@ -44,4 +48,4 @@ Results depend on competition, review activity, and how well the website support
 
 ## Related services
 
-For broader rankings beyond your city, see [search engine optimization](../search-engine-optimization/). For ongoing listing, content, and campaign help, add [digital marketing](../digital-marketing/).
+For the full Philippines hub, open [local SEO services Philippines](../../local-seo-services-philippines/). For broader rankings beyond your city, see [search engine optimization](../search-engine-optimization/). For ongoing listing, content, and campaign help, add [digital marketing](../digital-marketing/).

@@ -213,6 +213,31 @@ h1, h2, h3, h4, h5, h6 {
   animation: float-soft 6s ease-in-out infinite;
 }
 
+@keyframes hero-kenburns {
+  from { transform: scale(1.08) translate3d(1.5%, 0, 0); }
+  to { transform: scale(1.14) translate3d(-1%, -1%, 0); }
+}
+
+@keyframes hero-sweep {
+  0%, 100% { opacity: 0.15; transform: translateX(-30%); }
+  50% { opacity: 0.4; transform: translateX(30%); }
+}
+
+.hero-visual {
+  animation: hero-kenburns 22s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.hero-sweep {
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(56, 189, 248, 0.12) 48%,
+    transparent 62%
+  );
+  animation: hero-sweep 9s ease-in-out infinite;
+}
+
 .project-marquee {
   display: flex;
   width: max-content;
@@ -226,6 +251,8 @@ h1, h2, h3, h4, h5, h6 {
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-up,
   .animate-float,
+  .hero-visual,
+  .hero-sweep,
   .project-marquee {
     animation: none;
   }

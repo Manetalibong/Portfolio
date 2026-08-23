@@ -1,0 +1,85 @@
+---
+import "../styles/global.css";
+import SEOHead from "../components/SEOHead.astro";
+import SchemaOrg from "../components/SchemaOrg.astro";
+import { siteConfig } from "../config/siteConfig";
+import { withBase } from "../config/paths";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  image,
+  noindex = false,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <SEOHead
+      title={title}
+      description={description}
+      image={image}
+      type="website"
+      noindex={noindex}
+    />
+  </head>
+  <body class="flex flex-col min-h-screen antialiased bg-surface">
+    <header class="sticky top-0 z-50 border-b border-white/10 bg-primary/95 backdrop-blur-md">
+      <div class="mx-auto flex h-14 sm:h-16 max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
+        <a href={withBase("/")} class="flex items-center gap-2 group">
+          <span class="flex h-8 w-8 items-center justify-center rounded-full bg-secondary text-primary font-heading text-sm font-extrabold">
+            MT
+          </span>
+          <span class="font-heading text-sm sm:text-base font-extrabold text-white group-hover:text-secondary transition-colors">
+            {siteConfig.businessName}
+          </span>
+        </a>
+        <div class="flex items-center gap-2 sm:gap-3">
+          <a
+            href={`mailto:${siteConfig.email}`}
+            class="hidden sm:inline text-sm font-semibold text-white/70 hover:text-white transition-colors"
+          >
+            {siteConfig.email}
+          </a>
+          <a
+            href="#hire"
+            class="inline-flex items-center rounded-full bg-secondary px-4 sm:px-5 py-2 text-sm font-bold text-primary hover:bg-secondary-light transition-colors"
+          >
+            Hire remotely
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <footer class="border-t border-border bg-primary text-white">
+      <div class="mx-auto max-w-5xl px-4 sm:px-6 py-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-sm text-white/60">
+        <p>
+          © {new Date().getFullYear()} {siteConfig.businessName}. Remote web developer and designer based in the Philippines. Available for international clients.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href={withBase("/")} class="hover:text-secondary transition-colors">Full website</a>
+          <a href={withBase("/about/")} class="hover:text-secondary transition-colors">About</a>
+          <a href={`mailto:${siteConfig.email}`} class="hover:text-secondary transition-colors">{siteConfig.email}</a>
+        </div>
+      </div>
+    </footer>
+
+    <SchemaOrg
+      type="LocalBusiness"
+      pageTitle={title}
+      pageDescription={description}
+    />
+  </body>
+</html>

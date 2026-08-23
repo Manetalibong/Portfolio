@@ -11,12 +11,12 @@ const posts = (await getCollection("blog")).sort(
 ---
 
 <BaseLayout
-  title={`Blog | Web Developer in Butuan City | ${siteConfig.businessName}`}
-  description="Articles from Mane Talibong on websites, WordPress, and local SEO for businesses in Butuan City, Agusan del Norte, and Caraga."
+  title={`Blog | Websites & SEO Philippines | ${siteConfig.businessName}`}
+  description="Guides from Mane Talibong on website cost, ecommerce price, WordPress maintenance, and local SEO for Philippine businesses."
 >
   <PageHeader
     title="Blog"
-    subtitle="Practical notes on websites and local SEO for Butuan City businesses."
+    subtitle="Practical guides on websites, ecommerce, maintenance, and local SEO across the Philippines."
     breadcrumbs={[
       { label: "Home", href: "/" },
       { label: "Blog" },
@@ -27,12 +27,22 @@ const posts = (await getCollection("blog")).sort(
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <a
         href={withBase("/how-much-does-a-website-cost-philippines/")}
-        class="mb-10 block rounded-2xl border border-secondary/30 bg-surface-alt p-6 sm:p-8 hover:border-secondary transition-colors"
+        class="mb-6 block rounded-2xl border border-secondary/30 bg-surface-alt p-6 sm:p-8 hover:border-secondary transition-colors"
       >
         <p class="text-xs font-bold uppercase tracking-wider text-secondary mb-2">Guide</p>
-        <h2 class="font-heading text-2xl font-bold text-text">How much does a website cost in the Philippines?</h2>
+        <h2 class="font-heading text-2xl font-bold text-text">Website design price in the Philippines</h2>
         <p class="mt-2 text-text-muted max-w-2xl">
           A 2026 breakdown of DIY builders, freelance quotes, and agency work, so you know what drives price before you hire.
+        </p>
+      </a>
+      <a
+        href={withBase("/local-seo-services-philippines/")}
+        class="mb-10 block rounded-2xl border border-border bg-surface-alt p-6 sm:p-8 hover:border-secondary/40 transition-colors"
+      >
+        <p class="text-xs font-bold uppercase tracking-wider text-secondary mb-2">Philippines</p>
+        <h2 class="font-heading text-2xl font-bold text-text">Local SEO services in the Philippines</h2>
+        <p class="mt-2 text-text-muted max-w-2xl">
+          Google Business Profile, Maps, and on-page local SEO for Philippine businesses, delivered remotely from Butuan.
         </p>
       </a>
       {posts.length === 0 ? (

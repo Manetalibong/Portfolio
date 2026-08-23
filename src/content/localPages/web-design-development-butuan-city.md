@@ -42,9 +42,11 @@ If you already know the type of project, go straight to the matching page:
 - [Ecommerce website development](../ecommerce-website-development-butuan/)
 - [WordPress developer in Butuan City](../wordpress-developer-butuan-city/)
 - [Website design and SEO together](../website-design-seo-services-butuan/)
+- [Local SEO services in the Philippines](../local-seo-services-philippines/)
 - [LGU and barangay websites](../lgu-barangay-website-development-philippines/)
 - [School and church websites](../school-church-website-design-philippines/)
 - [Real estate listing websites](../real-estate-website-development-philippines/)
+- [How much a website costs in the Philippines](../how-much-does-a-website-cost-philippines/)
 
 You can also review the core catalog of [website design and development](../services/website-design-development/), [WordPress development](../services/wordpress-development/), and [local SEO](../services/local-seo/).
 

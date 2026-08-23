@@ -49,7 +49,7 @@ That is also why this page exists beside the [main Butuan hub](../web-design-dev
 
 If you already have a site, I can audit it. If you are starting fresh, we design the IA first: home, services, one or two location pages, blog only if it will be maintained. The [website cost guide](../how-much-does-a-website-cost-philippines/) explains how scope changes price.
 
-Related service catalog pages: [search engine optimization](../services/search-engine-optimization/) and [local SEO](../services/local-seo/).
+Related service catalog pages: [search engine optimization](../services/search-engine-optimization/) and [local SEO](../services/local-seo/). For Philippines-wide Maps and GBP work, use the [local SEO services Philippines](../local-seo-services-philippines/) hub.
 
 ## Free SEO and design audit
 
